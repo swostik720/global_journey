@@ -9,6 +9,8 @@
             </div>
         </div>
     </section>
+
+
     <section class="contact-page gap">
         <div class="container">
             <div class="heading">
@@ -21,67 +23,140 @@
                     @include('frontend.layouts.contact_form')
                 </div>
                 <div class="offset-lg-1 col-xl-5 col-lg-5">
-                    <ul class="sidebar">
+                    <div class="_details">
+                        <h4>Details</h4>
+
                         <li>
-                            <h4>Address : </h4>
-                            <span>{{ $setting->contact_address ?? 'Putalisadak Kathmandu Nepal' }}</span>
+                            <a  href="tel:{{ $setting->phone ?? '+01-84856938' }}">
+                                <i class="fa-solid fa-phone"></i>
+                                <span>{{ $setting->phone ?? '+01-84856938' }}</span>
+                            </a>
                         </li>
                         <li>
-                            <h4>Phone :</h4>
-                            <a
-                                href="tel:{{ $setting->phone ?? '+01-84856938' }}"><span>{{ $setting->phone ?? '+01-84856938' }}</span></a>
+                            <a href="tel:{{ $setting->mobile ?? '+977-9843215204' }}">
+                                <i class="fa-solid fa-mobile"></i>
+                                <span>{{ $setting->mobile ?? '+977-9843215204' }}</span>
+                            </a>
                         </li>
                         <li>
-                            <h4>Mobile :</h4>
-                            <a
-                                href="tel:{{ $setting->mobile ?? '+977-9843215204' }}"><span>{{ $setting->mobile ?? '+977-9843215204' }}</span></a>
+                            <a href="mailto:{{ $setting->email ?? 'contact@globaljourneyedu.com.np' }}">
+                                <i class="fa-solid fa-envelope"></i>
+                                <span>{{ $setting->email ?? 'contact@globaljourneyedu.com.np' }}</span>
+                            </a>
                         </li>
-                        <li>
-                            <h4>Email :</h4>
-                            <a
-                                href="mailto:{{ $setting->email ?? 'contact@globaljourneyedu.com.np' }}"><span>{{ $setting->email ?? 'contact@globaljourneyedu.com.np' }}</span></a>
-                        </li>
-                        <li>
-                            <h4>Find us :</h4>
-                            <ul class="brandicon">
-                                <li>
-                                    <a href="{{ $setting->fb_link ?? '#' }}" target="_blank"><i
-                                            class="fa-brands fa-facebook-f"></i></a>
-                                </li>
-                                <li>
-                                    <a href="{{ $setting->twitter_link ?? '#' }}" target="_blank"><i
-                                            class="fa-brands fa-twitter"></i></a>
-                                </li>
-                                <li>
-                                    <a href="{{ $setting->instagram_link ?? '#' }}" target="_blank"><i
-                                            class="fa-brands fa-instagram"></i></a>
-                                </li>
-                                <li>
-                                    <a href="{{ $setting->linkedIn_link ?? '#' }}" target="_blank"><i
-                                            class="fa-brands fa-linkedin-in"></i></a>
-                                </li>
+
+                        <hr>
+
+                        <div class="">
+                            <h5>Social Links</h5>
+                            <ul class="_brand_icons">
+                            
+                                    <li>
+                                        <a href="{{ $setting->fb_link ?? '#' }}" target="_blank">
+                                            <i class="fa-brands fa-facebook-f"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ $setting->twitter_link ?? '#' }}" target="_blank">
+                                            <i class="fa-brands fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ $setting->instagram_link ?? '#' }}" target="_blank">
+                                            <i class="fa-brands fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ $setting->linkedIn_link ?? '#' }}" target="_blank">
+                                            <i class="fa-brands fa-linkedin-in"></i>
+                                        </a>
+                                    </li>
                             </ul>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </div>
     </section>
-    <div class="map">
-        <iframe src="{{ $setting->map_url ?? '' }}" style="border:0;" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
+
+    <style>
+        ._details{ 
+            background-color: #f2f2f2;
+            padding: 18px 16px;
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        ._details h4 {
+            font-weight: 700;
+        }
+
+        ._details li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .branches_ .heading ul li,
+        ._brand_icons {
+            display: flex;
+            align-items:center;
+            gap: 6px;
+        }
+
+        .branches_ .heading .fa-solid,
+        ._brand_icons li a .fa-brands,
+        ._details .fa-solid {
+            display: grid;
+            place-content: center;
+            width: 3rem;
+            aspect-ratio: 1;
+            background: #ffffff;
+            border-radius: 100vh;
+            
+        }
+
+        .branches_ {
+            display: grid;
+            place-content: center;        
+        }
+
+        .branches_ .heading {
+            background: #f2f2f2;
+            padding: 18px 32px;
+            border-radius: 22px;
+        }
+
+        .branches_ .heading h2 {
+            font-size: 26px;
+        }
+        
+
+        .branches_ .heading ul {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+    </style>
+
     <section class="offices gap" style="background-color:#f3f8fb;">
         <div class="container">
             <div class="row">
                 @foreach ($branches as $branch)
-                    <div class="col-xl-6">
+                    <div class="col-xl-6 branches_">
                         <div class="heading">
                             <h2>{{ $branch->name ?? '' }}</h2>
-                            <p>Email: {{ $branch->email ?? '' }} <br />
-                                Address: {{ $branch->contact_address ?? '' }} <br />
-                                Phone: {{ $branch->phone ?? '' }} <br />
-                                Working Hours: {{ $branch->working_hours ?? '' }}</p>
+                            <ul>
+                                <li><i class="fa-solid fa-envelope"></i> <span> {{ $branch->email ?? '' }}  </span></li>
+                                <li><i class="fa-solid fa-location-dot"></i> <span> {{ $branch->contact_address ?? '' }}  </span></li>
+                                <li><i class="fa-solid fa-phone"></i> <span> {{ $branch->phone ?? '' }}  </span></li>
+                                <li><i class="fa-solid fa-clock"></i> <span> {{ $branch->working_hours ?? '' }} </span></li>
+                            </ul>
                         </div>
                     </div>
                 @endforeach
@@ -99,4 +174,9 @@
             </div>
         </div>
     </section>
+
+    <div class="map">
+        <iframe src="{{ $setting->map_url ?? '' }}" style="border:0;" allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
 @endsection

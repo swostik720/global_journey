@@ -27,27 +27,23 @@
                         </div>
                     </div>
 
-                    <div class="grid row align-items-center">
+                    <div class="grid_container">
                         @foreach ($studyabroads as $studyabroad)
-                            <div class="col-lg-4 col-md-6 col-sm-6 {{ Str::slug($studyabroad->country->name) }}">
-                                <div class="portfolio-detail">
-                                    <div class="portfolio-img hoverstyle">
-                                        <figure>
-                                            <img class="w-100" alt="{{ $studyabroad->title }}"
-                                                src="{{ $studyabroad->image_path }}">
-                                        </figure>
-                                        <h3><a
-                                                href="{{ route('study-abroad.details', $studyabroad->slug) }}">{{ $studyabroad->title }}</a>
-                                        </h3>
-                                        <span>{!! $studyabroad->short_description !!}</span>
-                                        <a href="{{ route('study-abroad.details', $studyabroad->slug) }}">Learn More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+                                <div class="_card">
+                                    <a href="{{ route('study-abroad.details', $studyabroad->slug) }}">
+                                        <img class="w-100" alt="{{ $studyabroad->title }}" src="{{ $studyabroad->image_path }}">
+                                        <div class="_body">
+                                            <h3><a href="{{ route('study-abroad.details', $studyabroad->slug) }}">{{ $studyabroad->title }}</a>
+                                            <p class=''>{!! $studyabroad->short_description !!}</p>
 
+                                            <a class="_button" href="{{ route('study-abroad.details', $studyabroad->slug) }}">Learn More</a>
+                                        </div>
+                                    </a>
+                                </div>
+                        @endforeach
                     </div>
                 </div>
+                <!-- <div class="grid row align-items-center"></div> -->
             </div>
         </div>
     </section>

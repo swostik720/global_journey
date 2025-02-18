@@ -1,4 +1,4 @@
-<section class="gap reaview-section">
+<section class="gap review-section">
     <div class="container">
         <div class="heading">
             <h6>Why Choose Global Journeys?</h6>
@@ -9,9 +9,12 @@
             <div class="swiper-wrapper">
                 @foreach ($testimonials as $testimonial)
                     <div class="swiper-slide">
-                        <div class="reaview">
-                            <img alt="man" class="pp" src="{{ $testimonial->image_path ?? '' }}" width="50%">
-                            <p>“{!! $testimonial->description ?? '' !!}”</p>
+                        <div class="review">
+                            <img alt="man" class="pp" src="{{ $testimonial->image_path ?? '' }}" />
+                            <p><span style='font-family: serif'>“</span>
+                                {!! $testimonial->description ?? '' !!}
+                                <span style='font-family: serif'>”</span>
+                            </p>
                             <div class="boder"></div>
                             <div class="" width="150px" alt="">
                                 @for ($i = 0; $i < 5; $i++)
@@ -19,10 +22,9 @@
                                         style="color: {{ $i < intval($testimonial->rating) ? '#FFD700' : '#CCC' }}; font-size: 20px; margin-right: 2px;"></i>
                                 @endfor
                             </div>
-
                             {{-- <img src="{{ asset('frontend/assets/img/rating.png') }}" width="150px" alt=""> --}}
-                            <p>{{ $testimonial->name ?? '' }}</p>
-                            <p>{{ $testimonial->address ?? '' }}</p>
+                            <p class="testimonial-name">{{ $testimonial->name ?? '' }}</p>
+                            <p class="testimonial-address">{{ $testimonial->address ?? '' }}</p>
                         </div>
                     </div>
                 @endforeach
