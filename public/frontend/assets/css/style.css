@@ -3330,6 +3330,19 @@ figure.snip1253.hover img {
     display: none;
     /* display: grid; */
     /* align-items: center; */
+
+    animation: fade-in 0.5s ease forwards;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0%);
+    }
 }
 
 .mobile_open_main .header_menu {
@@ -3395,7 +3408,7 @@ figure.snip1253.hover img {
     cursor: pointer;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 992px) {
     .desktop_header {
         display: none !important;
         /* background-color: red; */
