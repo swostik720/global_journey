@@ -8,14 +8,31 @@
             <div class="swiper-wrapper">
                 @foreach ($studyabroads as $studyabroad)
                     <div class="swiper-slide">
-                        <div class="project-data">
+                        <!-- <div class="project-data">
                             <img alt="img" class="w-100" src="{{ asset($studyabroad->image_path ?? '') }}">
                             <div class="project-text">
-                                <h5>{{ $studyabroad->title ?? '' }}</h5>
-                                <p>{!! $studyabroad->short_description ?? '' !!}</p>
-                                <a href="{{ route('study-abroad.details', $studyabroad->slug) }}">Learn More</a>
+                                <h5></h5>
+                                <p></p>
+                                
                             </div>
-                        </div>
+                        </div> -->
+<figure class="snip1493">
+  <div class="image"><img src="{{ asset($studyabroad->image_path ?? '') }}" alt="ls-sample3" /></div>
+  <figcaption>
+    <div class="date"><span class="day">01</span><span class="month">Dec</span></div>
+    <h3>{{ $studyabroad->title ?? '' }}</h3>
+    <p>{!! $studyabroad->short_description ?? '' !!}</p>
+
+
+    <!-- <a href="">Learn More</a> -->
+    <!-- <footer>
+      <div class="views"><i class="ion-eye"></i>928</div>
+      <div class="love"><i class="ion-heart"></i>198</div>
+      <div class="comments"><i class="ion-chatboxes"></i>23</div>
+    </footer> -->
+  </figcaption>
+  <a href="{{ route('study-abroad.details', $studyabroad->slug) }}"></a>
+</figure>
                     </div>
                 @endforeach
             </div>

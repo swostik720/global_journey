@@ -125,3 +125,47 @@
         <a href="JavaScript:void(0)" id="res-cross"></a>
     </div>
 </header>
+
+
+
+<!-- <header>
+    <div class="container header">
+        <section class="_desktop_header"></section>
+        
+        <section class="_mobile_header">
+            <div class="header_logo">
+                @if (is_object($setting) && isset($setting['logo']))
+                    <a href="{{ url('/') }}">
+                        <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}" alt="Responsive Logo">
+                    </a>
+                @else
+                    <a href="{{ url('/') }}">
+                        <img src="{{ asset('frontend/assets/img/logo.png') }}" alt="Responsive Logo">
+                    </a>
+                @endif
+            </div>
+
+        </section>
+    </div>
+</header>
+<style>
+    header {
+        background : #d6d6d6;
+        padding-inline: 2rem; 
+        padding-block: 1rem;
+    }
+    ._mobile_header {
+        display: flex; 
+        align-items: center;
+        justify-content: space-between;
+        background: red;
+    }
+    
+    ._mobile_header img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;     
+        
+    }
+
+</style> -->
