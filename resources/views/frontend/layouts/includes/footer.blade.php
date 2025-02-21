@@ -1,4 +1,4 @@
-<footer class="gap no-bottom" style="background-color: #222 ;">
+<footer class="gap no-bottom" style="background-color: #f2f2f2 ;">
     <div class="container">
         <div class="row">
             <div class="col-xl-3 col-lg-4 col-md-6 mb-5">
