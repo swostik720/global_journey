@@ -1,4 +1,4 @@
-<div class="brands-we-work one gap">
+<!-- <div class="brands-we-work one gap">
     <div class="container">
         <div class="swiper-container brandswiper">
             <div class="swiper-wrapper flex align-items-center">
@@ -41,4 +41,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
