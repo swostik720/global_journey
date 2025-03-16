@@ -2,17 +2,17 @@
     <div class="container">
         <section class="desktop_header">
             <div class="_logo">
-                    @if (is_object($setting) && isset($setting['logo']))
-                        <a href="{{ url('/') }}">
-                            <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}"
-                                width="250">
-                        </a>
-                    @else
-                        <a href="{{ url('/') }}">
-                            <img alt="logo" class=""
-                                src="{{ asset('frontend/global-journey/assets/img/logo.png') }}" width="250">
-                        </a>
-                    @endif
+                @if (is_object($setting) && isset($setting['logo']))
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}"
+                        width="250">
+                </a>
+                @else
+                <a href="{{ url('/') }}">
+                    <img alt="logo" class=""
+                        src="{{ asset('frontend/global-journey/assets/img/logo.png') }}" width="250">
+                </a>
+                @endif
             </div>
             <ul class="header_menu">
                 <li class='header_item'>
@@ -26,9 +26,9 @@
                     <i class="fa-solid fa-angle-down"></i>
                     <ul class="header_submenu">
                         @foreach ($studyabroads as $studyabroad)
-                            <li><a
-                                    href="{{ route('study-abroad.details', $studyabroad->slug) }}">{{ $studyabroad->title }}</a>
-                            </li>
+                        <li><a
+                                href="{{ route('study-abroad.details', $studyabroad->slug) }}">{{ $studyabroad->title }}</a>
+                        </li>
                         @endforeach
                     </ul>
                 </li>
@@ -37,33 +37,36 @@
                     <i class="fa-solid fa-angle-down"></i>
                     <ul class="header_submenu">
                         @foreach ($testpreparations as $testpreparation)
-                            <li>
-                                <a href="{{ route('test-preparation.details', $testpreparation->slug) }}">
-                                    {{ $testpreparation->title }}
-                                </a>
-                            </li>
+                        <li>
+                            <a href="{{ route('test-preparation.details', $testpreparation->slug) }}">
+                                {{ $testpreparation->title }}
+                            </a>
+                        </li>
                         @endforeach
                     </ul>
                 </li>
                 <li class='header_item'>
-                    <a href="{{ route('contact-us') }}">Contact Us</a>
+                    <a href="{{ route('blogs') }}">Blogs</a>
+                </li>
+                <li class='header_item'>
+                    <a href="{{ route('contact-us') }}" class="themebtu">Contact Us</a>
                 </li>
             </ul>
         </section>
 
         <section class="desktop_mobile">
             <div class="_logo">
-                    @if (is_object($setting) && isset($setting['logo']))
-                        <a href="{{ url('/') }}">
-                            <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}"
-                                width="250">
-                        </a>
-                    @else
-                        <a href="{{ url('/') }}">
-                            <img alt="logo" class=""
-                                src="{{ asset('frontend/global-journey/assets/img/logo.png') }}" width="250">
-                        </a>
-                    @endif
+                @if (is_object($setting) && isset($setting['logo']))
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}"
+                        width="250">
+                </a>
+                @else
+                <a href="{{ url('/') }}">
+                    <img alt="logo" class=""
+                        src="{{ asset('frontend/global-journey/assets/img/logo.png') }}" width="250">
+                </a>
+                @endif
             </div>
 
             <div class="_btn" id='open_main_btn'>
@@ -72,90 +75,92 @@
         </section>
     </div>
 
-    
+
 </div>
 <section id='mobile_open_main' class='mobile_open_main'>
-        <div class="container">
-            <div class="close_row">
-                <div class="_logo">
-                        @if (is_object($setting) && isset($setting['logo']))
-                            <a href="{{ url('/') }}">
-                                <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}"
-                                    width="250">
-                            </a>
-                        @else
-                            <a href="{{ url('/') }}">
-                                <img alt="logo" class=""
-                                    src="{{ asset('frontend/global-journey/assets/img/logo.png') }}" width="250">
-                            </a>
-                        @endif
-                </div>
-
-                <i id='close_main_btn' class="fa-solid fa-xmark"></i>
+    <div class="container">
+        <div class="close_row">
+            <div class="_logo">
+                @if (is_object($setting) && isset($setting['logo']))
+                <a href="{{ url('/') }}">
+                    <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}"
+                        width="250">
+                </a>
+                @else
+                <a href="{{ url('/') }}">
+                    <img alt="logo" class=""
+                        src="{{ asset('frontend/global-journey/assets/img/logo.png') }}" width="250">
+                </a>
+                @endif
             </div>
 
-
-            <ul class="header_menu">
-                <li class='header_item'>
-                    <a href="{{ url('/') }}">Home</a>
-                </li>
-                <li class='header_item'>
-                    <a href="{{ route('about-us') }}">About Us</a>
-                </li>
-                <li class='header_item'>
-                    <p>
-                        <a href="{{ route('study-abroad') }}">Study Abroad</a>
-                        <i class="fa-solid fa-angle-down"></i>
-                    </p>
-
-                    <ul class="header_submenu">
-                        @foreach ($studyabroads as $studyabroad)
-                            <li><a
-                                    href="{{ route('study-abroad.details', $studyabroad->slug) }}">{{ $studyabroad->title }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </li>
-                <li class='header_item'>
-                    <p>
-                        <a href="{{ route('test-preparation') }}">Test Preparation</a>
-                        <i class="fa-solid fa-angle-down"></i>
-                    </p>
-
-                    <ul class="header_submenu">
-                        @foreach ($testpreparations as $testpreparation)
-                            <li>
-                                <a href="{{ route('test-preparation.details', $testpreparation->slug) }}">
-                                    {{ $testpreparation->title }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </li>
-                <li class='header_item'>
-                    <a href="{{ route('contact-us') }}">Contact Us</a>
-                </li>
-            </ul>
+            <i id='close_main_btn' class="fa-solid fa-xmark"></i>
         </div>
-    </section>
+
+
+        <ul class="header_menu">
+            <li class='header_item'>
+                <a href="{{ url('/') }}">Home</a>
+            </li>
+            <li class='header_item'>
+                <a href="{{ route('about-us') }}">About Us</a>
+            </li>
+            <li class='header_item'>
+                <p>
+                    <a href="{{ route('study-abroad') }}">Study Abroad</a>
+                    <i class="fa-solid fa-angle-down"></i>
+                </p>
+
+                <ul class="header_submenu">
+                    @foreach ($studyabroads as $studyabroad)
+                    <li><a
+                            href="{{ route('study-abroad.details', $studyabroad->slug) }}">{{ $studyabroad->title }}</a>
+                    </li>
+                    @endforeach
+                </ul>
+            </li>
+            <li class='header_item'>
+                <p>
+                    <a href="{{ route('test-preparation') }}">Test Preparation</a>
+                    <i class="fa-solid fa-angle-down"></i>
+                </p>
+
+                <ul class="header_submenu">
+                    @foreach ($testpreparations as $testpreparation)
+                    <li>
+                        <a href="{{ route('test-preparation.details', $testpreparation->slug) }}">
+                            {{ $testpreparation->title }}
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
+            </li>
+            <li class='header_item'>
+                <a href="{{ route('blogs') }}">Blogs</a>
+            </li>
+            <li class='header_item'>
+                <a href="{{ route('contact-us') }}">Contact Us</a>
+            </li>
+        </ul>
+    </div>
+</section>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const openMenuButton = document.getElementById('open_main_btn');
-    const closeMenuButton = document.getElementById('close_main_btn');
-    const mobileMenu = document.getElementById('mobile_open_main');
+    document.addEventListener('DOMContentLoaded', function() {
+        const openMenuButton = document.getElementById('open_main_btn');
+        const closeMenuButton = document.getElementById('close_main_btn');
+        const mobileMenu = document.getElementById('mobile_open_main');
 
-    // Open menu
-    openMenuButton.addEventListener('click', function () {
-        mobileMenu.style.display = 'block';
+        // Open menu
+        openMenuButton.addEventListener('click', function() {
+            mobileMenu.style.display = 'block';
+        });
+
+        // Close menu
+        closeMenuButton.addEventListener('click', function() {
+            mobileMenu.style.display = 'none';
+        });
     });
-
-    // Close menu
-    closeMenuButton.addEventListener('click', function () {
-        mobileMenu.style.display = 'none';
-    });
-});
-
 </script>
 
 <!-- <header>

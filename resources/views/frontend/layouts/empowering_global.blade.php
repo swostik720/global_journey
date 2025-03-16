@@ -38,7 +38,7 @@
                         office
                         in Sydney and strategically located branches across Nepal, underscores our commitment to
                         delivering top-tier assistance to students.</p>
-                    <a href="about.php" class="themebtu">Learn More</a>
+                    <a href="{{ route('about-us') }}" class="themebtu">Learn More</a>
                 </div>
             </div>
         </div>

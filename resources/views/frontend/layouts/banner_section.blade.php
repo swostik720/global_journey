@@ -7,7 +7,7 @@
         <div class="heading-boder text-left">
             <h2>Your <span>Global</span> Path to Success Starts Here</h2>
             <p>Trusted guidance for your study abroad dreams.</p>
-            <a href="enquiry.php" class="themebtu full">Get Expert Advice Today</a>
+            <a href="{{ route('contact-us') }}" class="themebtu full">Get Expert Advice Today</a>
         </div>
     </div>
 </section>
