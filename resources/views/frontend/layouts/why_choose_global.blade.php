@@ -8,25 +8,32 @@
         <div class="swiper-container partnerswiper">
             <div class="swiper-wrapper">
                 @foreach ($testimonials as $testimonial)
-                    <div class="swiper-slide">
-                        <div class="review">
-                            <img alt="man" class="pp" src="{{ $testimonial->image_path ?? '' }}" />
-                            <p><span style='font-family: serif'>“</span>
-                                {!! $testimonial->description ?? '' !!}
-                                <span style='font-family: serif'>”</span>
-                            </p>
-                            <div class="boder"></div>
-                            <div class="" width="150px" alt="">
-                                @for ($i = 0; $i < 5; $i++)
-                                    <i class="fas fa-star{{ $i < intval($testimonial->rating) ? '' : '-alt' }}"
-                                        style="color: {{ $i < intval($testimonial->rating) ? '#FFD700' : '#CCC' }}; font-size: 20px; margin-right: 2px;"></i>
+                <div class="swiper-slide">
+                    <div class="review">
+                        <img alt="man" class="pp" src="{{ $testimonial->image_path ?? '' }}" />
+                        <p><span style='font-family: serif;'>“</span></p>
+                        <p style="overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    display: -webkit-box;
+                                    -webkit-line-clamp: 5;
+                                    -webkit-box-orient: vertical;">
+                            {!! $testimonial->description ?? '' !!}
+
+                        </p>
+                        <p><span style='font-family: serif'>”</span>
+                        </p>
+                        <div class="boder"></div>
+                        <div class="" width="150px" alt="">
+                            @for ($i = 0; $i < 5; $i++)
+                                <i class="fas fa-star{{ $i < intval($testimonial->rating) ? '' : '-alt' }}"
+                                style="color: {{ $i < intval($testimonial->rating) ? '#FFD700' : '#CCC' }}; font-size: 20px; margin-right: 2px;"></i>
                                 @endfor
-                            </div>
-                            {{-- <img src="{{ asset('frontend/assets/img/rating.png') }}" width="150px" alt=""> --}}
-                            <p class="testimonial-name">{{ $testimonial->name ?? '' }}</p>
-                            <p class="testimonial-address">{{ $testimonial->address ?? '' }}</p>
                         </div>
+                        {{-- <img src="{{ asset('frontend/assets/img/rating.png') }}" width="150px" alt=""> --}}
+                        <p class="testimonial-name">{{ $testimonial->name ?? '' }}</p>
+                        <p class="testimonial-address">{{ $testimonial->address ?? '' }}</p>
                     </div>
+                </div>
                 @endforeach
             </div>
             <div class="swiper-button-next">
