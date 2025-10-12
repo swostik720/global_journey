@@ -15,6 +15,7 @@
     <p>Phone number: {{ $phone ?? '' }}</p>
     <p>Address: {{ $address }}</p>
     <p>Message: {{ $enquiry_message }}</p>
+    <p>Branch: {{ $branch->name }}</p>
 
 </body>
 

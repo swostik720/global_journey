@@ -3,52 +3,62 @@
 namespace App\Providers;
 
 use App\Models\SmtpSetting;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class SMTPMailServiceProvider extends ServiceProvider
 {
+    /**
+     * Register services.
+     */
     public function register(): void
     {
-        $this->app->singleton('smtp.settings', function () {
-            return Cache::remember('smtp.settings', 60 * 24, function () {
-                if (Schema::hasTable('smtp_settings')) {
-                    return SmtpSetting::first();
-                }
-                return null;
+        // No need to return early; allow singleton registration
+        if (Schema::hasTable('smtp_settings')) {
+            $this->app->singleton('smtp.settings', function () {
+                return SmtpSetting::first();
             });
-        });
+        }
     }
 
+    /**
+     * Bootstrap services.
+     */
     public function boot(): void
     {
-        $this->configureMailSettings();
+        $this->applySmtpSettings();
     }
 
-    private function configureMailSettings()
+    /**
+     * Apply SMTP settings dynamically.
+     */
+    private function applySmtpSettings(): void
     {
-        $smtpSettings = $this->app->make('smtp.settings');
+        // Only apply if singleton is registered
+        if ($this->app->bound('smtp.settings')) {
+            $smtp = $this->app->make('smtp.settings');
 
-        if ($smtpSettings) {
-            $data = [
-                'driver' => $smtpSettings->mail_mailer,
-                'host' => $smtpSettings->mail_host,
-                'port' => $smtpSettings->mail_port,
-                'encryption' => $smtpSettings->mail_encryption,
-                'username' => $smtpSettings->mail_username,
-                'password' => $smtpSettings->mail_password,
-                'from' => [
-                    'address' => $smtpSettings->mail_from_address,
-                    'name' => $smtpSettings->mail_from_name,
-                ],
-            ];
+            if ($smtp) {
+                Config::set('mail.mailers.smtp', [
+                    'transport' => 'smtp',
+                    'host' => $smtp->mail_host,
+                    'port' => $smtp->mail_port,
+                    'encryption' => $smtp->mail_encryption,
+                    'username' => $smtp->mail_username,
+                    'password' => $smtp->mail_password,
+                    'timeout' => null,
+                    'auth_mode' => null,
+                ]);
 
-            Config::set('mail', $data);
+                Config::set('mail.from.address', $smtp->mail_from_address);
+                Config::set('mail.from.name', $smtp->mail_from_name);
+            } else {
+                Log::warning('SMTP settings table is empty. Using default mail config.');
+            }
         } else {
-            Log::warning('SMTP settings not found. Using default mail configuration.');
+            Log::warning('SMTP settings singleton not bound. Using default mail config.');
         }
     }
 }

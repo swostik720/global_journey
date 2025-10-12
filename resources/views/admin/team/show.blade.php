@@ -40,13 +40,13 @@
             </div>
             {{-- <div class="card-content mt-2">
                 <h5><strong>Experience: </strong>{{ $team->experience ?? '' }}</h5>
-            </div>
+            </div> --}}
             <div class="card-content mt-2">
                 <h5><strong>Email: </strong>{{ $team->email ?? '' }}</h5>
             </div>
             <div class="card-content mt-2">
                 <h5><strong>Phone: </strong>{{ $team->phone ?? '' }}</h5>
-            </div> --}}
+            </div>
             <div class="card-content mt-2">
                 <h5><strong>Rank: </strong>{{ $team->rank ?? '' }}</h5>
             </div>

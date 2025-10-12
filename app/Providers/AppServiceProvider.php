@@ -8,6 +8,7 @@ use App\Models\Permission;
 use App\Models\StudyAbroad;
 use App\Models\Testimonial;
 use App\Models\TestPreparation;
+use App\Models\InterviewPreparation;
 use App\Observers\RoleObserver;
 use App\Observers\UserObserver;
 use App\Observers\PermissionObserver;
@@ -15,6 +16,7 @@ use Illuminate\Support\ServiceProvider;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -55,15 +57,23 @@ class AppServiceProvider extends ServiceProvider
                         ->latest()
                         ->take(5)
                         ->get(),
+                    'interviewPreparations' => InterviewPreparation::active()
+                        ->select(['title', 'slug', 'country_id'])
+                        ->with('country:id,name') // Eager load country relationship
+                        ->latest()
+                        ->take(5)
+                        ->get(),
                 ];
             });
 
             $view->with('studyabroads', $data['studyabroads'] ?? collect());
             $view->with('testpreparations', $data['testpreparations'] ?? collect());
+            $view->with('interviewPreparations', $data['interviewPreparations'] ?? collect());
         });
 
         Permission::observe(PermissionObserver::class);
         User::observe(UserObserver::class);
         Role::observe(RoleObserver::class);
+
     }
 }

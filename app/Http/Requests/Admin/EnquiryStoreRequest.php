@@ -21,6 +21,7 @@ class EnquiryStoreRequest extends FormRequest
             'phone'=>'required|string',
             'enquiry_message'=>'required|string|min:10',
             'status'=>'required|string',
+            'branch_id' => 'nullable',
             ];
     }
 }

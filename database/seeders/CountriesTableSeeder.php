@@ -45,7 +45,7 @@ class CountriesTableSeeder extends Seeder
             3 =>
             array(
                 'id' => 4,
-                'name' => 'Asia',
+                'name' => 'UK',
                 'status' => 1,
                 'created_at' => '2025-01-18 15:54:03',
                 'updated_at' => '2025-01-18 15:54:03',
@@ -53,26 +53,10 @@ class CountriesTableSeeder extends Seeder
             4 =>
             array(
                 'id' => 5,
-                'name' => 'Europe',
+                'name' => 'Newzerland',
                 'status' => 1,
                 'created_at' => '2025-01-18 15:54:09',
                 'updated_at' => '2025-01-18 15:54:09',
-            ),
-            5 =>
-            array(
-                'id' => 6,
-                'name' => 'United Kingdom',
-                'status' => 1,
-                'created_at' => '2025-01-18 15:54:24',
-                'updated_at' => '2025-01-18 15:54:24',
-            ),
-            6 =>
-            array(
-                'id' => 7,
-                'name' => 'New Zealand',
-                'status' => 1,
-                'created_at' => '2025-01-18 15:54:37',
-                'updated_at' => '2025-01-18 15:54:37',
             ),
         ));
     }

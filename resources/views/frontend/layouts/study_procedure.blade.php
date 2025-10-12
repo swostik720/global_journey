@@ -1,62 +1,138 @@
-<section class="how-it-works gap no-top">
+<section class="how-it-works no-top">
     <div class="container">
-        <div class="heading">
-            <h6>Study Procedure</h6>
-            <h2> An Expert Advisory
-                Guide You To The Destination
-            </h2>
+        <!-- Heading -->
+        <div class="heading mb-4">
+            <h6>Visa Grant Stories</h6>
+            <h2>Our Success Stories</h2>
             <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
         </div>
-        <div class="row pt-4">
-            <div class="col-lg-3 col-md-6 col-12">
-                <div class="strategic">
-                    <h2>O1/</h2>
-                    <div class="pl-80">
-                        <a href="#">
-                            <h4>Counsilling</h4>
-                        </a>
-                        <p>You can register yourself online for our services. Fill up form details and we get back
-                            to
-                            you.</p>
+
+        <!-- Video -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10">
+                <div class="video-container fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="video-frame">
+                        <div class="video-glow"></div>
+                        <video controls playsinline class="main-video">
+                            <source src="{{ asset('frontend/assets/img/success.mp4') }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+
+                        <!-- Optional Play Button Overlay -->
+                        <div class="play-overlay">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-12">
-                <div class="strategic">
-                    <h2>O2/</h2>
-                    <div class="pl-80">
-                        <a href="#">
-                            <h4>Eligilibity Test</h4>
-                        </a>
-                        <p>Our experts suggest documentation submission as per country’s policy and applicant base.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-                <div class="strategic">
-                    <h2>O3/</h2>
-                    <div class="pl-80">
-                        <a href="#">
-                            <h4>Application To Institute</h4>
-                        </a>
-                        <p>After reviewing your documents we will get in touch with you for the next personal
-                            meeting
-                            for guidance.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-12">
-                <div class="strategic">
-                    <h2>O4/</h2>
-                    <div class="pl-80">
-                        <a href="#">
-                            <h4>Visa Grant</h4>
-                        </a>
-                        <p>And you are all ready to apply. Professionals suggestions are proven 100% guaranteed.</p>
-                    </div>
-                </div>
-            </div>
+        </div>
+
+        <!-- Text -->
+        <div class="welcome-section text-center fade-in-up" style="animation-delay: 0.4s;">
+            <p class="lead-text mb-4">
+                Global Journey Education Services has proudly assisted over
+                <strong>5000+ students</strong> in achieving their study abroad dreams with a remarkable
+                <strong>98% visa success rate</strong>.
+                Our expert guidance and personalized support ensure students are well-prepared and confident
+                throughout the visa application process.
+            </p>
+
+            <!-- Button -->
+            <a href="{{ route('about-us') }}" class="themebtu">
+                Learn More
+            </a>
         </div>
     </div>
 </section>
+
+<style>
+    /* Video Container */
+    .video-container {
+        margin: 60px 0;
+        perspective: 1000px;
+    }
+
+    .video-frame {
+        position: relative;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .video-frame:hover {
+        transform: translateY(-10px) rotateX(2deg);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
+    }
+
+    .video-glow {
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .video-frame:hover .video-glow {
+        opacity: 1;
+    }
+
+    .main-video {
+        width: 100%;
+        max-height: 500px;
+        display: block;
+        filter: brightness(1.05) contrast(1.1) saturate(1.15);
+        transition: filter 0.5s ease;
+        position: relative;
+        z-index: 2;
+        border-radius: 24px;
+    }
+
+    .video-frame:hover .main-video {
+        filter: brightness(1.1) contrast(1.15) saturate(1.2);
+    }
+
+    /* Play Button Overlay */
+    .play-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: rgba(102, 126, 234, 0.8);
+        color: #fff;
+        font-size: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 3;
+        cursor: pointer;
+        transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .play-overlay:hover {
+        transform: translate(-50%, -50%) scale(1.1);
+        background: rgba(102, 126, 234, 1);
+    }
+
+    /* Welcome Text */
+    .welcome-section {
+        padding: 40px 0;
+    }
+
+    .lead-text {
+        font-size: 18px;
+        line-height: 1.8;
+        color: #555;
+        font-weight: 400;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+</style>

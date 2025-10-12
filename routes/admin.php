@@ -19,6 +19,14 @@ use App\Http\Controllers\Admin\Settings\SmtpSettingController;
 use App\Http\Controllers\Admin\RolePermission\AdminUserController;
 use App\Http\Controllers\Admin\RolePermission\PermissionController;
 use App\Http\Controllers\Admin\RolePermission\RolePermissionController;
+use App\Http\Controllers\Admin\InterviewPreparationController;
+use App\Http\Controllers\Admin\DocumentChecklistController;
+use App\Http\Controllers\Admin\CollegeAndUniversityController;
+use App\Http\Controllers\Admin\WhyCountryController;
+use App\Http\Controllers\Admin\CountryGuideController;
+use App\Http\Controllers\Admin\EnrollNowController;
+use App\Http\Controllers\Admin\GalleryCategoryController;
+use App\Http\Controllers\Admin\GalleryController;
 
 Route::middleware(['is_member'])->group(function () {
 
@@ -84,4 +92,36 @@ Route::middleware(['is_member'])->group(function () {
     Route::post('enquiries-inside-stauts/{id}', [EnquiryController::class, 'enquiryInsideStatusChange'])->name('enquiry-status-change');
     Route::resource('enquiries', EnquiryController::class);
     Route::post('enquiries/bulk-delete', [EnquiryController::class, 'bulkDelete'])->name('enquiries.bulk-delete');
+
+    Route::get('status-change-interview_preparation', [InterviewPreparationController::class, 'changeStatus'])->name('status-change-interview_preparation');
+    Route::post('interview_preparation/bulk-delete', [InterviewPreparationController::class, 'bulkDelete'])->name('interview_preparation.bulk-delete');
+    Route::resource('interview_preparation', InterviewPreparationController::class);
+
+    Route::resource('document_checklist', DocumentChecklistController::class);
+    Route::post('document_checklist/bulk-delete', [DocumentChecklistController::class, 'bulkDelete'])->name('document_checklist.bulk-delete');
+
+
+    // College & University
+    Route::resource('college_and_university', CollegeAndUniversityController::class);
+    Route::post('college_and_university/bulk-delete', [CollegeAndUniversityController::class, 'bulkDelete'])->name('college_and_university.bulk-delete');
+
+    // Why Country
+    Route::resource('why_country', WhyCountryController::class);
+    Route::post('why_country/bulk-delete', [WhyCountryController::class, 'bulkDelete'])->name('why_country.bulk-delete');
+
+    // Country Guide
+    Route::resource('country_guide', CountryGuideController::class);
+    Route::post('country_guide/bulk-delete', [CountryGuideController::class, 'bulkDelete'])->name('country_guide.bulk-delete');
+
+    //Enroll Now
+    Route::resource('enrollNow', EnrollNowController::class);
+    Route::post('enrollNow/bulk-delete', [EnrollNowController::class, 'bulkDelete'])->name('enrollnow.bulk-delete');
+
+    Route::resource('galleryCategory', GalleryCategoryController::class);
+    Route::post('galleryCategory/bulk-delete', [GalleryCategoryController::class, 'bulkDelete'])->name('galleryCategory.bulk-delete');
+
+    Route::resource('gallery', GalleryController::class);
+    Route::post('gallery/bulk-delete', [GalleryController::class, 'bulkDelete'])->name('gallery.bulk-delete');
+    Route::delete('gallery/{gallery}/image', [GalleryController::class, 'deleteImage'])
+        ->name('gallery.deleteImage');
 });

@@ -25,6 +25,7 @@
                     <ul>
                         <li><a href="{{ route('about-us') }}">About us</a></li>
                         <li><a href="{{ route('test-preparation') }}">Test Preparations</a></li>
+                        <li><a href="{{ route('interview-preparation') }}">Interview Preparations</a></li>
                         <li><a href="{{ route('blogs') }}">Blogs</a></li>
                         <li class="pb-0"><a href="{{ route('contact-us') }}">Contact us</a></li>
                     </ul>

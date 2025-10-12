@@ -11,13 +11,15 @@
                 <div class="table-responsive no-wrap">
                     <table class="table" id="datatable">
 
-                        <x-table.header :headers="['SN', 'study abroad', 'name', 'email', 'address', 'status', 'Actions']" />
+                        <x-table.header :headers="['SN', 'Branch', 'study abroad', 'name', 'email', 'address', 'status', 'Actions']" />
 
                         <tbody id="tablecontents">
                             @forelse ($enquiries as $enquiry)
                                 <tr>
                                     <td><input type="checkbox" class="select-row" data-id="{{ $enquiry->id }}"></td>
                                     <td>{{ $loop->iteration }}</td>
+
+                                    <x-table.td>{{ $enquiry->branch->name ?? 'N/A' }}</x-table.td>
 
                                     <x-table.td>{{ $enquiry->studyabroad->title ?? 'N/A' }}</x-table.td>
 

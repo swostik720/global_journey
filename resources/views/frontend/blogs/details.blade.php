@@ -1,220 +1,369 @@
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
+    <!-- Hero Section -->
     <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
         <div class="container">
             <div class="splash-area">
-                <h2>{{ $blog->title ?? '' }}</h2>
-                <p class="mt-3"><a href="{{ url('/') }}">Home</a> / <a href="{{ route('blogs') }}">Blogs</a>
-                    / <a href="#">{{ $blog->title ?? '' }}</a></p>
+                @php
+                    $parts = explode(' ', $blog->title ?? '', 3); // split into max 3 parts
+                    $firstPart = isset($parts[0], $parts[1]) ? $parts[0] . ' ' . $parts[1] : $parts[0] ?? '';
+                    $secondPart = $parts[2] ?? '';
+                @endphp
+
+                <h2 style="font-size: 60px;">{{ $firstPart }}</h2>
+                @if ($secondPart)
+                    <h2 style="
+    font-size: 60px;
+    background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  ">{{ $secondPart }}</h2>
+                @endif
             </div>
         </div>
     </section>
-<style>
-    .blog-hero-image{
-        width:100%;
-        height:70vh;
-        object-fit: cover;
-        margin-top: 32px;
-    }
 
-    .sub_heading {
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap: 12px;
-        padding-block: 18px;
-    }
-
-
-    .sub_heading .icon_wrapper{
-        display:flex; 
-        gap: 14px;
-    }
-
-    .sub_heading .icon_wrapper > p{
-        display:flex; 
-        align-items:center;
-        gap: 4px;
-    }
-
-    @media screen and (max-width: 600px){
-        .sub_heading {
-            flex-direction: column;
-            align-items:start;
-        }
-    }
-</style>
-    <section>
-        
-
+    <!-- Blog Content -->
+    <section class="gap no-top mt-5">
         <div class="container">
-
-        <img alt="img" class='blog-hero-image' src="{{ $blog->image_path ?? '' }}">
-
-
-            <div class="sub_heading">
-                <div class='icon_wrapper'>
-                    <p><i class="fa-solid fa-user"></i><span>{{ $blog->user->name ?? 'Admin' }}</span> </p>
-                    <p><i class="fa-solid fa-clock"></i><span>{{ \Carbon\Carbon::parse($blog->blog_date)->format('d F Y') }}</span></p>
-                </div>
-
-                <div>
-                    <i class="fa-solid fa-tag"></i>
-                    @foreach ($categories as $category)
-                        <span>
-                            {{ $category->name ?? '' }}
-                            <span>({{ $category->blogs_count ?? '0' }})</span>
-                            @if (!$loop->last), @endif
-                        </span>
-                    @endforeach
-                </div>
-            </div>
-        <!-- <ul class="sidebar">
-                        <li>
-                            <h4>Author : </h4>
-                            <span>{{ $blog->user->name ?? 'Admin' }}</span>
-                        </li>
-                        <li>
-                            <h4>Date :</h4>
-                            <span>{{ \Carbon\Carbon::parse($blog->blog_date)->format('d F Y') }}</span>
-                        </li>
-                        <li>
-                            <h4>Category :</h4>
-                            @foreach ($categories as $category)
-                                <span>
-                                    {{ $category->name ?? '' }}
-                                    <span>({{ $category->blogs_count ?? '0' }})</span>
-                                    @if (!$loop->last)
-                                        ,
-                                    @endif
-                                </span>
-                            @endforeach
-                        </li>
-                        <li>
-                            <h4>Share post :</h4>
-                            <ul class="brandicon">
-                                <li>
-                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}&title={{ urlencode($blog->title) }}"
-                                        target="_blank">
-                                        <i class="fa-brands fa-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://twitter.com/intent/tweet?text={{ urlencode($blog->title) }}&url={{ urlencode(url()->current()) }}"
-                                        target="_blank">
-                                        <i class="fa-brands fa-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(url()->current()) }}&title={{ urlencode($blog->title) }}&summary={{ urlencode($blog->description) }}"
-                                        target="_blank">
-                                        <i class="fa-brands fa-linkedin-in"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul> -->
-
-        </div>
-    </section>
-
-
-    <section>
-        <div class="container">
-
-            <div class="row">
-                <div class="col-xl-8">
-                    <div class="blog-item">
-                        <!-- <img alt="img" src="{{ $blog->image_path ?? '' }}"> -->
-                        <p>{!! $blog->description ?? '' !!}</p>
-                    </div>
-                    <div class="next-previous-page two">
-                        <div class="container">
-                            <div class="next-previous">
-                                <div class="prev">
-                                    @if ($previousBlog)
-                                        <a href="{{ route('blog.details', $previousBlog->slug) }}">
-                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                viewBox="0 0 476.213 476.213"
-                                                style="enable-background:new 0 0 476.213 476.213;" xml:space="preserve">
-                                                <polygon
-                                                    points="405.606,167.5 384.394,188.713 418.787,223.106 0,223.106 0,253.106 418.787,253.106 384.394,287.5
-                            405.606,308.713 476.213,238.106 " />
-                                            </svg>
-                                            Previous Page
-                                        </a>
-                                    @endif
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-9">
+                    <!-- Blog Article -->
+                    <article class="blog-article">
+                        <!-- Blog Meta -->
+                        <div
+                            class="blog-meta d-flex flex-wrap justify-content-between align-items-center mb-4 p-3 bg-light rounded-3">
+                            <div class="d-flex gap-4 flex-wrap align-items-center">
+                                <div class="author-info d-flex align-items-center">
+                                    <div class="author-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
+                                        style="width: 40px; height: 40px;">
+                                        {{ strtoupper(substr($blog->user->name ?? 'A', 0, 1)) }}
+                                    </div>
+                                    <div>
+                                        <span class="fw-semibold text-dark">{{ $blog->user->name ?? 'Admin' }}</span>
+                                    </div>
                                 </div>
-                                <div class="next">
-                                    @if ($nextBlog)
-                                        <a href="{{ route('blog.details', $nextBlog->slug) }}">
-                                            Next Page
-                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                                                viewBox="0 0 476.213 476.213"
-                                                style="enable-background:new 0 0 476.213 476.213;" xml:space="preserve">
-                                                <polygon
-                                                    points="405.606,167.5 384.394,188.713 418.787,223.106 0,223.106 0,253.106 418.787,253.106 384.394,287.5
-                                                    405.606,308.713 476.213,238.106 " />
-                                            </svg>
-                                        </a>
-                                    @endif
+                                <div class="blog-date text-muted">
+                                    <i class="bi bi-calendar-event me-1"></i>
+                                    {{ \Carbon\Carbon::parse($blog->blog_date)->format('M d, Y') }}
                                 </div>
                             </div>
+                            <div class="blog-categories">
+                                @foreach ($categories as $category)
+                                    <span class="badge rounded-pill bg-light text-dark border me-1">
+                                        <i class="bi bi-tag me-1"></i>{{ $category->name ?? '' }}
+                                        ({{ $category->blogs_count ?? '0' }})
+                                    </span>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 pl-60">
 
+                        <!-- Featured Image -->
+                        @if ($blog->image_path)
+                            <div class="featured-image mb-5">
+                                <img src="{{ $blog->image_path }}" class="img-fluid rounded-4 shadow-sm w-100"
+                                    alt="{{ $blog->title }}" style="height: 400px; object-fit: cover;">
+                            </div>
+                        @endif
+
+                        <!-- Blog Content -->
+                        <div class="blog-content">
+                            <div class="content-wrapper">
+                                {!! $blog->description ?? '' !!}
+                            </div>
+                        </div>
+
+                        <!-- Navigation -->
+                        <div class="blog-navigation d-flex justify-content-between align-items-center mt-5 pt-4 border-top">
+                            @if ($previousBlog)
+                                <a href="{{ route('blog.details', $previousBlog->slug) }}"
+                                    class="nav-link prev-post d-flex align-items-center text-decoration-none">
+                                    <div class="nav-icon me-3">
+                                        <i class="bi bi-arrow-left-circle fs-4"></i>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block">Previous Post</small>
+                                        <span
+                                            class="fw-semibold">{{ \Illuminate\Support\Str::limit($previousBlog->title, 30) }}</span>
+                                    </div>
+                                </a>
+                            @else
+                                <div></div>
+                            @endif
+
+                            @if ($nextBlog)
+                                <a href="{{ route('blog.details', $nextBlog->slug) }}"
+                                    class="nav-link next-post d-flex align-items-center text-decoration-none text-end">
+                                    <div>
+                                        <small class="text-muted d-block">Next Post</small>
+                                        <span
+                                            class="fw-semibold">{{ \Illuminate\Support\Str::limit($nextBlog->title, 30) }}</span>
+                                    </div>
+                                    <div class="nav-icon ms-3">
+                                        <i class="bi bi-arrow-right-circle fs-4"></i>
+                                    </div>
+                                </a>
+                            @endif
+                        </div>
+                    </article>
                 </div>
             </div>
-
+            <div class="text-center" style="margin-left:100px; width:10%;">
+                <a href="{{ route('blogs') }}" class="themebtu"><i class="fa fa-arrow-left"></i> Back</a>
+            </div>
         </div>
     </section>
-    
-    <section class="gap blog-recent-posts">
-        <div class="container">
-            @if ($relatedPosts->isNotEmpty())
-                <h4 class="mb-5">Related Posts</h4>
-                <div class="row">
-                    @foreach ($relatedPosts as $relatedPost)
-                    <div class="col-xl-4 col-md-6">
-                            <!-- <div class="latest-blog-post">
-                                <img alt="img" class="w-100" src="{{ $relatedPost->image_path ?? '' }}">
-                                <a href="#"><i
-                                        class="fa-regular fa-clock"></i><span>{{ \Carbon\Carbon::parse($relatedPost->blog_date)->format('d F Y') }}
-                                        | By
-                                        {{ $blog->user->name ?? 'Admin' }}</span></a>
-                                <a href="{{ route('blog.details', $relatedPost->slug) }}">
-                                    <h4>{{ $relatedPost->title ?? '' }}</h4>
-                                </a>
-                                <span>
-                                    {{ \Illuminate\Support\Str::words($relatedPost->short_description, 25, '...') ?? '' }}
-                                </span>
-                                <a href="{{ route('blog.details', $relatedPost->slug) }}" class="themebtu">Learn
-                                    More</a>
-                            </div> -->
+    <!-- Related Posts -->
+    @if ($relatedPosts->isNotEmpty())
+        <section class="gap blog-recent-posts bg-light">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10 heading">
+                        <h2>Related Posts</h2>
+                        <h6>You Might Also Like</h6>
+                        <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}"
+                            class="text-center mb-4">
+                        <div class="row g-4">
+                            @foreach ($relatedPosts as $relatedPost)
+                                <div class="col-lg-4 col-md-6">
+                                    <div
+                                        class="card blog-card h-100 border-0 shadow-sm rounded-4 overflow-hidden d-flex flex-column">
+                                        @if ($relatedPost->image_path)
+                                            <img src="{{ $relatedPost->image_path }}" class="card-img-top"
+                                                alt="{{ $relatedPost->title }}">
+                                        @endif
+                                        <div class="card-body d-flex flex-column">
+                                            <h6 class="card-title fw-bold">{{ $relatedPost->title ?? '' }}</h6>
+                                            <p class="card-text text-muted">
+                                                {{ \Illuminate\Support\Str::words($relatedPost->short_description, 20, '...') }}
+                                            </p>
 
-                <figure class="snip1253" style='height:100%'>
-                <div class="image"><img src="{{ $blog->image_path ?? '' }}" alt="sample52" /></div>
-                <figcaption>
-                    <div class="date">
-                        <span class="day">{{ \Carbon\Carbon::parse($blog->blog_date)->format('d') }}</span>
-                        <span class="month">{{ \Carbon\Carbon::parse($blog->blog_date)->format('M') }}</span>
-                    </div>
+                                            <!-- Category centered -->
+                                            <div class="mb-2">
+                                                <span class="badge rounded-pill bg-light text-dark border">
+                                                    {{ $relatedPost->category->name ?? 'General' }}
+                                                </span>
+                                            </div>
 
-                    <h3>{{ $blog->title ?? '' }}</h3>
-                    <p>{{ \Illuminate\Support\Str::words($blog->short_description, 25, '...') ?? '' }}</p>
+                                            <!-- Date & User -->
+                                            <div class="d-flex justify-content-between text-muted small mb-2">
+                                                <div>
+                                                    <i class="bi bi-calendar-event me-1"></i>
+                                                    {{ \Carbon\Carbon::parse($blog->blog_date)->format('M d, Y') }}
+                                                </div>
+                                                <div>
+                                                    <i class="bi bi-person-circle me-1"></i>
+                                                    <strong>{{ $blog->user->name }}</strong>
+                                                </div>
+                                            </div>
 
-                    
-                </figcaption>
-                <a href="{{ route('blog.details', $blog->slug) }}"></a>
-            </figure>
+
+                                            <!-- Read More button always at bottom -->
+                                            <a href="{{ route('blog.details', $relatedPost->slug) }}"
+                                                class="themebtu mt-auto" style="text-align: center;">
+                                                Read More
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-                    @endforeach
+                    </div>
                 </div>
-            @endif
-        </div>
-    </section>
+            </div>
+        </section>
+    @endif
+
+    <style>
+        /* Blog Article Styles */
+        .blog-article {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 3rem;
+        }
+
+        .blog-meta {
+            border-left: 4px solid var(--bs-primary);
+        }
+
+        .author-avatar {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Blog Content Styles */
+        /* .blog-content {
+                    font-size: 1.1rem;
+                    line-height: 1.8;
+                    color: #444;
+                } */
+
+        .content-wrapper p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .content-wrapper h1,
+        .content-wrapper h2,
+        .content-wrapper h3,
+        .content-wrapper h4,
+        .content-wrapper h5,
+        .content-wrapper h6 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .content-wrapper ul,
+        .content-wrapper ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .content-wrapper li {
+            margin-bottom: 0.5rem;
+        }
+
+        .content-wrapper blockquote {
+            background: #f8f9fa;
+            border-left: 4px solid var(--bs-primary);
+            padding: 1rem 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .content-wrapper code {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #e91e63;
+        }
+
+        .content-wrapper pre {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        /* Navigation Styles */
+        .blog-navigation .nav-link {
+            color: #6c757d;
+            transition: all 0.3s ease;
+            padding: 1rem;
+            border-radius: 8px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            max-width: 45%;
+        }
+
+        .blog-navigation .nav-link:hover {
+            color: var(--bs-primary);
+            background: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-icon i {
+            transition: transform 0.3s ease;
+        }
+
+        .prev-post:hover .nav-icon i {
+            transform: translateX(-5px);
+        }
+
+        .next-post:hover .nav-icon i {
+            transform: translateX(5px);
+        }
+
+        /* Related Posts Styles */
+        .blog-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 5px 10px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .blog-article {
+                padding: 1.5rem;
+            }
+
+            .blog-meta {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 1rem;
+            }
+
+            .blog-navigation .nav-link {
+                max-width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .blog-navigation {
+                flex-direction: column;
+            }
+
+            .content-wrapper {
+                font-size: 1rem;
+            }
+
+            .featured-image img {
+                height: 250px !important;
+            }
+        }
+
+        /* Typography Improvements */
+        .content-wrapper img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-wrapper table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-wrapper table th,
+        .content-wrapper table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e9ecef;
+            text-align: left;
+        }
+
+        .content-wrapper table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #495057;
+        }
+    </style>
 @endsection

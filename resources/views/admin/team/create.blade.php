@@ -17,10 +17,10 @@
 
                         <x-form.input type="text" label="Name" id="name" name="name"
                             value="{{ old('name') }}" placeholder="John Doe" :req="true" />
-                        {{-- <x-form.input type="email" label="Email" id="email" name="email"
+                        <x-form.input type="email" label="Email" id="email" name="email"
                             value="{{ old('email') }}" placeholder="johndoe@gmail.com" :req="true" />
                         <x-form.input type="text" label="phone" id="phone" name="phone"
-                            value="{{ old('phone') }}" placeholder="+91590 0574 258" :req="true" /> --}}
+                            value="{{ old('phone') }}" placeholder="+91590 0574 258" :req="true" />
                         <x-form.input type="text" label="Responsibility" id="responsibility" name="responsibility"
                             value="{{ old('responsibility') }}" placeholder="Systems engineer" :req="true" />
                         {{-- <x-form.input type="text" label="experience" id="experience" name="experience"

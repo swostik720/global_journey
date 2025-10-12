@@ -1,14 +1,14 @@
 /*-----------------------------------------------------------------------------------
 
-    Template Name: terio 
+    Template Name: terio
 
     Note: This is Custom Js file
 
 -----------------------------------------------------------------------------------
 
     [Table of contents]
-     
-    1. counter  
+
+    1. counter
     2. accordion
     3. projectsswiper
     4. partnerswiper
@@ -22,7 +22,7 @@
     12. searchBtn
     13. mobile-nav
     14. back to top button
-    15. Preloader 
+    15. Preloader
 
 -----------------------------------------------------------------------------------*/
 
@@ -246,6 +246,40 @@ if (typeof Swiper !== "undefined") {
             },
         },
     });
+
+    /* Custom: studyAbroadFeatureSwiper */
+    var swiper = new Swiper(".studyAbroadFeatureSwiper", {
+        slidesPerView: 3,
+        spaceBetween: 0,
+        loop: true,
+        centeredSlides: false,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        breakpoints: {
+            0: {
+                slidesPerView: 1,
+                spaceBetween: 20,
+            },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+            },
+            1200: {
+                slidesPerView: 3,
+                spaceBetween: 40,
+            },
+        },
+    });
 }
 /* 9. herothreeswiper */
 if (typeof Swiper !== "undefined") {
@@ -296,15 +330,18 @@ if (typeof Swiper !== "undefined") {
     });
 }
 /* 12. searchBtn */
+
 const input = document.getElementById("search-input");
 const searchBtn = document.getElementById("search-btn");
 
 const expand = () => {
-    searchBtn.classList.toggle("close");
-    input.classList.toggle("square");
+    if (searchBtn) searchBtn.classList.toggle("close");
+    if (input) input.classList.toggle("square");
 };
 
-searchBtn.addEventListener("click", expand);
+if (searchBtn) {
+    searchBtn.addEventListener("click", expand);
+}
 
 /* 13. mobile-nav */
 

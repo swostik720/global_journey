@@ -24,6 +24,11 @@ class ContactStoreRequest extends FormRequest
             'company_name' => 'nullable',
             'contact_message' => 'required',
             'status' => 'boolean',
+            'address' => 'nullable|string',
+            'interested_country' => 'nullable|in:USA,Canada,UK,Australia,New Zealand',
+            'last_qualification' => 'nullable|string',
+            'test_preparation' => 'nullable|in:IELTS,PTE',
+            'branch_id' => 'nullable',
         ];
     }
 }

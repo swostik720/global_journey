@@ -21,11 +21,11 @@ class SiteSettingsTableSeeder extends Seeder
             0 =>
             array(
                 'id' => 1,
-                'logo' => 'JhJ4cs9AG0bFY2MpmzEYAoGspMScRnWqlctkj20F.png',
+                'logo' => 'RXun1DXkrTYfSHzNi71vu9CU7FtEfdJAruk1Nbdm.png',
                 'favicon' => 'xZ7ICZyZJhfUcx72qX5Nk9lMGUAsH6H4Rz24wsr9.png',
                 'name' => 'Global Journey',
                 'slug' => NULL,
-                'email' => 'raygun01234@gmail.com',
+                'email' => 'paneruswostik@gmail.com',
                 'phone' => '+01-84856938',
                 'mobile' => '+977-9843215204',
                 'contact_address' => 'Putalisadak, Kathmandu Nepal',

@@ -14,5 +14,5 @@
 
     @include('frontend.layouts.lets_start_together')
 
-    @include('frontend.layouts.our_blogs')
+    {{-- @include('frontend.layouts.our_blogs') --}}
 @endsection

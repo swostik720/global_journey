@@ -18,7 +18,10 @@ class ContactController extends Controller
     public function index(): View
     {
         return view('admin.contact.index', [
-            'contacts' => Contact::query()->select(['id', 'name', 'email', 'phone', 'status'])->latest()->get()
+            'contacts' => Contact::with('branch')
+                ->select(['id', 'name', 'email', 'phone', 'status', 'address', 'interested_country', 'last_qualification', 'test_preparation', 'branch_id'])
+                ->latest()
+                ->get()
         ]);
     }
 

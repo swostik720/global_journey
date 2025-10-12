@@ -80,6 +80,34 @@
                 </x-sidebar-item>
             </x-sidebar-multilist-head>
 
+            <x-sidebar-multilist-head icon="bx bxs-image" name="GALLERY" :routes="['admin/galleryCategory', 'admin/gallery']">
+                <x-sidebar-item route="{{ route('admin.galleryCategory.index') }}" name="GALLERY CATEGORY"
+                    uri="admin/galleryCategory">
+                </x-sidebar-item>
+                <x-sidebar-item route="{{ route('admin.gallery.index') }}" name="GALLERY" uri="admin/gallery">
+                </x-sidebar-item>
+            </x-sidebar-multilist-head>
+
+            <x-sidebar-item route="{{ route('admin.document_checklist.index') }}" name="DOCUMENT CHECKLIST"
+                uri="admin/document_checklist">
+                <i class="menu-icon tf-icons bx bxs-file-doc"></i>
+            </x-sidebar-item>
+
+            <x-sidebar-item route="{{ route('admin.college_and_university.index') }}" name="COLLEGE & UNIVERSITY"
+                uri="admin/college_and_university">
+                <i class="menu-icon tf-icons bx bxs-graduation"></i>
+            </x-sidebar-item>
+
+            <x-sidebar-item route="{{ route('admin.why_country.index') }}" name="WHY COUNTRY"
+                uri="admin/why_country">
+                <i class="menu-icon tf-icons bx bxs-flag"></i>
+            </x-sidebar-item>
+
+            <x-sidebar-item route="{{ route('admin.country_guide.index') }}" name="COUNTRY GUIDE"
+                uri="admin/country_guide">
+                <i class="menu-icon tf-icons bx bxs-map"></i>
+            </x-sidebar-item>
+
             <x-sidebar-item route="{{ route('admin.teams.index') }}" name="TEAMS" uri="admin/teams">
                 <i class="menu-icon tf-icons bx bxs-user"></i>
             </x-sidebar-item>
@@ -92,6 +120,15 @@
             <x-sidebar-item route="{{ route('admin.test-preparations.index') }}" name="TEST PREPARATION"
                 uri="admin/test-preparations">
                 <i class="menu-icon tf-icons bx bxs-flag-alt"></i>
+            </x-sidebar-item>
+
+            <x-sidebar-item route="{{ route('admin.interview_preparation.index') }}" name="INTERVIEW PREPARATION"
+                uri="admin/interview_preparation">
+                <i class="menu-icon tf-icons bx bxs-conversation"></i>
+            </x-sidebar-item>
+
+            <x-sidebar-item route="{{ route('admin.enrollNow.index') }}" name="ENROLL NOW" uri="admin/enrollnow">
+                <i class="menu-icon tf-icons bx bxs-edit-location"></i>
             </x-sidebar-item>
 
             <x-sidebar-multilist-head icon="bx bxs-cog" name="SETTINGS" :routes="['admin/setting/company-setting', 'admin/setting/smtp-setting']">
@@ -125,7 +162,6 @@
                     @endcan
                 </x-sidebar-multilist-head>
             @endcanany --}}
-
         </ul>
     </div>
 </aside>

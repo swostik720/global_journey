@@ -1,182 +1,336 @@
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
+    <!-- Hero Section -->
+
     <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
         <div class="container">
             <div class="splash-area">
-                <h2>Let Us Know What
-                    You're Looking For</h2>
-                <a href="#">Get in Touch</a>
+                <h2 style="font-size: 70px;">Get in Touch</h2>
+                <h2
+                    style="
+    font-size: 70px;
+    background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  ">
+                    With Us</h2>
             </div>
+        </div>
         </div>
     </section>
 
-
-    <section class="contact-page gap">
+    <!-- Contact Section -->
+    <section class="contact-page gap" id="contact-form">
         <div class="container">
-            <div class="heading">
+            <div class="heading text-left mb-5">
                 <h6>Start Your Project With Us.</h6>
                 <h2>Let's Talk</h2>
                 <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
             </div>
             <div class="row">
-                <div class="col-xl-6 col-lg-6">
+                <!-- Form -->
+                <div class="col-xl-6 col-lg-6 mb-4">
                     @include('frontend.layouts.contact_form')
                 </div>
+                <!-- Contact Details -->
                 <div class="offset-lg-1 col-xl-5 col-lg-5">
-                    <div class="_details">
-                        <h4>Details</h4>
+                    <div class="details-card">
+                        <h4>Contact Details</h4>
 
-                        <li>
-                            <a  href="tel:{{ $setting->phone ?? '+01-84856938' }}">
-                                <i class="fa-solid fa-phone"></i>
-                                <span>{{ $setting->phone ?? '+01-84856938' }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="tel:{{ $setting->mobile ?? '+977-9843215204' }}">
-                                <i class="fa-solid fa-mobile"></i>
-                                <span>{{ $setting->mobile ?? '+977-9843215204' }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="mailto:{{ $setting->email ?? 'contact@globaljourneyedu.com.np' }}">
-                                <i class="fa-solid fa-envelope"></i>
-                                <span>{{ $setting->email ?? 'contact@globaljourneyedu.com.np' }}</span>
-                            </a>
-                        </li>
+                        <ul class="contact-list">
+                            <li>
+                                <a href="tel:{{ $setting->phone ?? '+01-84856938' }}">
+                                    <i class="fa-solid fa-phone"></i>
+                                    <span>{{ $setting->phone ?? '+01-84856938' }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tel:{{ $setting->mobile ?? '+977-9843215204' }}">
+                                    <i class="fa-solid fa-mobile"></i>
+                                    <span>{{ $setting->mobile ?? '+977-9843215204' }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:{{ $setting->email ?? 'contact@globaljourneyedu.com.np' }}">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <span>{{ $setting->email ?? 'contact@globaljourneyedu.com.np' }}</span>
+                                </a>
+                            </li>
+                        </ul>
 
                         <hr>
 
-                        <div class="">
-                            <h5>Social Links</h5>
-                            <ul class="_brand_icons">
-                            
-                                    <li>
-                                        <a href="{{ $setting->fb_link ?? '#' }}" target="_blank">
-                                            <i class="fa-brands fa-facebook-f"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ $setting->twitter_link ?? '#' }}" target="_blank">
-                                            <i class="fa-brands fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ $setting->instagram_link ?? '#' }}" target="_blank">
-                                            <i class="fa-brands fa-instagram"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ $setting->linkedIn_link ?? '#' }}" target="_blank">
-                                            <i class="fa-brands fa-linkedin-in"></i>
-                                        </a>
-                                    </li>
-                            </ul>
-                        </div>
+                        <h5>Connect with Us</h5>
+                        <ul class="social-links">
+                            <li><a href="{{ $setting->fb_link ?? '#' }}" target="_blank"><i
+                                        class="fa-brands fa-facebook-f"></i></a></li>
+                            <li><a href="{{ $setting->twitter_link ?? '#' }}" target="_blank"><i
+                                        class="fa-brands fa-twitter"></i></a></li>
+                            <li><a href="{{ $setting->instagram_link ?? '#' }}" target="_blank"><i
+                                        class="fa-brands fa-instagram"></i></a></li>
+                            <li><a href="{{ $setting->linkedIn_link ?? '#' }}" target="_blank"><i
+                                        class="fa-brands fa-linkedin-in"></i></a></li>
+                        </ul>
                     </div>
-
-
                 </div>
             </div>
         </div>
     </section>
 
-    <style>
-        ._details{ 
-            background-color: #f2f2f2;
-            padding: 18px 16px;
-            border-radius: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        ._details h4 {
-            font-weight: 700;
-        }
-
-        ._details li a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .branches_ .heading ul li,
-        ._brand_icons {
-            display: flex;
-            align-items:center;
-            gap: 6px;
-        }
-
-        .branches_ .heading .fa-solid,
-        ._brand_icons li a .fa-brands,
-        ._details .fa-solid {
-            display: grid;
-            place-content: center;
-            width: 3rem;
-            aspect-ratio: 1;
-            background: #ffffff;
-            border-radius: 100vh;
-            
-        }
-
-        .branches_ {
-            display: grid;
-            place-content: center;        
-        }
-
-        .branches_ .heading {
-            background: #f2f2f2;
-            padding: 18px 32px;
-            border-radius: 22px;
-        }
-
-        .branches_ .heading h2 {
-            font-size: 26px;
-        }
-        
-
-        .branches_ .heading ul {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-    </style>
-
-    <section class="offices gap" style="background-color:#f3f8fb;">
+    <!-- Branch Offices -->
+    <section class="offices gap" style="background-color:#f9fbfd;">
         <div class="container">
-            <div class="row">
-                @foreach ($branches as $branch)
-                    <div class="col-xl-6 branches_">
-                        <div class="heading">
-                            <h2>{{ $branch->name ?? '' }}</h2>
-                            <ul>
-                                <li><i class="fa-solid fa-envelope"></i> <span> {{ $branch->email ?? '' }}  </span></li>
-                                <li><i class="fa-solid fa-location-dot"></i> <span> {{ $branch->contact_address ?? '' }}  </span></li>
-                                <li><i class="fa-solid fa-phone"></i> <span> {{ $branch->phone ?? '' }}  </span></li>
-                                <li><i class="fa-solid fa-clock"></i> <span> {{ $branch->working_hours ?? '' }} </span></li>
-                            </ul>
+            <div class="heading text-left mb-5">
+                <h6>Explore Our Locations</h6>
+                <h2>Discover Our Global Branch Network</h2>
+                <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
+            </div>
+            <div class="container">
+                <div class="row g-4">
+                    @foreach ($branches as $branch)
+                        <div class="col-xl-6 col-lg-6">
+                            <div class="branch-card">
+                                <h3>{{ $branch->name ?? '' }}</h3>
+                                <ul>
+                                    <li><i class="fa-solid fa-envelope"></i> {{ $branch->email ?? '' }}</li>
+                                    <li><i class="fa-solid fa-location-dot"></i> {{ $branch->contact_address ?? '' }}</li>
+                                    <li><i class="fa-solid fa-phone"></i> {{ $branch->phone ?? '' }}</li>
+                                    <li><i class="fa-solid fa-clock"></i> {{ $branch->working_hours ?? '' }}</li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-        <div class="tp-hero__shapes">
-            <div class="style-shapes-5">
-                <img alt="dots1" src="{{ asset('frontend/assets/img/shap-2.png') }}">
-            </div>
-            <div class="style-shapes-6">
-                <img alt="dots1" src="{{ asset('frontend/assets/img/shap-2.png') }}">
-            </div>
-            <div class="style-shapes-7">
-                <img alt="dots1" src="{{ asset('frontend/assets/img/shap-5.png') }}">
+                    @endforeach
+                </div>
             </div>
         </div>
     </section>
 
-    <div class="map">
-        <iframe src="{{ $setting->map_url ?? '' }}" style="border:0;" allowfullscreen="" loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <!-- Map -->
+    <div class="heading mb-4 text-center pt-5">
+        <h6>Find Us Here</h6>
+        <h2>Our Head Office Location</h2>
+        <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
+    </div>
+    <div class="map-wrapper">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.4786416232705!2d85.31936537485603!3d27.702504325706123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19a857567ae1%3A0xd1450b2f18a91a6f!2sGlobal%20Journey%20Education!5e0!3m2!1sen!2snp!4v1758800677538!5m2!1sen!2snp"
+            allowfullscreen="" loading="lazy">
+        </iframe>
     </div>
 @endsection
+
+@push('custom_css')
+    <style>
+        /* Gradient Palette */
+        :root {
+            --grad: linear-gradient(135deg, #0038A6, #0046C4, #0058E8, #003070, #001F50);
+        }
+
+        /* Hero Section */
+        .contact-hero {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            padding: 120px 0;
+            color: #fff;
+        }
+
+        .contact-hero .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .contact-hero .splash-area {
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-hero h2 {
+            font-size: 38px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .theme-btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: var(--grad);
+            color: #fff !important;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all .4s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-btn:hover {
+            background-position: right center;
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Details Card */
+        .details-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            transition: all .3s ease;
+        }
+
+        .details-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        .details-card h4 {
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .contact-list li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            font-size: 15px;
+            color: #333;
+            transition: all .3s ease;
+        }
+
+        .contact-list li a:hover {
+            color: #0038A6;
+        }
+
+        .contact-list i {
+            width: 40px;
+            height: 40px;
+            background: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: all .4s ease;
+        }
+
+        .contact-list li:hover i {
+            background: var(--grad);
+            color: #fff;
+            box-shadow: 0 0 12px rgba(0, 56, 166, 0.5);
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 12px;
+            padding: 0;
+            margin: 12px 0 0 0;
+        }
+
+        .social-links li {
+            list-style: none;
+        }
+
+        .social-links a {
+            display: grid;
+            place-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #f3f3f3;
+            color: #333;
+            font-size: 16px;
+            transition: all .5s ease;
+            background-size: 200% auto;
+        }
+
+        .social-links a:hover {
+            background: var(--grad);
+            color: #fff;
+            transform: rotate(10deg) scale(1.1);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Branch Cards */
+        .branch-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            transition: transform .4s ease, box-shadow .4s ease, border .4s ease;
+            border: 2px solid transparent;
+        }
+
+        .branch-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+            border: 2px solid transparent;
+            border-image: var(--grad) 1;
+        }
+
+        .branch-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .branch-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .branch-card li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+            color: #555;
+            margin-bottom: 10px;
+            transition: color .3s ease;
+        }
+
+        .branch-card li:hover {
+            color: #0038A6;
+        }
+
+        .branch-card i {
+            color: #0038A6;
+            transition: transform .3s ease, color .3s ease;
+        }
+
+        .branch-card li:hover i {
+            transform: scale(1.2);
+            color: #0058E8;
+        }
+
+        /* Map */
+        .map-wrapper {
+            width: 100%;
+            height: 400px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            margin: 0 auto 60px;
+            transition: transform .5s ease;
+        }
+
+        .map-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .map-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+@endpush

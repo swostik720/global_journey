@@ -18,10 +18,10 @@
 
                         <x-form.input type="text" label="Name" id="name" name="name"
                             value="{{ $team->name }}" :req="true" />
-                        {{-- <x-form.input type="email" label="Email" id="email" name="email"
+                        <x-form.input type="email" label="Email" id="email" name="email"
                             value="{{ $team->email }}" :req="true" />
                         <x-form.input type="text" label="phone" id="phone" name="phone"
-                            value="{{ $team->phone }}" :req="true" /> --}}
+                            value="{{ $team->phone }}" :req="true" />
                         <x-form.input type="text" label="Responsibility" id="responsibility" name="responsibility"
                             value="{{ $team->responsibility }}" :req="true" />
                         {{-- <x-form.input type="text" label="experience" id="experience" name="experience"

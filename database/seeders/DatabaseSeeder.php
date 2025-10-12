@@ -34,5 +34,14 @@ class DatabaseSeeder extends Seeder
         $this->call(CategoriesTableSeeder::class);
         $this->call(BlogsTableSeeder::class);
         $this->call(BranchesTableSeeder::class);
+
+        $this->call(InterviewPreparationTableSeeder::class);
+        $this->call(DocumentChecklistTableSeeder::class);
+
+        $this->call(WhyCountrySeeder::class);
+        $this->call(CollegeAndUniversitySeeder::class);
+        $this->call(CountryGuideSeeder::class);
+
+        $this->call(GalleryCategorySeeder::class);
     }
 }

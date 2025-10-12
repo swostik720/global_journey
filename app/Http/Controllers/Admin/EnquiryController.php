@@ -17,7 +17,10 @@ class EnquiryController extends Controller
     public function index(): View
     {
         return view('admin.enquiry.index', [
-            'enquiries' => Enquiry::query()->select(['id', 'studyabroad_id', 'name', 'email', 'address', 'status'])->latest()->get()
+            'enquiries' => Enquiry::with('branch')
+                ->select(['id', 'studyabroad_id', 'name', 'email', 'address', 'branch_id', 'status'])
+                ->latest()
+                ->get()
         ]);
     }
 

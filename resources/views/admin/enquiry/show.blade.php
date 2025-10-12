@@ -35,7 +35,8 @@
     <div class="row align-items-center  ">
         <div class="col-md-3">
             <div class="card-content mt-2">
-                <b class="d-block text-uppercase text-14">Study Abroad</b><span>{{ $enquiry->studyabroad->title ?? 'N/A' }}</span>
+                <b class="d-block text-uppercase text-14">Study
+                    Abroad</b><span>{{ $enquiry->studyabroad->title ?? 'N/A' }}</span>
             </div>
         </div>
         <div class="col-md-3">
@@ -59,7 +60,12 @@
             </div>
         </div>
         <div class="card-content mt-2">
-            <b class="d-block text-uppercase text-14">message</b><span>{{ $enquiry->enquiry_message }}</span>
+            <b class="d-block text-uppercase text-14">Message</b><span>{{ $enquiry->enquiry_message }}</span>
         </div>
+        @if ($enquiry->branch->name)
+            <div class="card-content mt-2">
+                <b class="d-block text-uppercase text-14">Branch</b><span>{{ $enquiry->branch->name }}</span>
+            </div>
+        @endif
     </div>
 </div>

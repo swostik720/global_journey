@@ -28,7 +28,7 @@
         <div class="view-more" style='width:fit-content; margin-inline:auto; margin-top: 32px'>
             <a href="{{ route('blogs') }}" class="btn">
                 <button type="submit" class="themebtu full">View More</button>
-            </a> 
+            </a>
         </div>
         @endif
     </div>
@@ -59,16 +59,16 @@
                             <img alt="img" class="w-100" src="{{ $blog->image_path ?? '' }}">
                             <a href="#"><i class="fa-regular fa-clock"></i>
                                 <span>
-                                    {{ \Carbon\Carbon::parse($blog->blog_date)->format('d F Y') }} | By
+                                    {{-- {{ \Carbon\Carbon::parse($blog->blog_date)->format('d F Y') }} | By --}}
                                     {{ $blog->user->name ?? 'Admin' }}
                                 </span>
                             </a>
-                            <a href="{{ route('blog.details', $blog->slug) }}">
+                            {{-- <a href="{{ route('blog.details', $blog->slug) }}"> --}}
                                 <h4>{{ $blog->title ?? '' }}</h4>
                             </a>
                             <span>
-                                {{ \Illuminate\Support\Str::words($blog->short_description, 25, '...') ?? '' }}
+                                {{-- {{ \Illuminate\Support\Str::words($blog->short_description, 25, '...') ?? '' }} --}}
                             </span>
-                            <a href="{{ route('blog.details', $blog->slug) }}" class="themebtu">Learn
+                            {{-- <a href="{{ route('blog.details', $blog->slug) }}" class="themebtu">Learn --}}
                                 More</a>
                         </div>    -->

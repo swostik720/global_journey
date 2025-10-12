@@ -10,12 +10,13 @@
                 </div>
                 <div class="table-responsive no-wrap">
                     <table class="table" id="datatable">
-                        <x-table.header :headers="['SN', 'Name', 'Email', 'Phone', 'Status', 'Actions']" />
+                        <x-table.header :headers="['SN','Branch', 'Name', 'Email', 'Phone', 'Status', 'Actions']" />
                         <tbody id="tablecontents">
                             @forelse ($contacts as $contact)
                                 <tr>
                                     <td><input type="checkbox" class="select-row" data-id="{{ $contact->id }}"></td>
                                     <td>{{ $loop->iteration }}</td>
+                                    <x-table.td>{{ $contact->branch?->name ?? 'No branch selected' }}</x-table.td>
                                     <x-table.td>{{ $contact->name }}</x-table.td>
                                     <x-table.td>{{ $contact->email }}</x-table.td>
                                     <x-table.td>{{ $contact->phone }}</x-table.td>

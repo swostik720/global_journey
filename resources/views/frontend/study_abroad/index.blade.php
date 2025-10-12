@@ -1,73 +1,109 @@
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
-<section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
-    <div class="container">
-        <div class="splash-area">
-            <h2>Study in Your Dream
-                Country
-            </h2>
-        </div>
-    </div>
-</section>
-<section class="gap no-bottom">
-    <div class="container">
-        <div class="row">
-            <div class="portfolios">
-                <!-- <div class="filters portfolio-controllers-container">
-
-                        <div class="portfolio-controllers wow fadeLeft button-group js-radio-button-group"
-                            data-wow-duration="1s" data-wow-delay=".1s" data-filter-group="color">
-                            <button type="button" class="button is-checked filter-btn active-work"
-                                data-filter="*">All</button>
-                            @foreach ($countries as $country)
-                                <button type="button" class="filter-btn" data-filter=".{{ Str::slug($country->name) }}">
-                                    {{ $country->name }}
-                                </button>
-                            @endforeach
-                        </div>
-                    </div> -->
-
-                <div class="grid_container mb-5">
-                    @foreach ($studyabroads as $studyabroad)
-                    <div class="_card">
-                        <a href="{{ route('study-abroad.details', $studyabroad->slug) }}">
-                            <img class="w-100" alt="{{ $studyabroad->title }}" src="{{ $studyabroad->image_path }}">
-                            <div class="_body">
-                                <h3><a href="{{ route('study-abroad.details', $studyabroad->slug) }}">{{ $studyabroad->title }}</a>
-                                    <p class=''>{!! $studyabroad->short_description !!}</p>
-
-                                    <a class="_button" href="{{ route('study-abroad.details', $studyabroad->slug) }}">Learn More</a>
-                            </div>
-                        </a>
-                    </div>
-                    @endforeach
-                </div>
+    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
+        <div class="container">
+            <div class="splash-area">
+                <h2 style="font-size: 60px;">Study in Your</h2>
+                <h2
+                    style="
+    font-size: 60px;
+    background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  ">
+                    Dream Country</h2>
             </div>
-            <!-- <div class="grid row align-items-center"></div> -->
         </div>
-    </div>
-</section>
-<script src="https://unpkg.com/isotope-layout@3.0.6/dist/isotope.pkgd.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var iso = new Isotope('.grid', {
-            itemSelector: '.col-lg-4',
-            layoutMode: 'fitRows'
-        });
+    </section>
 
-        var filterButtons = document.querySelectorAll('.filter-btn');
-        filterButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                var filterValue = this.getAttribute('data-filter');
-                iso.arrange({
-                    filter: filterValue
-                });
-                filterButtons.forEach(function(btn) {
-                    btn.classList.remove('is-checked');
-                });
-                this.classList.add('is-checked');
-            });
-        });
-    });
-</script>
+    <section class="gap no-bottom" style="background: #f9f9ff; padding: 80px 0;">
+        <div class="container">
+            <!-- Heading -->
+            <div class="heading text-center mb-5">
+                <h6>Study Abroad</h6>
+                <h2>Explore Countries and Programs That Match Your Goals</h2>
+                <img src="{{ asset('frontend/assets/img/headingline.png') }}" alt="line" style="margin-top:15px;">
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
+                @foreach ($studyabroads as $studyabroad)
+                    <div class="col">
+                        <div class="card h-100 border-0 shadow-sm position-relative overflow-hidden rounded-4"
+                            style="cursor:pointer; transition:all .4s ease; border-radius: 20px;"
+                            onmouseover="this.style.transform='translateY(-8px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(0,0,0,0.15)';"
+                            onmouseout="this.style.transform=''; this.style.boxShadow='';">
+
+                            <a href="{{ route('study-abroad.details', $studyabroad->slug) }}"
+                                class="d-block h-100 text-decoration-none text-dark">
+
+                                <!-- Image -->
+                                <div class="ratio ratio-4x3 position-relative">
+                                    <img class="card-img-top object-fit-cover" alt="{{ $studyabroad->title }}"
+                                        src="{{ $studyabroad->image_path }}"
+                                        style="object-fit:cover; width:100%; height:100%; transition: transform 0.5s ease;">
+                                    <div class="overlay position-absolute top-0 start-0 w-100 h-100"
+                                        style="background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.4) 100%);
+                                    opacity:0; transition: opacity 0.5s ease;">
+                                    </div>
+                                </div>
+
+                                <!-- Card Body -->
+                                <div class="card-body text-center p-4">
+                                    <h3 class="card-title h5 mb-2" style="font-weight:700; color:#333;">
+                                        {{ $studyabroad->title }}
+                                    </h3>
+                                    <p class="card-text small mb-3" style="color:#666; line-height:1.6;">
+                                        {!! $studyabroad->short_description !!}
+                                    </p>
+                                    <span class="themebtu" style="justify-content:left;">
+                                        Learn More <i class="fa fa-arrow-right"></i>
+                                    </span>
+                                </div>
+                            </a>
+
+                            <!-- Progress Bar -->
+                            <div class="progress-hover"></div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <style>
+            /* Progress bar animation */
+            .card .progress-hover {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                height: 5px;
+                width: 0%;
+                background: linear-gradient(90deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+                transition: width 0.6s ease-in-out;
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+            }
+
+            .card:hover .progress-hover {
+                width: 100%;
+            }
+
+            /* Image zoom and overlay */
+            .card:hover img {
+                transform: scale(1.08);
+            }
+
+            .card:hover .overlay {
+                opacity: 1;
+            }
+
+            /* Card text adjustments */
+            .card-body h3 {
+                font-size: 1.2rem;
+            }
+
+            .card-body p {
+                font-size: 0.9rem;
+            }
+        </style>
+    </section>
 @endsection

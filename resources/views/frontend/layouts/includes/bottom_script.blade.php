@@ -3,6 +3,7 @@
 <script src="{{ asset('frontend/assets/js/jquery.fancybox.min.js') }}"></script>
 <script src="{{ asset('frontend/assets/js/swiper.js') }}"></script>
 <script src="{{ asset('frontend/assets/js/custom.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if (Session::has('success') || Session::has('error'))

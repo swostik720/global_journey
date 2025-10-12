@@ -52,5 +52,42 @@
         <div class="card-content mt-2">
             <b class="d-block text-uppercase text-14">message</b><span>{{ $contact->contact_message }}</span>
         </div>
+
+        @if($contact->branch->name)
+        <div class="col-md-3">
+            <div class="card-content mt-2">
+                <b class="d-block text-uppercase text-14">Branch</b><span>{{ $contact->branch->name }}</span>
+            </div>
+        </div>
+        @endif
+        
+        @if($contact->address)
+        <div class="col-md-3">
+            <div class="card-content mt-2">
+                <b class="d-block text-uppercase text-14">Address</b><span>{{ $contact->address }}</span>
+            </div>
+        </div>
+        @endif
+        @if($contact->interested_country)
+        <div class="col-md-3">
+            <div class="card-content mt-2">
+                <b class="d-block text-uppercase text-14">Interested Country</b><span>{{ $contact->interested_country }}</span>
+            </div>
+        </div>
+        @endif
+        @if($contact->last_qualification)
+        <div class="col-md-3">
+            <div class="card-content mt-2">
+                <b class="d-block text-uppercase text-14">Last Qualification</b><span>{{ $contact->last_qualification }} GPA/%</span>
+            </div>
+        </div>
+        @endif
+        @if($contact->test_preparation)
+        <div class="col-md-3">
+            <div class="card-content mt-2">
+                <b class="d-block text-uppercase text-14">Test Peparation</b><span>{{ $contact->test_preparation }}</span>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
