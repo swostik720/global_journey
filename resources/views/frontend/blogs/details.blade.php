@@ -10,17 +10,44 @@
                     $secondPart = $parts[2] ?? '';
                 @endphp
 
-                <h2 style="font-size: 60px;">{{ $firstPart }}</h2>
+                <h2 class="splash-title">{{ $firstPart }}</h2>
                 @if ($secondPart)
-                    <h2 style="
-    font-size: 60px;
-    background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  ">{{ $secondPart }}</h2>
+                    <h2 class="splash-title gradient-text">{{ $secondPart }}</h2>
                 @endif
             </div>
         </div>
+
+        <style>
+            /* Keep font size fixed at 70px */
+            .splash-title {
+                font-size: 70px;
+                line-height: 1.1;
+                margin: 0;
+                padding-left: 50px;
+                /* white-space: nowrap; */
+                /* prevent wrapping */
+            }
+
+            .gradient-text {
+                background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            /* Responsive container padding to avoid cutting text */
+            .splash-area-section .container {
+                max-width: 100%;
+                padding: 0 15px;
+            }
+
+            /* Optional: scale text slightly on very small screens */
+            @media (max-width: 400px) {
+                .splash-title {
+                    font-size: 60px;
+                    padding-left: 10px;
+                }
+            }
+        </style>
     </section>
 
     <!-- Blog Content -->
@@ -195,10 +222,10 @@
 
         /* Blog Content Styles */
         /* .blog-content {
-                    font-size: 1.1rem;
-                    line-height: 1.8;
-                    color: #444;
-                } */
+                                font-size: 1.1rem;
+                                line-height: 1.8;
+                                color: #444;
+                            } */
 
         .content-wrapper p {
             margin-bottom: 1.5rem;

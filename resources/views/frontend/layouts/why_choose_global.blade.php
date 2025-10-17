@@ -24,7 +24,7 @@
                             <img alt="student" class="student-img" src="{{ $testimonial->image_path ?? '' }}">
 
                             <!-- Testimonial Text -->
-                            <p style="font-size: 20px; line-height: 1.5; margin-bottom: 20px; margin-top: 50px;">
+                            <p style="font-size: 15px; line-height: 1.5; margin-bottom: 20px; margin-top: 50px;">
                                 “{!! $testimonial->description ?? '' !!}”
                             </p>
 

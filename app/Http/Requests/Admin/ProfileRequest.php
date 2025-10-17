@@ -14,7 +14,7 @@ class ProfileRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:png,jpg,jpeg,svg|max:2048',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg,svg|max:5120',
             'current_password' => 'nullable|string|required_with:new_password|min:8',
             'new_password' => 'nullable|string|min:8',
             'confirm_password' => 'nullable|string|required_with:new_password|same:new_password',

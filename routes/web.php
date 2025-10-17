@@ -88,3 +88,7 @@ Route::get('/test-mail', function () {
 
     return 'Email sent!';
 });
+
+Route::get('/test', function () {
+    return phpinfo();
+});

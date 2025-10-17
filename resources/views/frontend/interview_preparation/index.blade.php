@@ -2,18 +2,45 @@
 
 @section('maincontent')
     <!-- Hero Section -->
-    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }});">
+    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
         <div class="container">
             <div class="splash-area">
-                <h2 style="font-size: 70px;">Interview</h2>
-                <h2 style="
-    font-size: 70px;
-    background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  ">Preparation</h2>
+                <h2 class="splash-title">Interview</h2>
+                <h2 class="splash-title gradient-text">Preperation</h2>
             </div>
         </div>
+
+        <style>
+            /* Keep font size fixed at 70px */
+            .splash-title {
+                font-size: 70px;
+                padding-left: 50px;
+                line-height: 1.1;
+                margin: 0;
+                /* white-space: nowrap; */
+                /* prevent wrapping */
+            }
+
+            .gradient-text {
+                background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            /* Responsive container padding to avoid cutting text */
+            .splash-area-section .container {
+                max-width: 100%;
+                padding: 0 15px;
+            }
+
+            /* Optional: slightly scale text on very small screens */
+            @media (max-width: 400px) {
+                .splash-title {
+                    font-size: 70px;
+                    padding-left: 10px;
+                }
+            }
+        </style>
     </section>
 
     <!-- Interview Preparation Grid -->
@@ -207,8 +234,7 @@
             min-height: 150px;
             background: linear-gradient(135deg,
                     rgba(200, 200, 200, 0.15),
-                    rgba(150, 150, 150, 0.05)
-                );
+                    rgba(150, 150, 150, 0.05));
         }
 
         .tip-card:hover {

@@ -22,7 +22,8 @@ class GalleryRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'gallery_category_id' => 'required|exists:gallery_categories,id',
-            'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
+            'images' => 'required|array|max:100',       // max 100 images
+            'images.*' => 'image|mimes:jpg,jpeg,png|max:5120', // max 5 MB per image
         ];
     }
 

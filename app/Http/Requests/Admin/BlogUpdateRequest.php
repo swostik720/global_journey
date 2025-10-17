@@ -14,7 +14,7 @@ class BlogUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'nullable|mimes:png,jpg,jpeg,svg,webp,gif|max:2048',
+            'image' => 'nullable|mimes:png,jpg,jpeg,svg,webp,gif|max:5120',
             'user_id' => 'nullable',
             'category_id' => 'required|numeric|exists:categories,id',
             'title' => 'required',

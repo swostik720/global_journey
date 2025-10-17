@@ -1,29 +1,54 @@
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
     {{-- Splash area --}}
-    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
-        <div class="container">
-            <div class="splash-area">
-                @php
-                    $parts = explode(' ', $study->title ?? '', 3); // split into max 3 parts
-                    $firstPart = isset($parts[0], $parts[1]) ? $parts[0] . ' ' . $parts[1] : $parts[0] ?? '';
-                    $secondPart = $parts[2] ?? '';
-                @endphp
+    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }});">
+    <div class="container">
+        <div class="splash-area">
+            @php
+                $parts = explode(' ', $study->title ?? '', 3); // split into max 3 parts
+                $firstPart = isset($parts[0], $parts[1]) ? $parts[0] . ' ' . $parts[1] : $parts[0] ?? '';
+                $secondPart = $parts[2] ?? '';
+            @endphp
 
-                <h2 style="font-size: 70px;">{{ $firstPart }}</h2>
-                @if ($secondPart)
-                    <h2
-                        style="
-    font-size: 70px;
-    background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  ">
-                        {{ $secondPart }}</h2>
-                @endif
-            </div>
+            <h2 class="splash-title">{{ $firstPart }}</h2>
+            @if ($secondPart)
+                <h2 class="splash-title gradient-text">{{ $secondPart }}</h2>
+            @endif
         </div>
-    </section>
+    </div>
+
+    <style>
+        /* Fixed font size for large screens */
+        .splash-title {
+            font-size: 70px;
+            line-height: 1.1;
+            margin: 0;
+            padding-left: 50px;
+            white-space: nowrap; /* prevent wrapping */
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Container padding and max-width */
+        .splash-area-section .container {
+            max-width: 100%;
+            padding: 0 15px;
+        }
+
+        /* Optional scaling for small screens */
+        @media (max-width: 400px) {
+            .splash-title {
+                font-size: 70px;
+                padding-left: 10px;
+            }
+        }
+    </style>
+</section>
+
 
     {{-- Content Section --}}
     <section class="py-5 bg-light">
@@ -180,6 +205,30 @@
         </div>
 
         <style>
+            /* --- FIX START --- */
+            .swiper-button-next,
+            .swiper-button-prev {
+                transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+                will-change: transform;
+                z-index: 20;
+            }
+
+            .studyAbroadSwiper {
+                position: relative;
+                z-index: 1;
+            }
+
+            .studyAbroadSwiper .swiper-slide {
+                pointer-events: auto;
+            }
+
+            .swiper-button-next:hover,
+            .swiper-button-prev:hover {
+                transform: translateY(-50%) scale(1.1);
+            }
+
+            /* --- FIX END --- */
+
             /* Feature Card */
             .feature-card {
                 border-radius: 15px;
@@ -223,7 +272,6 @@
                 justify-content: center;
                 position: absolute;
                 top: 50%;
-                z-index: 10;
                 transform: translateY(-50%);
                 box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
                 transition: all 0.3s ease;
@@ -233,7 +281,6 @@
             .swiper-button-prev:hover {
                 background: linear-gradient(45deg, #667eea, #764ba2);
                 color: #fff !important;
-                transform: scale(1.1);
                 box-shadow: 0 0 15px rgba(118, 75, 162, 0.4);
             }
 
@@ -260,6 +307,64 @@
             .feature-card:hover .icon {
                 transform: scale(1.2) rotate(5deg);
             }
+
+            /* Responsive adjustments */
+            @media (max-width: 992px) {
+                section.review-section {
+                    padding: 60px 0;
+                }
+
+                .feature-card {
+                    padding: 25px 20px !important;
+                }
+
+                .feature-card h4 {
+                    font-size: 1.1rem;
+                }
+
+                .feature-card p {
+                    font-size: 0.95rem;
+                }
+            }
+
+            @media (max-width: 576px) {
+                .heading h2 {
+                    font-size: 1.6rem;
+                }
+
+                .heading h6 {
+                    font-size: 0.9rem;
+                }
+
+                .feature-card {
+                    padding: 20px !important;
+                }
+
+                .feature-card .icon {
+                    font-size: 2rem;
+                }
+
+                .swiper-button-next,
+                .swiper-button-prev {
+                    width: 40px;
+                    height: 40px;
+                    font-size: 0.9rem;
+                }
+
+                .swiper-button-next i,
+                .swiper-button-prev i {
+                    font-size: 14px;
+                }
+
+                .swiper-pagination-bullet {
+                    width: 10px;
+                    height: 10px;
+                }
+
+                .swiper-pagination-bullet-active {
+                    width: 25px;
+                }
+            }
         </style>
     </section>
 
@@ -282,15 +387,22 @@
                         delay: 3000,
                         disableOnInteraction: false
                     },
+                    allowTouchMove: true, // ✅ added fix
                     breakpoints: {
-                        576: {
+                        0: {
                             slidesPerView: 1
                         },
                         768: {
-                            slidesPerView: 2
+                            slidesPerView: 2,
+                            spaceBetween: 25
                         },
-                        1200: {
-                            slidesPerView: 3
+                        992: {
+                            slidesPerView: 3,
+                            spaceBetween: 30
+                        },
+                        1400: {
+                            slidesPerView: 4,
+                            spaceBetween: 35
                         }
                     }
                 });

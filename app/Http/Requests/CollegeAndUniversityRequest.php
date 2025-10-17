@@ -15,7 +15,7 @@ class CollegeAndUniversityRequest extends FormRequest
     {
         return [
             'country_id' => 'required|exists:countries,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
             'name' => 'required|string',
             'description' => 'nullable|string',
             'link' => 'nullable|url',

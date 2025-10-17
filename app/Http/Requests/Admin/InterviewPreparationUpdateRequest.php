@@ -17,7 +17,7 @@ class InterviewPreparationUpdateRequest extends FormRequest
             'title' => 'required|string|max:255',
             'slug' => 'nullable',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:5120',
             'status' => 'boolean',
             'visa_conditions' => 'nullable|array',
             'visa_conditions.*' => 'nullable|string|max:255',

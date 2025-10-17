@@ -3,21 +3,44 @@
     <!-- Hero Section -->
 
     <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
-        <div class="container">
-            <div class="splash-area">
-                <h2 style="font-size: 70px;">Get in Touch</h2>
-                <h2
-                    style="
-    font-size: 70px;
-    background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  ">
-                    With Us</h2>
-            </div>
+    <div class="container">
+        <div class="splash-area">
+            <h2 class="splash-title">Get in Touch</h2>
+            <h2 class="splash-title gradient-text">With Us</h2>
         </div>
-        </div>
-    </section>
+    </div>
+
+    <style>
+        /* Keep font size fixed at 70px */
+        .splash-title {
+            font-size: 70px;
+            line-height: 1.1;
+            margin: 0;
+            padding-left: 50px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Responsive container padding to avoid cutting text */
+        .splash-area-section .container {
+            max-width: 100%;
+            padding: 0 15px;
+        }
+
+        /* Optional: scale text slightly on very small screens */
+        @media (max-width: 400px) {
+            .splash-title {
+                font-size: 70px;
+                padding-left: 10px;
+            }
+        }
+    </style>
+</section>
+
 
     <!-- Contact Section -->
     <section class="contact-page gap" id="contact-form">

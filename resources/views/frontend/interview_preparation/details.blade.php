@@ -12,17 +12,45 @@
                     $secondPart = $parts[2] ?? '';
                 @endphp
 
-                <h2 style="font-size: 60px;">{{ $firstPart }}</h2>
+                <h2 class="splash-title">{{ $firstPart }}</h2>
                 @if ($secondPart)
-                    <h2 style="
-    font-size: 60px;
-    background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  ">{{ $secondPart }}</h2>
+                    <h2 class="splash-title gradient-text">{{ $secondPart }}</h2>
                 @endif
             </div>
         </div>
+
+        <style>
+            /* Fixed font size on large screens */
+            .splash-title {
+                font-size: 70px;
+                line-height: 1.1;
+                margin: 0;
+                padding-left: 50px;
+                white-space: wrap;
+                /* prevent wrapping */
+            }
+
+            .gradient-text {
+                background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+            /* Responsive container */
+            .splash-area-section .container {
+                max-width: 100%;
+                /* horizontal scroll if needed */
+                padding: 0 15px;
+            }
+
+            /* Scale down for very small screens */
+            @media (max-width: 400px) {
+                .splash-title {
+                    font-size: 60px;
+                    padding-left: 10px;
+                }
+            }
+        </style>
     </section>
 
     <section>

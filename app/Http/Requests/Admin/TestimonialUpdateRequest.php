@@ -14,7 +14,7 @@ class TestimonialUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'nullable|mimes:png,jpg,jpeg,svg,webp,gif|max:2048',
+            'image' => 'nullable|mimes:png,jpg,jpeg,svg,webp,gifmax:5120',
             'name' => 'required',
             'address' => 'nullable|string',
             'rating' => 'nullable|integer',

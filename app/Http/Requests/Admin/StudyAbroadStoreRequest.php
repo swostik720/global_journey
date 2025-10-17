@@ -14,7 +14,7 @@ class StudyAbroadStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'nullable|mimes:png,jpg,jpeg,svg,webp,gif|max:2048',
+            'image' => 'nullable|mimes:png,jpg,jpeg,svg,webp,gif|max:5120',
             'title' => 'required',
             'slug' => 'nullable',
             'short_description' => 'nullable',
