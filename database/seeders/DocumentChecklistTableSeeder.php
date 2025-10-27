@@ -11,7 +11,11 @@ class DocumentChecklistTableSeeder extends Seeder
     public function run(): void
     {
         $countries = [
-            'Australia', 'Newzerland', 'United State', 'UK', 'Canada'
+            'Australia',
+            'Newzerland',
+            'United State',
+            'UK',
+            'Canada'
         ];
 
         $countryIds = Country::whereIn('name', $countries)->pluck('id', 'name');
@@ -19,49 +23,78 @@ class DocumentChecklistTableSeeder extends Seeder
         // Updated array with name + description structure
         $documents = [
             [
-                'name' => 'Offer/Acceptance Letter',
-                'description' => 'Formal proof of admission from the educational institution.'
+                'name' => 'If Salary',
+                'description' => "
+- Appointment Letter (Niyukti Patra)
+- Salary Certificate
+- Bank Statement (Last 1 Year)
+- Tax Clearance (Last 3 Years if possible)
+- Personal PAN Card
+"
             ],
             [
-                'name' => 'Academic Records',
-                'description' => 'Includes transcripts, certificates, and degrees.'
+                'name' => 'If Business',
+                'description' => "
+- PAN Card
+- Business Registration
+- Business Bank Statement (Last 1 Year)
+- Tax Clearance (Last 3 Years if possible)
+"
             ],
             [
-                'name' => 'Passport',
-                'description' => 'Must be valid for minimum 6 months from travel date.'
+                'name' => 'If Vehicle',
+                'description' => "
+- Blue Book Photocopy
+- Certificate from Organization (Agreement)
+- Vehicle Insurance
+- Tax Clearance (Last 3 Years)
+- Bank Statement (Last 1 Year)
+"
             ],
             [
-                'name' => 'English Test',
-                'description' => 'IELTS, TOEFL, PTE or equivalent language proficiency score.'
+                'name' => 'If Pension',
+                'description' => "
+- Pension Patta
+- Pension Statement (Last 1 Year)
+"
             ],
             [
-                'name' => 'Statement of Purpose / SOP',
-                'description' => 'Explains academic goals and why you chose this country.'
+                'name' => 'If Agriculture',
+                'description' => "
+- Tax-Free Certificate from Ward Office
+- Certificate from Organization/Firm
+- Bill Receipts (If Available)
+- Land Ownership Certificate
+- Land Tax Receipt (Last 3 Years)
+- Bank Statement (Last 1 Year)
+"
             ],
             [
-                'name' => 'Work Experience / Training',
-                'description' => 'If applicable, includes certificates, experience letters.'
+                'name' => 'If Foreign Income',
+                'description' => "
+- Passport
+- Employment Contract Paper
+- Visa Copy
+- Salary Certificate
+- Pay Slips
+- Bank Statement (Last 1 Year)
+- Remittance Receipts (If Available)
+- Affidavit
+"
             ],
             [
-                'name' => 'Financial Documents',
-                'description' => 'Proof of funds like bank statements and sponsor letters.'
+                'name' => 'If House Rent / Land Lease',
+                'description' => "
+- Agreement Papers
+- Citizenship of Tenant
+- Rent or Land Lease Tax from Ward
+- Land Ownership Certificate
+- Land Tax Receipt (Last 3 Years)
+- House Completion Certificate (if applicable)
+- Bank Statement (Last 1 Year)
+"
             ],
-            [
-                'name' => 'Visa Fee / Government Proof',
-                'description' => 'Proof of visa application fee payment.'
-            ],
-            [
-                'name' => 'Health / Medical',
-                'description' => 'Mandatory medical and health insurance requirements.'
-            ],
-            [
-                'name' => 'Biometrics / Interview',
-                'description' => 'May require in-person interview or fingerprint scanning.'
-            ],
-            [
-                'name' => 'Travel Documents',
-                'description' => 'Flight booking details, itinerary, etc.'
-            ]
+
         ];
 
         foreach ($countryIds as $countryName => $countryId) {

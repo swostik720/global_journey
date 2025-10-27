@@ -9,8 +9,8 @@
                         <li>
                             <strong>{{ $doc['name'] }}</strong>
                             @if(!empty($doc['description']))
+                                <small class="text-muted">{!! nl2br(e($doc['description'])) !!}</small>
                                 <br>
-                                <small class="text-muted">{{ $doc['description'] }}</small>
                             @endif
                         </li>
                     @else
