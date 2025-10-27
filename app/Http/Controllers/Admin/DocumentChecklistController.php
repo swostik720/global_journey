@@ -24,16 +24,28 @@ class DocumentChecklistController extends Controller
         return view('admin.document_checklist.create', compact('countries', 'types'));
     }
 
+    // public function store(DocumentChecklistRequest $request)
+    // {
+    //     $data = $request->validated();
+    //     if (isset($data['documents']) && is_string($data['documents'])) {
+    //         $docs = preg_split('/\r\n|\r|\n/', $data['documents']);
+    //         $data['documents'] = array_filter(array_map('trim', $docs));
+    //     }
+    //     DocumentChecklist::create($data);
+    //     return redirect()->route('admin.document_checklist.index')->with('success', 'Document checklist created.');
+    // }
+
     public function store(DocumentChecklistRequest $request)
     {
         $data = $request->validated();
-        if (isset($data['documents']) && is_string($data['documents'])) {
-            $docs = preg_split('/\r\n|\r|\n/', $data['documents']);
-            $data['documents'] = array_filter(array_map('trim', $docs));
-        }
+        $data['documents'] = json_decode($data['documents'], true); // ✅ convert JSON string into array
+
         DocumentChecklist::create($data);
-        return redirect()->route('admin.document_checklist.index')->with('success', 'Document checklist created.');
+
+        return redirect()->route('admin.document_checklist.index')
+            ->with('success', 'Document checklist created.');
     }
+
 
     public function edit($id)
     {
@@ -44,25 +56,36 @@ class DocumentChecklistController extends Controller
         return view('admin.document_checklist.edit', compact('item', 'countries', 'types'));
     }
 
+    // public function update(DocumentChecklistRequest $request, $id)
+    // {
+    //     $item = DocumentChecklist::findOrFail($id);
+    //     $data = $request->validated();
+
+    //     // Convert textarea string into array
+    //     if (!empty($data['documents']) && is_string($data['documents'])) {
+    //         $data['documents'] = array_values(array_filter(
+    //             array_map('trim', preg_split("/\r\n|\r|\n/", $data['documents']))
+    //         ));
+    //     }
+
+    //     $item->update($data);
+
+    //     return redirect()
+    //         ->route('admin.document_checklist.index')
+    //         ->with('success', 'Document checklist updated successfully.');
+    // }
+
     public function update(DocumentChecklistRequest $request, $id)
     {
         $item = DocumentChecklist::findOrFail($id);
         $data = $request->validated();
-
-        // Convert textarea string into array
-        if (!empty($data['documents']) && is_string($data['documents'])) {
-            $data['documents'] = array_values(array_filter(
-                array_map('trim', preg_split("/\r\n|\r|\n/", $data['documents']))
-            ));
-        }
+        $data['documents'] = json_decode($data['documents'], true);
 
         $item->update($data);
 
-        return redirect()
-            ->route('admin.document_checklist.index')
+        return redirect()->route('admin.document_checklist.index')
             ->with('success', 'Document checklist updated successfully.');
     }
-
 
     public function show($id)
     {

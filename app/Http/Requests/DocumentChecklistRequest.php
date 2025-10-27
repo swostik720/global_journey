@@ -17,7 +17,8 @@ class DocumentChecklistRequest extends FormRequest
     {
         return [
             'country_id' => ['required', 'exists:countries,id'],
-            'documents' => ['required', 'string'],
+            // 'documents' => ['required', 'string'],
+            'documents' => ['required', 'json'], // ✅ VALID JSON
         ];
     }
 }

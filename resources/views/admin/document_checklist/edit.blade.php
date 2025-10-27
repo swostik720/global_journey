@@ -18,11 +18,13 @@
                             </select>
                         </div>
                         <div class="mb-3 col-6">
-                            <x-form.textarea label="Documents (one per line)" id="documents" name="documents"
+                            {{-- <x-form.textarea label="Documents (one per line)" id="documents" name="documents"
                                 :value="old(
                                     'documents',
                                     is_array($item->documents) ? implode(chr(10), $item->documents) : '',
-                                )" rows="8" />
+                                )" rows="8" /> --}}
+                            <x-form.textarea label="Documents JSON (one JSON object per line)" id="documents"
+                                name="documents" :value="old('documents', json_encode($item->documents, JSON_PRETTY_PRINT) ?? '')" rows="10" />
 
                         </div>
                     </x-form.row>

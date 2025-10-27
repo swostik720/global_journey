@@ -5,7 +5,17 @@
             <h6>Documents:</h6>
             <ul>
                 @foreach($item->documents as $doc)
-                    <li>{{ $doc }}</li>
+                    @if(is_array($doc))
+                        <li>
+                            <strong>{{ $doc['name'] }}</strong>
+                            @if(!empty($doc['description']))
+                                <br>
+                                <small class="text-muted">{{ $doc['description'] }}</small>
+                            @endif
+                        </li>
+                    @else
+                        <li>{{ $doc }}</li> {{-- fallback for old plain string entries --}}
+                    @endif
                 @endforeach
             </ul>
         </div>
