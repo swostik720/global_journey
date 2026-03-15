@@ -27,6 +27,17 @@
             <p>
                 {!! $blog->description ?? '' !!}
             </p>
+            @if (!empty($blog->faqs))
+                <div class="faq-section mt-4">
+                    <h3>FAQs</h3>
+                    @foreach ($blog->faqs as $faq)
+                        <div class="faq-item mb-3">
+                            <h5 class="faq-question">{{ $faq['question'] ?? '' }}</h5>
+                            <p class="faq-answer">{{ $faq['answer'] ?? '' }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         </article>
     </div>
 </div>

@@ -296,7 +296,7 @@ class AllController extends Controller
     public function blogIndex()
     {
         $blogs = Blog::active()
-            ->select(['image', 'title', 'slug', 'user_id', 'blog_date', 'short_description', 'category_id'])
+            ->select(['image', 'title', 'slug', 'user_id', 'blog_date', 'short_description', 'category_id', 'faqs'])
             ->latest()
             ->paginate(3);
         return view('frontend.blogs.index', compact('blogs'));

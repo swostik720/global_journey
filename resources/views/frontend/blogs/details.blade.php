@@ -1,3 +1,49 @@
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "BlogPosting",
+ "headline": "{{ $blog->title }}",
+ "image": "{{ $blog->image_path }}",
+ "url": "{{ route('blog.details', $blog->slug) }}",
+ "description": "{{ strip_tags($blog->short_description) }}",
+ "author": {
+   "@type": "Person",
+   "name": "{{ $blog->user->name ?? 'Admin' }}"
+ },
+ "publisher": {
+   "@type": "Organization",
+   "name": "{{ config('app.name') }}",
+   "logo": {
+     "@type": "ImageObject",
+     "url": "{{ asset('frontend/assets/img/logo.png') }}"
+   }
+ },
+ "datePublished": "{{ \Carbon\Carbon::parse($blog->blog_date)->toIso8601String() }}",
+ "dateModified": "{{ $blog->updated_at->toIso8601String() }}"
+}
+</script>
+
+@if (!empty($blog->faqs))
+    <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ @foreach($blog->faqs as $faq)
+ {
+   "@type": "Question",
+   "name": "{{ $faq['question'] }}",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "{{ $faq['answer'] }}"
+   }
+ }@if(!$loop->last),@endif
+ @endforeach
+ ]
+}
+</script>
+@endif
+
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
     <!-- Hero Section -->
@@ -99,6 +145,34 @@
                                 {!! $blog->description ?? '' !!}
                             </div>
                         </div>
+
+                        @if (!empty($blog->faqs))
+                            <section class="faq-section py-4 px-3 mt-5 rounded-4"
+                                style="background: rgba(220,220,220,0.15);">
+                                <h4 class="fw-bold mb-4 text-dark">Frequently Asked Questions</h4>
+                                <div class="accordion" id="blogFaqAccordion">
+                                    @foreach ($blog->faqs as $index => $faq)
+                                        <div class="accordion-item gradient-accordion">
+                                            <h2 class="accordion-header" id="blogFaqHeading{{ $index }}">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#blogFaqCollapse{{ $index }}" aria-expanded="false"
+                                                    aria-controls="blogFaqCollapse{{ $index }}">
+                                                    Q. {{ $faq['question'] ?? '' }}
+                                                </button>
+                                            </h2>
+                                            <div id="blogFaqCollapse{{ $index }}" class="accordion-collapse collapse"
+                                                aria-labelledby="blogFaqHeading{{ $index }}"
+                                                data-bs-parent="#blogFaqAccordion">
+                                                <div class="accordion-body">
+                                                    A. {!! $faq['answer'] ?? 'No answer available.' !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </section>
+                        @endif
 
                         <!-- Navigation -->
                         <div class="blog-navigation d-flex justify-content-between align-items-center mt-5 pt-4 border-top">
@@ -222,10 +296,10 @@
 
         /* Blog Content Styles */
         /* .blog-content {
-                                font-size: 1.1rem;
-                                line-height: 1.8;
-                                color: #444;
-                            } */
+                                    font-size: 1.1rem;
+                                    line-height: 1.8;
+                                    color: #444;
+                                } */
 
         .content-wrapper p {
             margin-bottom: 1.5rem;
@@ -391,6 +465,46 @@
             background: #f8f9fa;
             font-weight: 600;
             color: #495057;
+        }
+
+        /* FAQ Accordion Styles (Interview Preparation style) */
+        .gradient-accordion {
+            border-radius: 10px;
+            margin-bottom: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+        }
+
+        .gradient-accordion:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            border-image-slice: 1;
+            border-width: 2px;
+            border-image-source: linear-gradient(90deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+            border-style: solid;
+        }
+
+        .accordion-button {
+            font-weight: 600;
+            color: #0d6efd;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background: rgba(13, 110, 253, 0.1);
+            color: #0b5ed7;
+        }
+
+        .accordion-body {
+            background: rgba(240, 240, 240, 0.5);
+            padding: 15px;
+            border-radius: 0 0 8px 8px;
+            color: #333;
         }
     </style>
 @endsection

@@ -44,6 +44,22 @@
                             class="form-check-input" isEditMode="yes" :isChecked="$blog->status ? 'checked' : ''" />
                     </div>
 
+                    <hr>
+                    <h5 class="mt-4">FAQ Section</h5>
+
+                    <div id="faq-wrapper">
+                        @foreach ($blog->faqs ?? [] as $index => $faq)
+                            <div class="faq-item mb-3">
+                                <input type="text" name="faqs[{{ $index }}][question]"
+                                    value="{{ $faq['question'] ?? '' }}" class="form-control mb-2" placeholder="Question">
+
+                                <textarea name="faqs[{{ $index }}][answer]" class="form-control" placeholder="Answer">{{ $faq['answer'] ?? '' }}</textarea>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <button type="button" class="btn btn-sm btn-secondary my-2" onclick="addFaq()">Add FAQ</button>
+
                     <x-form.button class="btn btn-sm btn-dark" type="submit"><i class='bx bx-save bx-xs'></i>
                         Save</x-form.button>
                 </x-form.wrapper>
@@ -56,4 +72,21 @@
     @include('_helpers.new_image_preview')
     @include('_helpers.slugify', ['name' => 'title'])
     @include('_helpers.summernote_editor')
+    
+    <script>
+    let faqIndex = 1;
+
+    function addFaq(){
+        let html = `
+        <div class="faq-item mb-3">
+            <input type="text" name="faqs[${faqIndex}][question]" class="form-control mb-2" placeholder="Question">
+            <textarea name="faqs[${faqIndex}][answer]" class="form-control" placeholder="Answer"></textarea>
+        </div>`;
+
+        document.getElementById('faq-wrapper').insertAdjacentHTML('beforeend', html);
+        faqIndex++;
+    }
+    </script>
+
 @endpush
+
