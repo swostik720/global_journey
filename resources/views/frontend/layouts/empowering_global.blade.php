@@ -1,9 +1,9 @@
-<section class="gap no-bottom">
+<section data-aos="fade-up" class="gap no-bottom">
     <div class="container">
         <div class="row">
             <div>
                 <!-- Heading -->
-                <div class="heading design-enjoy">
+                <div data-aos="fade-up" data-aos-delay="100" class="heading design-enjoy">
                     <h6 class="text-primary">Empowering Your Global Journey</h6>
                     <h2 class="fw-bold">
                         Expert Guidance for <br> Your Study Abroad Success
@@ -12,7 +12,7 @@
                 </div>
 
                 <!-- Video -->
-                <div class="video-container fade-in-up" style="animation-delay: 0.2s;">
+                <div data-aos="zoom-in-up" data-aos-delay="180" class="video-container fade-in-up" style="animation-delay: 0.2s;">
                     <div class="video-frame">
                         <div class="video-glow"></div>
                         <video autoplay muted loop playsinline class="main-video">
@@ -27,8 +27,8 @@
 
 
                 <!-- Text -->
-                <div class="welcome-section text-center fade-in-up" style="animation-delay: 0.4s;">
-                    <p class="lead-text mb-5">
+                <div data-aos="fade-up" data-aos-delay="260" class="welcome-section text-center fade-in-up" style="animation-delay: 0.4s;">
+                    <p data-aos="fade-up" data-aos-delay="320" class="lead-text mb-5">
                         Global Journey Education Services is your trusted partner for comprehensive study abroad
                         consulting in Nepal. Located in the heart of Putalisadak, Kathmandu, our head office is
                         supported by branches across Nepal and a support office in Sydney, Australia.
@@ -36,21 +36,21 @@
 
                     <!-- Location Cards -->
                     <div class="location-cards mb-5">
-                        <div class="location-card">
+                        <div data-aos="zoom-in-up" data-aos-delay="140" class="location-card">
                             <div class="location-icon">
                                 <i class="fas fa-map-marker-alt"></i>
                             </div>
                             <h6>Head Office</h6>
                             <p>Putalisadak, Kathmandu</p>
                         </div>
-                        <div class="location-card">
+                        <div data-aos="zoom-in-up" data-aos-delay="220" class="location-card">
                             <div class="location-icon">
                                 <i class="fas fa-building"></i>
                             </div>
                             <h6>Multiple Branches</h6>
                             <p>Across Nepal</p>
                         </div>
-                        <div class="location-card">
+                        <div data-aos="zoom-in-up" data-aos-delay="300" class="location-card">
                             <div class="location-icon">
                                 <i class="fas fa-globe-asia"></i>
                             </div>
@@ -59,7 +59,7 @@
                         </div>
                     </div>
                     <!-- Button -->
-                    <a href="{{ route('about-us') }}" class="themebtu">
+                    <a data-aos="fade-up" data-aos-delay="380" href="{{ route('about-us') }}" class="themebtu">
                         Learn More
                     </a>
                 </div>

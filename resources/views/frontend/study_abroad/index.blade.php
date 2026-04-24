@@ -1,10 +1,9 @@
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
-    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
+    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
         <div class="container">
             <div class="splash-area">
-                <h2 class="splash-title">Study in Your</h2>
-                <h2 class="splash-title gradient-text">Dream Country</h2>
+                <h1 class="splash-title">Study in Your <span class="gradient-text">Dream Country</span></h1>
             </div>
         </div>
 
@@ -41,10 +40,10 @@
         </style>
     </section>
 
-    <section class="gap no-bottom" style="background: #f9f9ff; padding: 80px 0;">
+    <section data-aos="fade-up" class="gap no-bottom" style="background: #f9f9ff; padding: 80px 0;">
         <div class="container">
             <!-- Heading -->
-            <div class="heading text-center mb-5">
+            <div data-aos="fade-up" data-aos-delay="100" class="heading text-center mb-5">
                 <h6>Study Abroad</h6>
                 <h2>Explore Countries and Programs That Match Your Goals</h2>
                 <img src="{{ asset('frontend/assets/img/headingline.png') }}" alt="line" style="margin-top:15px;">
@@ -53,7 +52,7 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 justify-content-center">
                 @foreach ($studyabroads as $studyabroad)
                     <div class="col">
-                        <div class="card h-100 border-0 shadow-sm position-relative overflow-hidden rounded-4"
+                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card h-100 border-0 shadow-sm position-relative overflow-hidden rounded-4"
                             style="cursor:pointer; transition:all .4s ease; border-radius: 20px;"
                             onmouseover="this.style.transform='translateY(-8px) scale(1.02)'; this.style.boxShadow='0 12px 40px rgba(0,0,0,0.15)';"
                             onmouseout="this.style.transform=''; this.style.boxShadow='';">
@@ -73,7 +72,7 @@
                                 </div>
 
                                 <!-- Card Body -->
-                                <div class="card-body text-center p-4">
+                                <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body text-center p-4">
                                     <h3 class="card-title h5 mb-2" style="font-weight:700; color:#333;">
                                         {{ $studyabroad->title }}
                                     </h3>

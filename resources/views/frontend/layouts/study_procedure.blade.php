@@ -1,7 +1,7 @@
-<section class="how-it-works no-top">
+<section data-aos="fade-up" class="how-it-works no-top">
     <div class="container">
         <!-- Heading -->
-        <div class="heading mb-4">
+        <div data-aos="fade-up" data-aos-delay="100" class="heading mb-4">
             <h6>Visa Grant Stories</h6>
             <h2>Our Success Stories</h2>
             <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
@@ -10,7 +10,7 @@
         <!-- Video -->
         <div class="row justify-content-center">
             <div class="col-xl-10">
-                <div class="video-container fade-in-up" style="animation-delay: 0.2s;">
+                <div data-aos="zoom-in-up" data-aos-delay="180" class="video-container fade-in-up" style="animation-delay: 0.2s;">
                     <div class="video-frame">
                         <div class="video-glow"></div>
                         <video controls playsinline class="main-video">
@@ -28,8 +28,8 @@
         </div>
 
         <!-- Text -->
-        <div class="welcome-section text-center fade-in-up" style="animation-delay: 0.4s;">
-            <p class="lead-text mb-4">
+        <div data-aos="fade-up" data-aos-delay="260" class="welcome-section text-center fade-in-up" style="animation-delay: 0.4s;">
+            <p data-aos="fade-up" data-aos-delay="320" class="lead-text mb-4">
                 Global Journey Education Services has proudly assisted over
                 <strong>5000+ students</strong> in achieving their study abroad dreams with a remarkable
                 <strong>98% visa success rate</strong>.
@@ -38,7 +38,7 @@
             </p>
 
             <!-- Button -->
-            <a href="{{ route('about-us') }}" class="themebtu">
+            <a data-aos="fade-up" data-aos-delay="380" href="{{ route('about-us') }}" class="themebtu">
                 Learn More
             </a>
         </div>

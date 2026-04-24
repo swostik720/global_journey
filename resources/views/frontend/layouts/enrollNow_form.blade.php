@@ -1,4 +1,4 @@
-<form class="content-form enrollNow-form__form" action="{{ route('enrollNow.store') }}" method="POST">
+<form data-aos="fade-up" data-aos-delay="120" class="content-form enrollNow-form__form" action="{{ route('enrollNow.store') }}" method="POST">
     @csrf
     <div class="row g-2">
         <div class="col-lg-6">

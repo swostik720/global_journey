@@ -1,6 +1,6 @@
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
-    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
+    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
         <div class="container">
             <div class="splash-area">
                 <h2>Let Us Know What
@@ -9,9 +9,9 @@
             </div>
         </div>
     </section>
-    <section class="contact-page gap">
+    <section data-aos="fade-up" class="contact-page gap">
         <div class="container">
-            <div class="heading">
+            <div data-aos="fade-up" data-aos-delay="100" class="heading">
                 <h6>Start Your Project With Us.</h6>
                 <h2>Let's Talk</h2>
                 <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
@@ -71,12 +71,12 @@
         <iframe src="{{ $setting->map_url ?? '' }}" style="border:0;" allowfullscreen="" loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
-    <section class="offices gap" style="background-color:#f3f8fb;">
+    <section data-aos="fade-up" class="offices gap" style="background-color:#f3f8fb;">
         <div class="container">
             <div class="row">
                 @foreach ($branches as $branch)
                     <div class="col-xl-6">
-                        <div class="heading">
+                        <div data-aos="fade-up" data-aos-delay="100" class="heading">
                             <h2>{{ $branch->name ?? '' }}</h2>
                             <p>Email: {{ $branch->email ?? '' }} <br />
                                 Address: {{ $branch->contact_address ?? '' }} <br />

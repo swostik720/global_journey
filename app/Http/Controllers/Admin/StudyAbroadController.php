@@ -30,7 +30,10 @@ class StudyAbroadController extends Controller
 
     public function store(StudyAbroadStoreRequest $request): RedirectResponse
     {
-        $study_abroad = StudyAbroad::create($request->safe()->except('image'));
+        $data = $request->safe()->except('image');
+        $data['faqs'] = $this->normalizeFaqs($request->input('faqs', []));
+
+        $study_abroad = StudyAbroad::create($data);
         if ($request->hasFile('image')) {
             $study_abroad->storeImage('image', 'study-abroad-images', $request->file('image'));
         }
@@ -52,6 +55,8 @@ class StudyAbroadController extends Controller
     public function update(StudyAbroadUpdateRequest $request, StudyAbroad $study_abroad): RedirectResponse
     {
         $data = $request->safe()->except('image');
+        $data['faqs'] = $this->normalizeFaqs($request->input('faqs', []));
+
         if ($request->input('image_removed') == 'true') {
             $study_abroad->deleteImage('image', 'study-abroad-images');
             $data['image'] = null;
@@ -90,5 +95,21 @@ class StudyAbroadController extends Controller
         } else {
             return response()->json(['error' => 'No study abroad selected for deletion.'], 400);
         }
+    }
+
+    private function normalizeFaqs(array $faqs): array
+    {
+        return collect($faqs)
+            ->map(function ($faq) {
+                return [
+                    'question' => trim((string) ($faq['question'] ?? '')),
+                    'answer' => trim((string) ($faq['answer'] ?? '')),
+                ];
+            })
+            ->filter(function ($faq) {
+                return $faq['question'] !== '' || $faq['answer'] !== '';
+            })
+            ->values()
+            ->all();
     }
 }

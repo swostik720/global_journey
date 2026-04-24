@@ -35,6 +35,28 @@
                         <textarea name="description" id="description" class="form-control" placeholder=" description">{!! old('description') !!}</textarea>
                     </div>
 
+                    <hr>
+                    <h5 class="mt-4">FAQ Section</h5>
+
+                    @php
+                        $oldFaqs = old('faqs', [['question' => '', 'answer' => '']]);
+                    @endphp
+                    <div id="faq-wrapper">
+                        @foreach ($oldFaqs as $index => $faq)
+                            <div class="faq-item mb-3 border rounded p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <strong>FAQ {{ $index + 1 }}</strong>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeFaq(this)">Remove</button>
+                                </div>
+                                <input type="text" name="faqs[{{ $index }}][question]" class="form-control mb-2"
+                                    placeholder="Question" value="{{ $faq['question'] ?? '' }}">
+                                <textarea name="faqs[{{ $index }}][answer]" class="form-control" placeholder="Answer">{{ $faq['answer'] ?? '' }}</textarea>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <button type="button" class="btn btn-sm btn-secondary my-2" onclick="addFaq()">Add FAQ</button>
+
                     <x-form.button class="btn btn-sm btn-dark" type="submit"><i class='bx bx-save bx-xs'></i>
                         Save</x-form.button>
                 </x-form.wrapper>
@@ -49,4 +71,27 @@
     @include('_helpers.new_image_preview')
     @include('_helpers.slugify', ['name' => 'title'])
     @include('_helpers.summernote_editor')
+
+    <script>
+        let faqIndex = document.querySelectorAll('#faq-wrapper .faq-item').length;
+
+        function addFaq() {
+            const html = `
+                <div class="faq-item mb-3 border rounded p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong>FAQ ${faqIndex + 1}</strong>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeFaq(this)">Remove</button>
+                    </div>
+                    <input type="text" name="faqs[${faqIndex}][question]" class="form-control mb-2" placeholder="Question">
+                    <textarea name="faqs[${faqIndex}][answer]" class="form-control" placeholder="Answer"></textarea>
+                </div>`;
+
+            document.getElementById('faq-wrapper').insertAdjacentHTML('beforeend', html);
+            faqIndex++;
+        }
+
+        function removeFaq(button) {
+            button.closest('.faq-item').remove();
+        }
+    </script>
 @endpush

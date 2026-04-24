@@ -16,6 +16,10 @@ class StudyAbroad extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'faqs' => 'array',
+    ];
+
     public function getImagePathAttribute(): string
     {
         return $this->image ? asset('uploaded-images/study-abroad-images/' . $this->image) : 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg';

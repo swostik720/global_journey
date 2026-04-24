@@ -1,10 +1,9 @@
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
-    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
+    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
     <div class="container">
         <div class="splash-area">
-            <h2 class="splash-title">We Deliver</h2>
-            <h2 class="splash-title gradient-text">Results</h2>
+            <h1 class="splash-title">We Deliver <span class="gradient-text">Results</span></h1>
         </div>
     </div>
 
@@ -39,13 +38,13 @@
     </style>
 </section>
 
-    <section class="things-differently gap py-5" style="background-color: #f8f9fc;">
+    <section data-aos="fade-up" class="things-differently gap py-5" style="background-color: #f8f9fc;">
         <div class="container">
             <div class="row align-items-center gy-5">
 
                 <!-- Left Column: Heading and Image -->
                 <div class="col-xl-7">
-                    <div class="heading pe-xl-5">
+                    <div data-aos="fade-up" data-aos-delay="100" class="heading pe-xl-5">
                         <h6>Message from the CEO</h6>
                         <h2>
                             Welcome to Global Journey Education!
@@ -65,7 +64,7 @@
 
                 <!-- Right Column: Message -->
                 <div class="col-xl-5">
-                    <div class="signature bg-white p-4 p-md-5 rounded-4 shadow-sm position-relative animate-card">
+                    <div data-aos="zoom-in-up" data-aos-delay="140" class="signature bg-white p-4 p-md-5 rounded-4 shadow-sm position-relative animate-card">
                         <p class="mb-3">
                             I’m <strong>Bishal Neupane</strong>, Founder and CEO of Global Journey Education.
                             With over 13 years of experience in the international education sector and as a
@@ -200,11 +199,11 @@
     </section>
 
 
-    <section>
+    <section data-aos="fade-up">
         <div class="container">
             <div class="row">
                 <div class="col-xl-6">
-                    <div class="heading pt-5">
+                    <div data-aos="fade-up" data-aos-delay="100" class="heading pt-5">
                         <h6>Meet Our Team Members</h6>
                         <h2>Guiding your jouryney</h2>
                         <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
@@ -215,7 +214,7 @@
                 <div class="swiper-wrapper">
                     @foreach ($teams as $team)
                         <div class="swiper-slide">
-                            <div class="team-card">
+                            <div data-aos="zoom-in-up" data-aos-delay="140" class="team-card">
                                 <!-- Team Image -->
                                 <div class="team-img-wrapper">
                                     <img class="team-img" alt="img" src="{{ $team->image_path ?? '' }}">
@@ -444,9 +443,9 @@
         </style>
 
     </section>
-    <section class="we-deliver-results gap" style="background-color: #f2edf5;">
+    <section data-aos="fade-up" class="we-deliver-results gap" style="background-color: #f2edf5;">
         <div class="container">
-            <div class="heading two">
+            <div data-aos="fade-up" data-aos-delay="100" class="heading two">
                 <h2>Why Choose Global Journey Education Services?</h2>
                 <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
             </div>
@@ -686,7 +685,7 @@
 
                 <!-- Counter 1 -->
                 <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="card counter-card border-0 shadow-sm rounded-4 text-center py-5 h-100">
+                    <div data-aos="zoom-in-up" data-aos-delay="140" class="card counter-card border-0 shadow-sm rounded-4 text-center py-5 h-100">
                         <div class="display-5 fw-bold text-gradient mb-2">
                             <span class="counter" data-target="100">100</span>+
                         </div>
@@ -697,7 +696,7 @@
 
                 <!-- Counter 2 -->
                 <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="card counter-card border-0 shadow-sm rounded-4 text-center py-5 h-100">
+                    <div data-aos="zoom-in-up" data-aos-delay="140" class="card counter-card border-0 shadow-sm rounded-4 text-center py-5 h-100">
                         <div class="display-5 fw-bold text-gradient mb-2">
                             <span class="counter" data-target="5000">5000</span>+
                         </div>
@@ -708,7 +707,7 @@
 
                 <!-- Counter 3 -->
                 <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="card counter-card border-0 shadow-sm rounded-4 text-center py-5 h-100">
+                    <div data-aos="zoom-in-up" data-aos-delay="140" class="card counter-card border-0 shadow-sm rounded-4 text-center py-5 h-100">
                         <div class="display-5 fw-bold text-gradient mb-2">
                             <span class="counter" data-target="9">9</span>+
                         </div>

@@ -1,4 +1,4 @@
-<form class="enquiry-form_form" action="{{ route('enquiry.store') }}" method="POST" enctype="multipart/form-data">
+<form data-aos="fade-up" data-aos-delay="120" class="enquiry-form_form" action="{{ route('enquiry.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="row">
 

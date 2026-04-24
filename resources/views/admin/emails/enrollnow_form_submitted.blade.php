@@ -7,11 +7,10 @@
     <title>Email</title>
 </head>
 <body>
-    <h1>New enrollment received:</h1>
+    <h1>New Enrollment</h1>
     <p>Name: {{ $name }}</p>
     <p>Email: {{ $email }}</p>
     <p>Phone number: {{ $phone ?? '' }}</p>
     <p>Test Preparation: {{ $test_preparation ?? '' }}</p>
-    <p>Branch: {{ $branch->name }}</p>
 </body>
 </html>

@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\UserStatus;
 use App\Traits\UploadFileTrait;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -79,6 +80,11 @@ class User extends Authenticatable
     public function getImagePathAttribute(): string
     {
         return $this->image ? asset('uploaded-images/profile-images/' . $this->image) : 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg';
+    }
+
+    public function getProfileSlugAttribute(): string
+    {
+        return Str::slug($this->name) . '-' . $this->id;
     }
 
 }

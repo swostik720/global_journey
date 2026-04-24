@@ -3,7 +3,7 @@
 @section('title', 'Interview Preparation for ' . $interviewPreparation->title)
 
 @section('maincontent')
-    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }});">
+    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }});">
         <div class="container">
             <div class="splash-area">
                 @php
@@ -12,10 +12,9 @@
                     $secondPart = $parts[2] ?? '';
                 @endphp
 
-                <h2 class="splash-title">{{ $firstPart }}</h2>
-                @if ($secondPart)
-                    <h2 class="splash-title gradient-text">{{ $secondPart }}</h2>
-                @endif
+                <h1 class="splash-title">
+                    {{ $firstPart }}@if ($secondPart) <span class="gradient-text">{{ $secondPart }}</span>@endif
+                </h1>
             </div>
         </div>
 
@@ -53,18 +52,18 @@
         </style>
     </section>
 
-    <section>
+    <section data-aos="fade-up">
         <div class="container mt-5 mb-5">
             <div class="row justify-content-center">
                 <div class="col-xl-10">
 
                     {{-- Main Card --}}
-                    <div class="card shadow-lg border-0 rounded-4 mb-5 hover-card">
+                    <div data-aos="zoom-in-up" data-aos-delay="140" class="card shadow-lg border-0 rounded-4 mb-5 hover-card">
                         @if ($interviewPreparation->image)
                             <img src="{{ asset('uploaded-images/interwiew-preperations-images/' . $interviewPreparation->image) }}"
                                 alt="{{ $interviewPreparation->title }}" class="card-img-top rounded-top">
                         @endif
-                        <div class="card-body p-5">
+                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body p-5">
                             <h3 class="mb-4 text-primary fw-bold">{{ $interviewPreparation->title }}</h3>
                             <p class="text-muted fs-5">{!! $interviewPreparation->description !!}</p>
                         </div>
@@ -72,7 +71,7 @@
 
                     {{-- Visa Conditions --}}
                     @if (!empty($interviewPreparation->visa_conditions))
-                        <div class="card shadow-sm border-0 rounded-4 mb-5 visa-card p-4">
+                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card shadow-sm border-0 rounded-4 mb-5 visa-card p-4">
                             <h4 class="card-title mb-4 text-dark fw-bold">Student Visa Conditions</h4>
                             <ul class="list-group list-group-flush">
                                 @foreach ($interviewPreparation->visa_conditions as $condition)
@@ -87,12 +86,12 @@
 
                     {{-- Possible Interview Questions --}}
                     @if (!empty($interviewPreparation->interview_questions))
-                        <section class="questions-section py-4 px-3 mb-5 rounded-4"
+                        <section data-aos="fade-up" class="questions-section py-4 px-3 mb-5 rounded-4"
                             style="background: rgba(13,110,253,0.05);">
                             <h4 class="fw-bold mb-4 text-dark">Possible Interview Questions</h4>
                             <div class="accordion" id="questionsAccordion">
                                 @foreach ($interviewPreparation->interview_questions as $index => $q)
-                                    <div class="accordion-item gradient-accordion">
+                                    <div data-aos="zoom-in-up" data-aos-delay="140" class="accordion-item gradient-accordion">
                                         <h2 class="accordion-header" id="heading{{ $index }}">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}"
@@ -119,11 +118,11 @@
 
                     {{-- FAQs --}}
                     @if (!empty($interviewPreparation->faqs))
-                        <section class="faq-section py-4 px-3 mb-5 rounded-4" style="background: rgba(220,220,220,0.15);">
+                        <section data-aos="fade-up" class="faq-section py-4 px-3 mb-5 rounded-4" style="background: rgba(220,220,220,0.15);">
                             <h4 class="fw-bold mb-4 text-dark">FAQs about {{ $interviewPreparation->title }}</h4>
                             <div class="accordion" id="faqAccordion">
                                 @foreach ($interviewPreparation->faqs as $index => $faq)
-                                    <div class="accordion-item gradient-accordion">
+                                    <div data-aos="zoom-in-up" data-aos-delay="140" class="accordion-item gradient-accordion">
                                         <h2 class="accordion-header" id="faqHeading{{ $index }}">
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#faqCollapse{{ $index }}"

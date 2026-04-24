@@ -1,10 +1,9 @@
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
-    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
+    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
         <div class="container">
             <div class="splash-area">
-                <h2 class="splash-title">Our</h2>
-                <h2 class="splash-title gradient-text">Blogs</h2>
+                <h1 class="splash-title">Our <span class="gradient-text">Blogs</span></h1>
             </div>
         </div>
 
@@ -41,46 +40,47 @@
         </style>
     </section>
 
-    <section class="gap no-top mt-5">
+    <section data-aos="fade-up" class="gap no-top mt-5">
         <div class="container">
             <div class="row g-4">
                 @foreach ($blogs as $blog)
                     <div class="col-lg-4 col-md-6">
-                        <div class="card blog-card h-100 border-0 shadow-sm rounded-4 overflow-hidden d-flex flex-column">
-                            @if ($blog->image_path)
-                                <img src="{{ $blog->image_path }}" class="card-img-top" alt="{{ $blog->title }}">
-                            @endif
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title fw-bold">{{ $blog->title }}</h5>
-                                <p class="card-text text-muted">
-                                    {{ \Illuminate\Support\Str::words($blog->short_description, 25, '...') }}
-                                </p>
+                        <a href="{{ route('blog.details', $blog->slug) }}" class="blog-card-link d-block h-100"
+                            aria-label="Read blog: {{ $blog->title }}">
+                            <div data-aos="zoom-in-up" data-aos-delay="140" class="card blog-card h-100 border-0 shadow-sm rounded-4 overflow-hidden d-flex flex-column">
+                                @if ($blog->image_path)
+                                    <img src="{{ $blog->image_path }}" class="card-img-top" alt="{{ $blog->title }}">
+                                @endif
+                                <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body d-flex flex-column">
+                                    <h5 class="card-title fw-bold">{{ $blog->title }}</h5>
+                                    <p class="card-text text-muted">
+                                        {{ \Illuminate\Support\Str::words($blog->short_description, 25, '...') }}
+                                    </p>
 
-                                <!-- Category centered -->
-                                <div class="mb-2">
-                                    <span class="badge rounded-pill bg-light text-dark border">
-                                        {{ $blog->category->name ?? 'General' }}
-                                    </span>
-                                </div>
-
-                                <!-- Date & User -->
-                                <div class="d-flex justify-content-between text-muted small mb-2">
-                                    <div>
-                                        <i class="bi bi-calendar-event me-1"></i>
-                                        {{ \Carbon\Carbon::parse($blog->blog_date)->format('M d, Y') }}
+                                    <!-- Category centered -->
+                                    <div class="mb-2">
+                                        <span class="badge rounded-pill bg-light text-dark border">
+                                            {{ $blog->category->name ?? 'General' }}
+                                        </span>
                                     </div>
-                                    <div>
-                                        <i class="bi bi-person-circle me-1"></i>
-                                        <strong>{{ $blog->user->name }}</strong>
-                                    </div>
-                                </div>
 
-                                <!-- Read More button always at bottom -->
-                                <a href="{{ route('blog.details', $blog->slug) }}" class="themebtu mt-auto">
-                                    Read More
-                                </a>
+                                    <!-- Date & User -->
+                                    <div class="d-flex justify-content-between text-muted small mb-2">
+                                        <div>
+                                            <i class="bi bi-calendar-event me-1"></i>
+                                            {{ \Carbon\Carbon::parse($blog->blog_date)->format('M d, Y') }}
+                                        </div>
+                                        <div>
+                                            <i class="bi bi-person-circle me-1"></i>
+                                            <strong>{{ $blog->user->name ?? 'Admin' }}</strong>
+                                        </div>
+                                    </div>
+
+                                    <!-- Read More label always at bottom -->
+                                    <span class="themebtu mt-auto">Read More</span>
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                 @endforeach
             </div>
@@ -95,6 +95,17 @@
     </div>
 
     <style>
+        .blog-card-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .blog-card-link:focus-visible {
+            outline: 3px solid rgba(13, 110, 253, 0.45);
+            outline-offset: 4px;
+            border-radius: 1rem;
+        }
+
         .blog-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -119,6 +130,16 @@
             text-align: center;
             display: inline-block;
             margin-top: 10px;
+        }
+
+        .blog-author-link {
+            color: #475569;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .blog-author-link:hover {
+            color: #1d4ed8;
         }
     </style>
 @endsection

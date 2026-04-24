@@ -21,6 +21,9 @@ class StudyAbroadStoreRequest extends FormRequest
             'description' => 'required',
             'country_id' => 'required|numeric|exists:countries,id',
             'status' => 'boolean',
+            'faqs' => 'nullable|array',
+            'faqs.*.question' => 'nullable|string',
+            'faqs.*.answer' => 'nullable|string',
         ];
     }
     public function messages(): array

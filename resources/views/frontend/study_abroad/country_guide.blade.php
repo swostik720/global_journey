@@ -1,7 +1,7 @@
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
 <div class="container py-5">
-    <div class="heading text-center mb-5 pt-5">
+    <div data-aos="fade-up" data-aos-delay="100" class="heading text-center mb-5 pt-5">
         <h6 class="text-primary">Guide for {{ $country->name }}</h6>
         <h2 class="fw-bold">Step-by-step guidance for students planning to study in {{ $country->name }}</h2>
         <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}" class="mx-auto mt-3">
@@ -16,11 +16,11 @@
                     $restText = $parts[1] ?? '';
                 @endphp
                 <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card guide-card shadow-sm rounded-4 h-100 p-4 text-center position-relative" style="border-radius: 20px;">
+                    <div data-aos="zoom-in-up" data-aos-delay="140" class="card guide-card shadow-sm rounded-4 h-100 p-4 text-center position-relative" style="border-radius: 20px;">
                         <div class="guide-icon">
                             <i class="fa fa-book-open text-primary"></i>
                         </div>
-                        <div class="card-body">
+                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body">
                             <div class="fw-bold mb-2 text-primary">{{ $boldText }}:</div>
                             <p class="text-muted">{{ $restText }}</p>
                         </div>

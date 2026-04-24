@@ -1,4 +1,4 @@
-<form class="content-form contact-form__form" action="{{ route('contact.store') }}" method="POST">
+<form data-aos="fade-up" data-aos-delay="120" class="content-form contact-form__form" action="{{ route('contact.store') }}" method="POST">
     @csrf
     <div class="row g-2">
         <div class="col-lg-6">

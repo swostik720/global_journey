@@ -1,6 +1,6 @@
 <footer class="gap no-bottom" style="background-color: #f2f2f2 ;">
     <div class="container">
-        <div class="row">
+        <div class="row g-4 g-xl-5">
             <div class="col-xl-3 col-lg-4 col-md-6 mb-5">
                 <div class="footer-logo">
                     @if (is_object($setting) && isset($setting['logo']))
@@ -21,13 +21,11 @@
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6 mb-5">
                 <div class="links">
-                    <h6>Additional links</h6>
+                    <h6>Our Branches</h6>
                     <ul>
-                        <li><a href="{{ route('about-us') }}">About us</a></li>
-                        <li><a href="{{ route('test-preparation') }}">Test Preparations</a></li>
-                        <li><a href="{{ route('interview-preparation') }}">Interview Preparations</a></li>
-                        <li><a href="{{ route('blogs') }}">Blogs</a></li>
-                        <li class="pb-0"><a href="{{ route('contact-us') }}">Contact us</a></li>
+                        @foreach ($branches as $branch)
+                            <li><span class="footer-branch-name">{{ $branch->name ?? '' }}</span></li>
+                        @endforeach
                     </ul>
                 </div>
             </div>
@@ -48,7 +46,7 @@
                 <div class="latest-news">
                     <h6>Subscribe</h6>
                     <p>Get latest news and offers</p>
-                    <form action="{{ route('subscribe.store') }}" method="post" class="subscribe-form_form">
+                    <form data-aos="fade-up" data-aos-delay="120" action="{{ route('subscribe.store') }}" method="post" class="subscribe-form_form">
                         @csrf
                         <input type="text" name="email" placeholder="your email address">
                         <button>go</button>

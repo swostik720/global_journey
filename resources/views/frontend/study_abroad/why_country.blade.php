@@ -1,7 +1,7 @@
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
 <div class="container py-5">
-    <div class="heading mb-5 text-center pt-5">
+    <div data-aos="fade-up" data-aos-delay="100" class="heading mb-5 text-center pt-5">
         <h6 class="text-primary">Why Choose {{ $country->name }}?</h6>
         <h2 class="fw-bold">Top reasons to study in {{ $country->name }}</h2>
         <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}" class="mx-auto mt-3" style="max-width:200px;">
@@ -11,7 +11,7 @@
         @foreach ($whyCountries as $why)
             @foreach ($why->description as $point)
                 <div class="col-md-6 col-lg-4">
-                    <div class="card reason-card shadow-sm rounded-4 h-100 text-center p-4 position-relative" style="border-radius: 20px;">
+                    <div data-aos="zoom-in-up" data-aos-delay="140" class="card reason-card shadow-sm rounded-4 h-100 text-center p-4 position-relative" style="border-radius: 20px;">
                         <div class="reason-icon mb-3">
                             <i class="fa fa-check-circle text-success" style="font-size:3rem;"></i>
                         </div>

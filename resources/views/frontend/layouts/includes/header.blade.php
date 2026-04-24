@@ -249,7 +249,7 @@ body {
 <div class="_header">
   <div class="container">
     <!-- Desktop Header -->
-    <section class="desktop_header">
+    <section data-aos="fade-up" class="desktop_header">
       <!-- Logo Left -->
       <div class="_logo">
         @if (is_object($setting) && isset($setting->logo))
@@ -276,6 +276,7 @@ body {
             @endforeach
           </ul>
         </li>
+        <li class='header_item'><a href="{{ route('blogs') }}">Blog</a></li>
         <li class='header_item'><a href="{{ route('galleries.index') }}">Gallery</a></li>
         <li class='header_item'><a href="{{ route('contact-us') }}">Contact Us</a></li>
         <li class='header_item'>
@@ -285,7 +286,7 @@ body {
     </section>
 
     <!-- Mobile Header -->
-    <section class="desktop_mobile" style="display:none; align-items:center; width:100%; justify-content:space-between;">
+    <section data-aos="fade-up" class="desktop_mobile" style="display:none; align-items:center; width:100%; justify-content:space-between;">
       <div class="_logo">
         @if (is_object($setting) && isset($setting->logo))
           <a href="{{ url('/') }}"><img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}" alt="logo"></a>
@@ -336,7 +337,6 @@ body {
         @endforeach
       </ul>
     </li>
-    <li><a href="{{ route('blogs') }}">Blogs</a></li>
   </ul>
 </aside>
 

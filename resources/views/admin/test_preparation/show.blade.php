@@ -20,4 +20,29 @@
     <div class="card-content mt-4">
         <b class="d-block text-uppercase text-14"></b><span>{!! $test_preparation->description ?? '' !!}</span>
     </div>
+
+    @if (!empty($test_preparation->faqs))
+        <div class="card-content mt-4">
+            <h5 class="mb-3">FAQs</h5>
+            <div class="accordion" id="testPreparationFaqAdmin">
+                @foreach ($test_preparation->faqs as $index => $faq)
+                    <div class="accordion-item mb-2">
+                        <h2 class="accordion-header" id="adminFaqHead{{ $index }}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#adminFaqCollapse{{ $index }}" aria-expanded="false"
+                                aria-controls="adminFaqCollapse{{ $index }}">
+                                {{ $faq['question'] ?? 'Question' }}
+                            </button>
+                        </h2>
+                        <div id="adminFaqCollapse{{ $index }}" class="accordion-collapse collapse"
+                            aria-labelledby="adminFaqHead{{ $index }}" data-bs-parent="#testPreparationFaqAdmin">
+                            <div class="accordion-body">
+                                {!! $faq['answer'] ?? '' !!}
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
 </div>

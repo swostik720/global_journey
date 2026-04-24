@@ -14,6 +14,32 @@ use App\Traits\StatusTrait;
 class TestPreparationController extends Controller
 {
     use StatusTrait;
+
+    protected function normalizeFaqs(?array $faqs): array
+    {
+        if (empty($faqs)) {
+            return [];
+        }
+
+        return collect($faqs)
+            ->map(function ($faq) {
+                $question = trim((string) ($faq['question'] ?? ''));
+                $answer = trim((string) ($faq['answer'] ?? ''));
+
+                if ($question === '' || $answer === '') {
+                    return null;
+                }
+
+                return [
+                    'question' => $question,
+                    'answer' => $answer,
+                ];
+            })
+            ->filter()
+            ->values()
+            ->all();
+    }
+
     public function index(): View
     {
         return view('admin.test_preparation.index', [
@@ -28,7 +54,10 @@ class TestPreparationController extends Controller
 
     public function store(TestPreparationStoreRequest $request): RedirectResponse
     {
-        $test_preparation = TestPreparation::create($request->safe()->except('image'));
+        $data = $request->safe()->except('image');
+        $data['faqs'] = $this->normalizeFaqs($request->input('faqs', []));
+
+        $test_preparation = TestPreparation::create($data);
         if ($request->hasFile('image')) {
             $test_preparation->storeImage('image', 'test-preparation-images', $request->file('image'));
         }
@@ -49,6 +78,7 @@ class TestPreparationController extends Controller
     public function update(TestPreparationUpdateRequest $request, TestPreparation $test_preparation): RedirectResponse
     {
         $data = $request->safe()->except('image');
+        $data['faqs'] = $this->normalizeFaqs($request->input('faqs', []));
         if ($request->input('image_removed') == 'true') {
             $test_preparation->deleteImage('image', 'test-preparation-images');
             $data['image'] = null;

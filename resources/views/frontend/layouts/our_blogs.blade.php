@@ -1,6 +1,6 @@
-<section class="latest-blog gap">
+<section data-aos="fade-up" class="latest-blog gap">
     <div class="container">
-        <div class="heading">
+        <div data-aos="fade-up" data-aos-delay="100" class="heading">
             <h6>our blog</h6>
             <h2>News and Thoughts</h2>
             <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
@@ -8,7 +8,7 @@
 
         <div class="grid-wrapper">
             @foreach ($blogs->take(3) as $blog) <!-- Only display the first 3 blogs -->
-            <figure class="snip1253">
+            <figure data-aos="zoom-in" data-aos-delay="130" class="snip1253">
                 <div class="image"><img src="{{ $blog->image_path ?? '' }}" alt="sample52" /></div>
                 <figcaption>
                     <div class="date">

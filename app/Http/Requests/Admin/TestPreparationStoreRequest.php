@@ -20,6 +20,9 @@ class TestPreparationStoreRequest extends FormRequest
             'short_description' => 'nullable',
             'description' => 'required',
             'status' => 'boolean',
+            'faqs' => 'nullable|array',
+            'faqs.*.question' => 'nullable|string',
+            'faqs.*.answer' => 'nullable|string',
         ];
     }
 }

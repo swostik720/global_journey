@@ -1,11 +1,10 @@
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
     <!-- Hero Section -->
-    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
+    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
         <div class="container">
             <div class="splash-area">
-                <h2 class="splash-title">Our</h2>
-                <h2 class="splash-title gradient-text">Galleries</h2>
+                <h1 class="splash-title">Our <span class="gradient-text">Galleries</span></h1>
             </div>
         </div>
 
@@ -43,12 +42,12 @@
     </section>
 
     <!-- Gallery Cards Section -->
-    <section class="gap no-top mt-5">
+    <section data-aos="fade-up" class="gap no-top mt-5">
         <div class="container">
             <div class="row g-4">
                 @foreach ($galleries as $gallery)
                     <div class="col-lg-4 col-md-6">
-                        <div
+                        <div data-aos="zoom-in-up" data-aos-delay="140"
                             class="card gallery-card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative d-flex flex-column">
 
                             <!-- Hover Overlay -->
@@ -62,7 +61,7 @@
                                 </div>
                             </div>
 
-                            <div class="card-body d-flex flex-column">
+                            <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body d-flex flex-column">
                                 <!-- Title -->
                                 <h5 class="card-title fw-bold mb-2 text-dark">
                                     <i class="bi bi-camera-reels text-primary me-2"></i>{{ $gallery->title }}

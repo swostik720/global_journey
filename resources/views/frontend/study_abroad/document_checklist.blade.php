@@ -2,7 +2,7 @@
 @section('maincontent')
     <div class="container py-5">
         <!-- Page Heading -->
-        <div class="heading mb-5 text-center pt-5">
+        <div data-aos="fade-up" data-aos-delay="100" class="heading mb-5 text-center pt-5">
             <h6 class="text-primary">Document Checklist for {{ $country->name ?? 'Country' }}</h6>
             <h2>Annual Income Documents for Studying in {{ $country->name ?? 'Country' }}</h2>
             <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}" class="mx-auto mt-3" style="max-width:200px;">
@@ -31,8 +31,8 @@
             <div class="row g-4">
                 @foreach ($checklist->documents as $doc)
                     <div class="col-md-6 col-lg-4">
-                        <div class="card checklist-card shadow-sm h-100 text-center">
-                            <div class="card-body p-4">
+                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card checklist-card shadow-sm h-100 text-center">
+                            <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body p-4">
                                 <div class="checklist-icon mb-3 text-primary">
                                     <i class="fa fa-file fa-3x"></i>
                                 </div>

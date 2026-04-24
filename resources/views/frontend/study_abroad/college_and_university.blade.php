@@ -1,7 +1,7 @@
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
     <div class="container py-5">
-        <div class="heading mb-5 text-center pt-5">
+        <div data-aos="fade-up" data-aos-delay="100" class="heading mb-5 text-center pt-5">
             <h2 class="fw-bold">Colleges & Universities of {{ $country->name }}</h2>
             <h6 class="text-muted">Explore top colleges & universities</h6>
             <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}" class="mx-auto mt-3">
@@ -10,7 +10,7 @@
         <div class="row g-4">
             @forelse($colleges as $college)
                 <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card college-card h-100 position-relative text-center p-3 shadow-sm rounded-4" style="border-radius: 20px;">
+                    <div data-aos="zoom-in-up" data-aos-delay="140" class="card college-card h-100 position-relative text-center p-3 shadow-sm rounded-4" style="border-radius: 20px;">
                         <div class="icon-circle">
                             <i class="fa-solid fa-landmark"></i>
                         </div>

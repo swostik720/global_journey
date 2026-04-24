@@ -8,7 +8,6 @@ use App\Models\Contact;
 use App\Models\Country;
 use App\Models\Category;
 use App\Models\Subscribe;
-use App\Models\SiteSetting;
 use App\Models\StudyAbroad;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
@@ -26,10 +25,14 @@ use App\Models\Enquiry;
 use App\Models\InterviewPreparation;
 use App\Models\EnrollNow;
 use App\Models\Gallery;
+use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
 class AllController extends Controller
 {
+    private const CONTACT_EMAIL = 'info@globaljourneyedu.com.np';
+
     public function documentChecklist($countryId)
     {
         $country = Country::findOrFail($countryId);
@@ -143,29 +146,19 @@ class AllController extends Controller
 
         DB::beginTransaction();
         try {
-            // Get branch from cookie
-            $branchId = $request->cookie('selected_branch');
-
-            // Merge branch_id into validated data
             $contactData = $request->validated();
-            $contactData['branch_id'] = $branchId;
 
             // Save contact
-            $contact = Contact::create($contactData);
+            Contact::create($contactData);
 
             // Rate limiting
             RateLimiter::hit($key, 60 * 3); // Block for 3 minutes after 3 attempts
-
-            // Determine recipient email
-            $site_setting = SiteSetting::first();
-            $branch = Branch::find($branchId);
-            $recipientEmail = $branch ? $branch->email : ($site_setting->email ?? 'contact@globaljourneyedu.com.np');
 
             // Prepare email data
             $data = [
                 'name' => $request->name,
                 'email' => $request->email,
-                'email1' => $recipientEmail,
+                'email1' => self::CONTACT_EMAIL,
                 'subject' => 'Contact Form',
                 'phone' => $request->phone,
                 'contact_message' => $request->contact_message,
@@ -173,7 +166,6 @@ class AllController extends Controller
                 'interested_country' => $request->interested_country,
                 'last_qualification' => $request->last_qualification,
                 'test_preparation' => $request->test_preparation,
-                'branch' => $branch,
             ];
 
             // Send email
@@ -185,9 +177,7 @@ class AllController extends Controller
                 });
 
                 Log::info("Contact form email sent successfully to {$data['email1']}");
-            } catch (\Swift_TransportException $e) {
-                Log::error("SMTP Error sending email to {$data['email1']}: " . $e->getMessage());
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 Log::error("Unexpected error sending email to {$data['email1']}: " . $e->getMessage());
             }
 
@@ -223,24 +213,15 @@ class AllController extends Controller
 
         DB::beginTransaction();
         try {
-            $branchId = $request->cookie('selected_branch');
-
-            // Save enrollment with branch_id
             $enrollNow = EnrollNow::create([
                 'name'                => $request->name,
                 'email'               => $request->email,
                 'phone'               => $request->phone,
                 'test_preparation_id' => $request->test_preparation_id,
-                'branch_id'           => $branchId,
             ]);
 
             // Record attempt for rate limiter
             RateLimiter::hit($key, 60 * 3); // block for 3 minutes
-
-            // Determine recipient email
-            $siteSetting = SiteSetting::first();
-            $branch = Branch::find($branchId);
-            $recipientEmail = $branch ? $branch->email : ($siteSetting->email ?? 'contact@globaljourneyedu.com.np');
 
             // Prepare email data
             $data = [
@@ -248,22 +229,19 @@ class AllController extends Controller
                 'email'            => $request->email,
                 'phone'            => $request->phone,
                 'test_preparation' => optional($enrollNow->testPreparation)->title,
-                'branch'        => $branch,
             ];
 
             // Send email
             try {
-                Mail::send('admin.emails.enrollnow_form_submitted', $data, function ($message) use ($data, $recipientEmail) {
-                    $message->to($recipientEmail)
+                Mail::send('admin.emails.enrollnow_form_submitted', $data, function ($message) use ($data) {
+                    $message->to(self::CONTACT_EMAIL)
                         ->subject('New Enrollment Submission')
                         ->replyTo($data['email']);
                 });
 
-                Log::info("EnrollNow email sent successfully to {$recipientEmail}");
-            } catch (\Swift_TransportException $e) {
-                Log::error("SMTP Error sending EnrollNow email to {$recipientEmail}: " . $e->getMessage());
-            } catch (\Exception $e) {
-                Log::error("Unexpected error sending EnrollNow email to {$recipientEmail}: " . $e->getMessage());
+                Log::info('EnrollNow email sent successfully to ' . self::CONTACT_EMAIL);
+            } catch (\Throwable $e) {
+                Log::error('Unexpected error sending EnrollNow email to ' . self::CONTACT_EMAIL . ': ' . $e->getMessage());
             }
 
             DB::commit();
@@ -329,6 +307,44 @@ class AllController extends Controller
 
         return view('frontend.blogs.details', compact('blog', 'categories', 'relatedPosts', 'previousBlog', 'nextBlog'));
     }
+
+    public function blogProfile(string $authorSlug)
+    {
+        $authorId = (int) Str::afterLast($authorSlug, '-');
+        $user = User::findOrFail($authorId);
+
+        $authorBlogs = Blog::active()
+            ->where('user_id', $user->id)
+            ->with(['category', 'user'])
+            ->latest()
+            ->paginate(6);
+
+        $featuredBlog = Blog::active()
+            ->where('user_id', $user->id)
+            ->latest()
+            ->first();
+
+        $categoryExpertise = Blog::active()
+            ->where('user_id', $user->id)
+            ->with('category:id,name')
+            ->latest()
+            ->get()
+            ->pluck('category.name')
+            ->filter()
+            ->unique()
+            ->take(8)
+            ->values();
+
+        $publishedCount = Blog::active()->where('user_id', $user->id)->count();
+
+        return view('frontend.blogs.profile', compact(
+            'user',
+            'authorBlogs',
+            'featuredBlog',
+            'categoryExpertise',
+            'publishedCount'
+        ));
+    }
     public function storeSubscribe(SubscribeStoreRequest $request): RedirectResponse
     {
         $ipAddress = $request->ip();
@@ -376,20 +392,10 @@ class AllController extends Controller
 
         DB::beginTransaction();
         try {
-            $branchId = $request->cookie('selected_branch');
-
-            // Save enquiry with branch_id
-            $enquiry = Enquiry::create(array_merge($request->validated(), [
-                'branch_id' => $branchId,
-            ]));
+            Enquiry::create($request->validated());
 
             // Record attempt for rate limiter
             RateLimiter::hit($key, 60 * 3); // block for 3 minutes
-
-            // Determine recipient email
-            $siteSetting = SiteSetting::first();
-            $branch = Branch::find($branchId);
-            $recipientEmail = $branch ? $branch->email : ($siteSetting->email ?? 'contact@globaljourneyedu.com.np');
 
             // Prepare email data
             $data = [
@@ -398,9 +404,8 @@ class AllController extends Controller
                 'phone'          => $request->phone,
                 'address'        => $request->address,
                 'enquiry_message' => $request->enquiry_message,
-                'branch'          => $branch,
                 'subject'        => 'Enquiry Form',
-                'email1'         => $recipientEmail,
+                'email1'         => self::CONTACT_EMAIL,
             ];
 
             // Send email
@@ -412,9 +417,7 @@ class AllController extends Controller
                 });
 
                 Log::info("Enquiry email sent successfully to {$data['email1']}");
-            } catch (\Swift_TransportException $e) {
-                Log::error("SMTP Error sending Enquiry email to {$data['email1']}: " . $e->getMessage());
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 Log::error("Unexpected error sending Enquiry email to {$data['email1']}: " . $e->getMessage());
             }
 

@@ -46,465 +46,1550 @@
 
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
-    <!-- Hero Section -->
-    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
-        <div class="container">
-            <div class="splash-area">
-                @php
-                    $parts = explode(' ', $blog->title ?? '', 3); // split into max 3 parts
-                    $firstPart = isset($parts[0], $parts[1]) ? $parts[0] . ' ' . $parts[1] : $parts[0] ?? '';
-                    $secondPart = $parts[2] ?? '';
-                @endphp
 
-                <h2 class="splash-title">{{ $firstPart }}</h2>
-                @if ($secondPart)
-                    <h2 class="splash-title gradient-text">{{ $secondPart }}</h2>
-                @endif
+    {{-- ═══════════════════════════════════════════════════════════
+         HERO / SPLASH SECTION
+    ═══════════════════════════════════════════════════════════ --}}
+    <section data-aos="fade-up" class="bds-hero" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
+        <div class="bds-hero__overlay"></div>
+        <div class="container">
+            @php
+                $parts      = explode(' ', $blog->title ?? '', 3);
+                $firstPart  = isset($parts[0], $parts[1]) ? $parts[0] . ' ' . $parts[1] : ($parts[0] ?? '');
+                $secondPart = $parts[2] ?? '';
+
+                $descriptionHtml        = $blog->description ?? '';
+                $tocItems               = [];
+                $usedIds                = [];
+                $generatedHeadingIndex  = 0;
+
+                $descriptionWithAnchors = preg_replace_callback(
+                    '/<h([1-6])([^>]*)>(.*?)<\/h\1>/is',
+                    function ($matches) use (&$tocItems, &$usedIds, &$generatedHeadingIndex) {
+                        $level      = (int) $matches[1];
+                        $attributes = $matches[2] ?? '';
+                        $innerHtml  = $matches[3] ?? '';
+                        $text       = trim(strip_tags($innerHtml));
+
+                        if ($text === '') return $matches[0];
+
+                        $existingId = null;
+                        if (preg_match('/\sid=["\']([^"\']+)["\']/i', $attributes, $idMatch)) {
+                            $existingId = $idMatch[1];
+                        }
+
+                        $baseId = $existingId ?: \Illuminate\Support\Str::slug($text);
+                        if ($baseId === '') {
+                            $generatedHeadingIndex++;
+                            $baseId = 'section-' . $generatedHeadingIndex;
+                        }
+
+                        $id     = $baseId;
+                        $suffix = 2;
+                        while (in_array($id, $usedIds, true)) {
+                            $id = $baseId . '-' . $suffix++;
+                        }
+                        $usedIds[] = $id;
+
+                        if (!$existingId) $attributes .= ' id="' . $id . '"';
+
+                        $tocItems[] = ['id' => $id, 'text' => $text, 'level' => $level];
+
+                        return '<h' . $level . $attributes . '>' . $innerHtml . '</h' . $level . '>';
+                    },
+                    $descriptionHtml
+                );
+            @endphp
+
+            <div class="bds-hero__inner">
+                <h1 class="bds-hero__title">
+                    <span class="bds-hero__title-main">{{ $firstPart }}</span>
+                    @if ($secondPart)
+                        <span class="bds-hero__title-accent">{{ $secondPart }}</span>
+                    @endif
+                </h1>
             </div>
         </div>
-
-        <style>
-            /* Keep font size fixed at 70px */
-            .splash-title {
-                font-size: 70px;
-                line-height: 1.1;
-                margin: 0;
-                padding-left: 50px;
-                /* white-space: nowrap; */
-                /* prevent wrapping */
-            }
-
-            .gradient-text {
-                background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-
-            /* Responsive container padding to avoid cutting text */
-            .splash-area-section .container {
-                max-width: 100%;
-                padding: 0 15px;
-            }
-
-            /* Optional: scale text slightly on very small screens */
-            @media (max-width: 400px) {
-                .splash-title {
-                    font-size: 60px;
-                    padding-left: 10px;
-                }
-            }
-        </style>
     </section>
 
-    <!-- Blog Content -->
-    <section class="gap no-top mt-5">
+    {{-- ═══════════════════════════════════════════════════════════
+         MAIN BLOG CONTENT
+    ═══════════════════════════════════════════════════════════ --}}
+    <section data-aos="fade-up" class="bds-main">
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10 col-xl-9">
-                    <!-- Blog Article -->
-                    <article class="blog-article">
-                        <!-- Blog Meta -->
-                        <div
-                            class="blog-meta d-flex flex-wrap justify-content-between align-items-center mb-4 p-3 bg-light rounded-3">
-                            <div class="d-flex gap-4 flex-wrap align-items-center">
-                                <div class="author-info d-flex align-items-center">
-                                    <div class="author-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2"
-                                        style="width: 40px; height: 40px;">
-                                        {{ strtoupper(substr($blog->user->name ?? 'A', 0, 1)) }}
-                                    </div>
-                                    <div>
-                                        <span class="fw-semibold text-dark">{{ $blog->user->name ?? 'Admin' }}</span>
-                                    </div>
+            <div class="bds-layout {{ empty($tocItems) ? 'bds-layout--no-toc' : '' }}">
+
+                {{-- ── LEFT: Table of Contents ── --}}
+                @if (!empty($tocItems))
+                    <aside class="bds-toc-col">
+                        <div class="bds-toc" id="bdsToc">
+                            <div class="bds-toc__head">
+                                <div class="bds-toc__icon">
+                                    <i class="bi bi-journal-bookmark-fill"></i>
                                 </div>
-                                <div class="blog-date text-muted">
-                                    <i class="bi bi-calendar-event me-1"></i>
-                                    {{ \Carbon\Carbon::parse($blog->blog_date)->format('M d, Y') }}
+                                <div>
+                                    <div class="bds-toc__title">Contents</div>
+                                    <div class="bds-toc__sub">Jump to section</div>
                                 </div>
                             </div>
-                            <div class="blog-categories">
-                                @foreach ($categories as $category)
-                                    <span class="badge rounded-pill bg-light text-dark border me-1">
-                                        <i class="bi bi-tag me-1"></i>{{ $category->name ?? '' }}
-                                        ({{ $category->blogs_count ?? '0' }})
-                                    </span>
+                            <ul class="bds-toc__list">
+                                @foreach ($tocItems as $i => $tocItem)
+                                    <li class="bds-toc__item bds-toc__item--l{{ $tocItem['level'] }}">
+                                        <a href="#{{ $tocItem['id'] }}" class="bds-toc__link" data-toc-id="{{ $tocItem['id'] }}">
+                                            <span class="bds-toc__dot bds-toc__dot--{{ ($i % 3) + 1 }}"></span>
+                                            <span class="bds-toc__text">{{ $tocItem['text'] }}</span>
+                                        </a>
+                                    </li>
                                 @endforeach
+                            </ul>
+                        </div>
+                    </aside>
+                @endif
+
+                {{-- ── CENTRE: Article ── --}}
+                <article class="bds-article">
+
+                    {{-- Meta bar --}}
+                    <div data-aos="zoom-in-up" data-aos-delay="140" class="bds-meta">
+                        <div class="bds-meta__author">
+                            <div class="bds-meta__avatar">
+                                {{ strtoupper(substr($blog->user->name ?? 'A', 0, 1)) }}
+                            </div>
+                            <div>
+                                @if (!empty($blog->user_id))
+                                    <a href="{{ route('blog.profile', $blog->user?->profile_slug ?? ('author-' . $blog->user_id)) }}" class="bds-meta__name bds-meta__name--link">
+                                        {{ $blog->user->name ?? 'Admin' }}
+                                    </a>
+                                @else
+                                    <div class="bds-meta__name">{{ $blog->user->name ?? 'Admin' }}</div>
+                                @endif
+                                <div class="bds-meta__role">Education Consultant</div>
                             </div>
                         </div>
-
-                        <!-- Featured Image -->
-                        @if ($blog->image_path)
-                            <div class="featured-image mb-5">
-                                <img src="{{ $blog->image_path }}" class="img-fluid rounded-4 shadow-sm w-100"
-                                    alt="{{ $blog->title }}" style="height: 400px; object-fit: cover;">
-                            </div>
-                        @endif
-
-                        <!-- Blog Content -->
-                        <div class="blog-content">
-                            <div class="content-wrapper">
-                                {!! $blog->description ?? '' !!}
-                            </div>
-                        </div>
-
-                        @if (!empty($blog->faqs))
-                            <section class="faq-section py-4 px-3 mt-5 rounded-4"
-                                style="background: rgba(220,220,220,0.15);">
-                                <h4 class="fw-bold mb-4 text-dark">Frequently Asked Questions</h4>
-                                <div class="accordion" id="blogFaqAccordion">
-                                    @foreach ($blog->faqs as $index => $faq)
-                                        <div class="accordion-item gradient-accordion">
-                                            <h2 class="accordion-header" id="blogFaqHeading{{ $index }}">
-                                                <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse"
-                                                    data-bs-target="#blogFaqCollapse{{ $index }}" aria-expanded="false"
-                                                    aria-controls="blogFaqCollapse{{ $index }}">
-                                                    Q. {{ $faq['question'] ?? '' }}
-                                                </button>
-                                            </h2>
-                                            <div id="blogFaqCollapse{{ $index }}" class="accordion-collapse collapse"
-                                                aria-labelledby="blogFaqHeading{{ $index }}"
-                                                data-bs-parent="#blogFaqAccordion">
-                                                <div class="accordion-body">
-                                                    A. {!! $faq['answer'] ?? 'No answer available.' !!}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </section>
-                        @endif
-
-                        <!-- Navigation -->
-                        <div class="blog-navigation d-flex justify-content-between align-items-center mt-5 pt-4 border-top">
-                            @if ($previousBlog)
-                                <a href="{{ route('blog.details', $previousBlog->slug) }}"
-                                    class="nav-link prev-post d-flex align-items-center text-decoration-none">
-                                    <div class="nav-icon me-3">
-                                        <i class="bi bi-arrow-left-circle fs-4"></i>
-                                    </div>
-                                    <div>
-                                        <small class="text-muted d-block">Previous Post</small>
-                                        <span
-                                            class="fw-semibold">{{ \Illuminate\Support\Str::limit($previousBlog->title, 30) }}</span>
-                                    </div>
-                                </a>
-                            @else
-                                <div></div>
-                            @endif
-
-                            @if ($nextBlog)
-                                <a href="{{ route('blog.details', $nextBlog->slug) }}"
-                                    class="nav-link next-post d-flex align-items-center text-decoration-none text-end">
-                                    <div>
-                                        <small class="text-muted d-block">Next Post</small>
-                                        <span
-                                            class="fw-semibold">{{ \Illuminate\Support\Str::limit($nextBlog->title, 30) }}</span>
-                                    </div>
-                                    <div class="nav-icon ms-3">
-                                        <i class="bi bi-arrow-right-circle fs-4"></i>
-                                    </div>
-                                </a>
-                            @endif
-                        </div>
-                    </article>
-                </div>
-            </div>
-            <div class="text-center" style="margin-left:100px; width:10%;">
-                <a href="{{ route('blogs') }}" class="themebtu"><i class="fa fa-arrow-left"></i> Back</a>
-            </div>
-        </div>
-    </section>
-    <!-- Related Posts -->
-    @if ($relatedPosts->isNotEmpty())
-        <section class="gap blog-recent-posts bg-light">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-10 heading">
-                        <h2>Related Posts</h2>
-                        <h6>You Might Also Like</h6>
-                        <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}"
-                            class="text-center mb-4">
-                        <div class="row g-4">
-                            @foreach ($relatedPosts as $relatedPost)
-                                <div class="col-lg-4 col-md-6">
-                                    <div
-                                        class="card blog-card h-100 border-0 shadow-sm rounded-4 overflow-hidden d-flex flex-column">
-                                        @if ($relatedPost->image_path)
-                                            <img src="{{ $relatedPost->image_path }}" class="card-img-top"
-                                                alt="{{ $relatedPost->title }}">
-                                        @endif
-                                        <div class="card-body d-flex flex-column">
-                                            <h6 class="card-title fw-bold">{{ $relatedPost->title ?? '' }}</h6>
-                                            <p class="card-text text-muted">
-                                                {{ \Illuminate\Support\Str::words($relatedPost->short_description, 20, '...') }}
-                                            </p>
-
-                                            <!-- Category centered -->
-                                            <div class="mb-2">
-                                                <span class="badge rounded-pill bg-light text-dark border">
-                                                    {{ $relatedPost->category->name ?? 'General' }}
-                                                </span>
-                                            </div>
-
-                                            <!-- Date & User -->
-                                            <div class="d-flex justify-content-between text-muted small mb-2">
-                                                <div>
-                                                    <i class="bi bi-calendar-event me-1"></i>
-                                                    {{ \Carbon\Carbon::parse($blog->blog_date)->format('M d, Y') }}
-                                                </div>
-                                                <div>
-                                                    <i class="bi bi-person-circle me-1"></i>
-                                                    <strong>{{ $blog->user->name }}</strong>
-                                                </div>
-                                            </div>
-
-
-                                            <!-- Read More button always at bottom -->
-                                            <a href="{{ route('blog.details', $relatedPost->slug) }}"
-                                                class="themebtu mt-auto" style="text-align: center;">
-                                                Read More
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="bds-meta__chips">
+                            <span class="bds-chip">
+                                <i class="bi bi-calendar3"></i>
+                                {{ \Carbon\Carbon::parse($blog->blog_date)->format('M d, Y') }}
+                            </span>
+                            @foreach ($categories as $category)
+                                <span class="bds-chip bds-chip--cat">
+                                    <i class="bi bi-tag-fill"></i>
+                                    {{ $category->name ?? '' }}
+                                </span>
                             @endforeach
                         </div>
                     </div>
+
+                    {{-- Reading progress bar --}}
+                    <div class="bds-progress-wrap">
+                        <div class="bds-progress-fill" id="bdsProgress"></div>
+                    </div>
+
+                    {{-- Featured image --}}
+                    @if ($blog->image_path)
+                        <div data-aos="zoom-in-up" data-aos-delay="140" class="bds-featured-img">
+                            <img src="{{ $blog->image_path }}"
+                                 alt="{{ $blog->title }}"
+                                 loading="eager">
+                        </div>
+                    @endif
+
+                    <div class="bds-voice" id="bdsVoicePlayer">
+                        <div class="bds-voice__title">Listen to Article <span>Audio</span></div>
+                        <div class="bds-voice__controls">
+                            <button type="button" class="bds-voice__play" id="bdsVoicePlay" aria-label="Play audio">
+                                <i class="bi bi-play-fill" id="bdsVoicePlayIcon"></i>
+                            </button>
+                            <div class="bds-voice__time" id="bdsVoiceTime">0:00</div>
+                            <input type="range" id="bdsVoiceProgress" class="bds-voice__progress" min="0" max="100" value="0">
+                            <select id="bdsVoiceRate" class="bds-voice__rate" aria-label="Speech speed">
+                                <option value="0.8">0.8x</option>
+                                <option value="1" selected>1x</option>
+                                <option value="1.2">1.2x</option>
+                                <option value="1.5">1.5x</option>
+                            </select>
+                            <i class="bi bi-volume-up-fill bds-voice__vol-icon"></i>
+                            <input type="range" id="bdsVoiceVolume" class="bds-voice__volume" min="0" max="1" step="0.1" value="1">
+                            <div class="bds-voice__total" id="bdsVoiceTotal">0:00</div>
+                        </div>
+                    </div>
+
+                    {{-- Blog prose --}}
+                    <div class="bds-prose">
+                        {!! $descriptionWithAnchors !!}
+                    </div>
+
+                    {{-- FAQ accordion --}}
+                    @if (!empty($blog->faqs))
+                        <section data-aos="fade-up" class="bds-faq">
+                            <h4 class="bds-faq__heading">
+                                <i class="bi bi-question-circle-fill"></i>
+                                Frequently Asked Questions
+                            </h4>
+                            <div class="accordion" id="blogFaqAccordion">
+                                @foreach ($blog->faqs as $index => $faq)
+                                    <div data-aos="zoom-in-up" data-aos-delay="140" class="bds-faq__item accordion-item">
+                                        <h2 class="accordion-header" id="faqH{{ $index }}">
+                                            <button class="accordion-button collapsed bds-faq__btn"
+                                                    type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#faqC{{ $index }}"
+                                                    aria-expanded="false"
+                                                    aria-controls="faqC{{ $index }}">
+                                                {{ $faq['question'] ?? '' }}
+                                            </button>
+                                        </h2>
+                                        <div id="faqC{{ $index }}"
+                                             class="accordion-collapse collapse"
+                                             aria-labelledby="faqH{{ $index }}"
+                                             data-bs-parent="#blogFaqAccordion">
+                                            <div class="accordion-body bds-faq__body">
+                                                {!! $faq['answer'] ?? 'No answer available.' !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </section>
+                    @endif
+
+                    {{-- Article stats --}}
+                    <div class="bds-stats">
+                        <div class="bds-stats__cell">
+                            <div class="bds-stats__num" id="bdsReadTime">–</div>
+                            <div class="bds-stats__lbl">Min read</div>
+                        </div>
+                        <button type="button" class="bds-stats__cell bds-stats__cell--btn" id="bdsShareBtn" title="Share this article">
+                            <i class="bi bi-share bds-stats__icon"></i>
+                            <div class="bds-stats__lbl">Share</div>
+                        </button>
+                        <button type="button" class="bds-stats__cell bds-stats__cell--btn" onclick="bdsPrintArticle()" title="Print this article">
+                            <i class="bi bi-printer bds-stats__icon"></i>
+                            <div class="bds-stats__lbl">Print</div>
+                        </button>
+                    </div>
+
+                    {{-- Prev / Next navigation --}}
+                    <div class="bds-nav">
+                        @if ($previousBlog)
+                            <a href="{{ route('blog.details', $previousBlog->slug) }}" class="bds-nav__btn bds-nav__btn--prev">
+                                <i class="bi bi-arrow-left-circle-fill"></i>
+                                <div>
+                                    <span class="bds-nav__label">Previous</span>
+                                    <span class="bds-nav__title">{{ \Illuminate\Support\Str::limit($previousBlog->title, 34) }}</span>
+                                </div>
+                            </a>
+                        @else
+                            <div></div>
+                        @endif
+
+                        @if ($nextBlog)
+                            <a href="{{ route('blog.details', $nextBlog->slug) }}" class="bds-nav__btn bds-nav__btn--next">
+                                <div>
+                                    <span class="bds-nav__label">Next</span>
+                                    <span class="bds-nav__title">{{ \Illuminate\Support\Str::limit($nextBlog->title, 34) }}</span>
+                                </div>
+                                <i class="bi bi-arrow-right-circle-fill"></i>
+                            </a>
+                        @endif
+                    </div>
+
+                    <div class="bds-back">
+                        <a href="{{ route('blogs') }}" class="themebtu">
+                            <i class="bi bi-arrow-left"></i> Back to Blog
+                        </a>
+                    </div>
+
+                </article>
+
+                {{-- ── RIGHT: Sticky Sidebar ── --}}
+                <aside class="bds-sidebar-col">
+                    <div class="bds-sidebar" id="bdsSidebar">
+
+                        {{-- CTA card --}}
+                        <div class="bds-cta">
+                            <div class="bds-cta__tag">Expert Guidance</div>
+                            <h3 class="bds-cta__title">Planning to Study Abroad?</h3>
+                            <p class="bds-cta__body">Talk to our advisors for profile evaluation, visa support, and end-to-end admission guidance.</p>
+                            <div class="bds-cta__actions">
+                                <a href="{{ url('/contact-us') }}" class="bds-cta__btn bds-cta__btn--primary">
+                                    <i class="bi bi-calendar-check me-1"></i> Book Free Consultation
+                                </a>
+                                <a href="{{ url('/enquiry') }}" class="bds-cta__btn bds-cta__btn--outline">
+                                    Start Your Enquiry
+                                </a>
+                            </div>
+                        </div>
+
+                        {{-- Subscribe card --}}
+                        <div class="bds-subscribe">
+                            <div class="bds-subscribe__icon-wrap">
+                                <i class="bi bi-envelope-heart-fill bds-subscribe__icon"></i>
+                            </div>
+                            <h4 class="bds-subscribe__title">Stay Updated</h4>
+                            <p class="bds-subscribe__body">Get the latest study abroad tips and updates directly in your inbox.</p>
+                            <form data-aos="fade-up" data-aos-delay="120" action="{{ route('subscribe.store') }}" method="post" class="bds-subscribe__form">
+                                @csrf
+                                <label for="bds-email" class="visually-hidden">Email address</label>
+                                <input id="bds-email"
+                                       type="email"
+                                       name="email"
+                                       placeholder="your@email.com"
+                                       required>
+                                <button type="submit">
+                                    Subscribe <i class="bi bi-arrow-right ms-1"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </aside>
+
+            </div>{{-- /.bds-layout --}}
+        </div>{{-- /.container --}}
+    </section>
+
+    {{-- ═══════════════════════════════════════════════════════════
+         RELATED POSTS
+    ═══════════════════════════════════════════════════════════ --}}
+    @if ($relatedPosts->isNotEmpty())
+        <section data-aos="fade-up" class="bds-related">
+            <div class="container">
+                <div data-aos="fade-up" data-aos-delay="100" class="heading mb-4">
+                    <h6>Related Posts</h6>
+                    <h2>You Might Also Like</h2>
+                    <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
+                </div>
+                <div class="row g-4">
+                    @foreach ($relatedPosts as $relatedPost)
+                        <div class="col-lg-4 col-md-6">
+                            <a href="{{ route('blog.details', $relatedPost->slug) }}" class="blog-card-link d-block h-100"
+                                aria-label="Read blog: {{ $relatedPost->title }}">
+                                <div data-aos="zoom-in-up" data-aos-delay="140" class="card blog-card h-100 border-0 shadow-sm rounded-4 overflow-hidden d-flex flex-column">
+                                    @if ($relatedPost->image_path)
+                                        <img src="{{ $relatedPost->image_path }}" class="card-img-top" alt="{{ $relatedPost->title }}" loading="lazy">
+                                    @endif
+                                    <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body d-flex flex-column">
+                                        <h5 class="card-title fw-bold">{{ $relatedPost->title ?? '' }}</h5>
+                                        <p class="card-text text-muted">
+                                            {{ \Illuminate\Support\Str::words(strip_tags($relatedPost->short_description), 25, '...') }}
+                                        </p>
+                                        <div class="mb-2">
+                                            <span class="badge rounded-pill bg-light text-dark border">
+                                                {{ $relatedPost->category->name ?? 'General' }}
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-between text-muted small mb-2">
+                                            <div>
+                                                <i class="bi bi-calendar-event me-1"></i>
+                                                {{ \Carbon\Carbon::parse($relatedPost->blog_date)->format('M d, Y') }}
+                                            </div>
+                                            <div>
+                                                <i class="bi bi-person-circle me-1"></i>
+                                                <strong>{{ $relatedPost->user->name ?? 'Admin' }}</strong>
+                                            </div>
+                                        </div>
+                                        <span class="themebtu mt-auto">Read More</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </section>
     @endif
 
+
+    {{-- ═══════════════════════════════════════════════════════════
+         ALL STYLES  (scoped with bds- prefix to avoid conflicts)
+    ═══════════════════════════════════════════════════════════ --}}
     <style>
-        /* Blog Article Styles */
-        .blog-article {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            margin-bottom: 3rem;
+        /* ─── Reset / Base ────────────────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; }
+
+        /* Force Poppins throughout the blog detail page */
+        .bds-hero,
+        .bds-main,
+        .bds-related,
+        .bds-hero *,
+        .bds-main *,
+        .bds-related * {
+            font-family: "Poppins", sans-serif !important;
         }
 
-        .blog-meta {
-            border-left: 4px solid var(--bs-primary);
+        /* ─── Hero ────────────────────────────────────────────────── */
+        .bds-hero {
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            padding: 80px 0 100px;
+            min-height: 480px;
+            display: flex;
+            align-items: center;
+        }
+        .bds-hero .container { width: 100%; }
+        .bds-hero__overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(100deg, rgba(5,20,60,0.72) 0%, rgba(10,35,90,0.45) 55%, rgba(5,18,55,0.65) 100%);
+        }
+        .bds-hero .container { position: relative; z-index: 1; }
+        .bds-hero__inner { padding-left: 40px; }
+
+        .bds-hero__title {
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            color: #f0f8ff;
+            text-shadow: 0 4px 18px rgba(0,15,50,0.4);
+            margin: 0 0 18px;
+            text-wrap: balance;
+        }
+        .bds-hero__title-main { display: inline; }
+        .bds-hero__title-accent {
+            display: inline;
+            background: linear-gradient(90deg, #93e8ff 0%, #60d4ff 45%, #b3c8ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .author-avatar {
+        .bds-hero__breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: rgba(220,235,255,0.75);
+        }
+        .bds-hero__breadcrumb a {
+            color: rgba(220,235,255,0.85);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .bds-hero__breadcrumb a:hover { color: #fff; }
+        .bds-hero__breadcrumb span:last-child { color: #a8c8ff; }
+
+        /* ─── Main section ────────────────────────────────────────── */
+        .bds-main {
+            padding: 48px 0 64px;
+            background: #f4f7fb;
+        }
+
+        /* ─── 3-column layout ─────────────────────────────────────── */
+        .bds-layout {
+            display: grid;
+            grid-template-columns: 240px minmax(0, 1fr) 260px;
+            gap: 28px;
+            align-items: start;
+        }
+        .bds-layout--no-toc {
+            grid-template-columns: minmax(0, 1fr) 260px;
+        }
+
+        /* ─── TOC column ──────────────────────────────────────────── */
+        .bds-toc-col {
+            /* The sticky wrapper */
+            position: sticky;
+            top: 24px;
+            max-height: calc(100vh - 48px);
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        .bds-toc-col::-webkit-scrollbar { display: none; }
+
+        .bds-toc {
+            background: #fff;
+            border: 1px solid #e2e8f3;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 14px rgba(10,30,80,0.07);
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+        .bds-toc:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(10,30,80,0.12);
+        }
+        .bds-toc__head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            background: #f7faff;
+            border-bottom: 1px solid #e9eef8;
+        }
+        .bds-toc__icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1e40af, #4f46e5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+        .bds-toc__title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1;
+        }
+        .bds-toc__sub {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 3px;
+        }
+
+        .bds-toc__list {
+            list-style: none;
+            margin: 0;
+            padding: 10px 0;
+        }
+        .bds-toc__item { margin: 0; }
+        .bds-toc__link {
+            display: flex;
+            align-items: flex-start;
+            gap: 9px;
+            padding: 7px 16px;
+            font-size: 12.5px;
+            font-weight: 500;
+            color: #64748b;
+            text-decoration: none;
+            border-left: 2px solid transparent;
+            transition: all 0.18s ease;
+            line-height: 1.4;
+        }
+        .bds-toc__link:hover,
+        .bds-toc__link.is-active {
+            color: #1e3a8a;
+            border-left-color: #3b82f6;
+            background: #f0f6ff;
+        }
+        .bds-toc__dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+        .bds-toc__dot--1 { background: #3b82f6; }
+        .bds-toc__dot--2 { background: #7c3aed; }
+        .bds-toc__dot--3 { background: #db2777; }
+
+        .bds-toc__item--l3 .bds-toc__link,
+        .bds-toc__item--l4 .bds-toc__link,
+        .bds-toc__item--l5 .bds-toc__link,
+        .bds-toc__item--l6 .bds-toc__link {
+            padding-left: 28px;
+            font-size: 11.5px;
+            font-weight: 400;
+        }
+
+        /* ─── Article card ────────────────────────────────────────── */
+        .bds-article {
+            background: #fff;
+            border: 1px solid #e2e8f3;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(10,30,80,0.07);
+            transition: transform 0.24s ease, box-shadow 0.24s ease;
+        }
+        .bds-article:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(10,30,80,0.12);
+        }
+
+        /* Meta bar */
+        .bds-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 14px 22px;
+            background: #f7faff;
+            border-bottom: 1px solid #e9eef8;
+            border-left: 4px solid #1e40af;
+        }
+        .bds-meta__author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .bds-meta__avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e40af, #4f46e5);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .bds-meta__name {
+            font-size: 13.5px;
             font-weight: 600;
-            font-size: 1.1rem;
+            color: #1e293b;
+            line-height: 1.2;
+        }
+        .bds-meta__name--link {
+            text-decoration: none;
+            display: inline-block;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+        .bds-meta__name--link:hover {
+            color: #1d4ed8;
+            transform: translateX(1px);
+        }
+        .bds-meta__role {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+        .bds-meta__chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+        .bds-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11.5px;
+            color: #475569;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            padding: 4px 11px;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+        .bds-chip:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(30,64,175,0.12);
+            border-color: #bfdbfe;
+        }
+        .bds-chip i { font-size: 11px; }
+        .bds-chip--cat {
+            color: #1e40af;
+            background: #eff6ff;
+            border-color: #bfdbfe;
+            font-weight: 500;
         }
 
-        /* Blog Content Styles */
-        /* .blog-content {
-                                    font-size: 1.1rem;
-                                    line-height: 1.8;
-                                    color: #444;
-                                } */
+        /* Reading progress */
+        .bds-progress-wrap {
+            height: 3px;
+            background: #eef2ff;
+            margin: 0;
+        }
+        .bds-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            width: 0%;
+            transition: width 0.15s linear;
+        }
 
-        .content-wrapper p {
-            margin-bottom: 1.5rem;
+        /* Featured image */
+        .bds-featured-img {
+            width: 100%;
+            overflow: hidden;
+        }
+        .bds-featured-img img {
+            width: 100%;
+            height: 360px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid #e9eef8;
+        }
+
+        .bds-voice {
+            border-radius: 12px;
+            padding: 16px;
+            background: linear-gradient(105deg, #b80f44 0%, #7a145f 45%, #1e22be 100%);
+            margin: 18px 30px;
+            color: #fff;
+        }
+        .bds-voice__title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .bds-voice__title span {
+            font-weight: 500;
+            color: rgba(255,255,255,0.9);
+            margin-left: 6px;
+        }
+        .bds-voice__controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .bds-voice__play {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: none;
+            background: #4f8dff;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .bds-voice__time,
+        .bds-voice__total {
+            font-size: 12px;
+            min-width: 36px;
+            color: #fff;
+            font-weight: 500;
+        }
+        .bds-voice__progress,
+        .bds-voice__volume {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 999px;
+            outline: none;
+        }
+        .bds-voice__progress { flex: 1; }
+        .bds-voice__volume { width: 90px; }
+        .bds-voice__progress::-webkit-slider-thumb,
+        .bds-voice__volume::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #ff3b30;
+            cursor: pointer;
+        }
+        .bds-voice__rate {
+            border: none;
+            border-radius: 8px;
+            padding: 6px 8px;
+            background: rgba(255,255,255,0.24);
+            color: #fff;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .bds-voice__vol-icon {
+            color: rgba(255,255,255,0.95);
+        }
+
+        /* Prose / body */
+        .bds-prose {
+            padding: 28px 30px;
+            font-size: 15.5px;
+            line-height: 1.85;
+            color: #374151;
+        }
+        .bds-prose p {
+            margin-bottom: 1.2rem;
             text-align: justify;
         }
-
-        .content-wrapper h1,
-        .content-wrapper h2,
-        .content-wrapper h3,
-        .content-wrapper h4,
-        .content-wrapper h5,
-        .content-wrapper h6 {
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            font-weight: 600;
-            color: #2c3e50;
+        .bds-prose h1,
+        .bds-prose h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 2rem 0 0.85rem;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f1f5f9;
+            scroll-margin-top: 30px;
         }
-
-        .content-wrapper ul,
-        .content-wrapper ol {
-            margin-bottom: 1.5rem;
-            padding-left: 2rem;
+        .bds-prose h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 1.6rem 0 0.75rem;
+            scroll-margin-top: 30px;
         }
-
-        .content-wrapper li {
-            margin-bottom: 0.5rem;
+        .bds-prose h4,
+        .bds-prose h5,
+        .bds-prose h6 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #334155;
+            margin: 1.3rem 0 0.6rem;
+            scroll-margin-top: 30px;
         }
-
-        .content-wrapper blockquote {
-            background: #f8f9fa;
-            border-left: 4px solid var(--bs-primary);
-            padding: 1rem 1.5rem;
-            margin: 2rem 0;
+        .bds-prose ul,
+        .bds-prose ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1.3rem;
+            color: #374151;
+        }
+        .bds-prose li { margin-bottom: 0.5rem; }
+        .bds-prose blockquote {
+            background: #f8faff;
+            border-left: 3px solid #3b82f6;
+            border-radius: 0 10px 10px 0;
+            padding: 14px 20px;
+            margin: 1.8rem 0;
             font-style: italic;
-            border-radius: 0 8px 8px 0;
+            color: #475569;
+            font-size: 0.98rem;
+            line-height: 1.7;
         }
-
-        .content-wrapper code {
-            background: #f1f3f4;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.9em;
-            color: #e91e63;
-        }
-
-        .content-wrapper pre {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 1rem;
-            overflow-x: auto;
-            margin: 1.5rem 0;
-        }
-
-        /* Navigation Styles */
-        .blog-navigation .nav-link {
-            color: #6c757d;
-            transition: all 0.3s ease;
-            padding: 1rem;
-            border-radius: 8px;
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            max-width: 45%;
-        }
-
-        .blog-navigation .nav-link:hover {
-            color: var(--bs-primary);
-            background: white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .nav-icon i {
-            transition: transform 0.3s ease;
-        }
-
-        .prev-post:hover .nav-icon i {
-            transform: translateX(-5px);
-        }
-
-        .next-post:hover .nav-icon i {
-            transform: translateX(5px);
-        }
-
-        /* Related Posts Styles */
-        .blog-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            background: white;
-        }
-
-        .blog-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-img-top {
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .badge {
-            font-size: 0.75rem;
-            padding: 5px 10px;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .blog-article {
-                padding: 1.5rem;
-            }
-
-            .blog-meta {
-                flex-direction: column;
-                align-items: flex-start !important;
-                gap: 1rem;
-            }
-
-            .blog-navigation .nav-link {
-                max-width: 100%;
-                margin-bottom: 1rem;
-            }
-
-            .blog-navigation {
-                flex-direction: column;
-            }
-
-            .content-wrapper {
-                font-size: 1rem;
-            }
-
-            .featured-image img {
-                height: 250px !important;
-            }
-        }
-
-        /* Typography Improvements */
-        .content-wrapper img {
+        .bds-prose img {
             max-width: 100%;
             height: auto;
-            border-radius: 8px;
+            border-radius: 12px;
             margin: 1.5rem 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 20px rgba(10,30,80,0.1);
+            border: 1px solid #e2e8f3;
         }
-
-        .content-wrapper table {
+        .bds-prose table {
             width: 100%;
             border-collapse: collapse;
-            margin: 1.5rem 0;
-            background: white;
-            border-radius: 8px;
+            margin: 1.6rem 0;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2eaf8;
+            font-size: 14px;
+        }
+        .bds-prose table th {
+            background: #f0f6ff;
+            font-weight: 700;
+            color: #1e3a8a;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid #dde9f8;
+        }
+        .bds-prose table td {
+            padding: 9px 14px;
+            border-bottom: 1px solid #eef2fb;
+            color: #374151;
+        }
+        .bds-prose table tr:last-child td { border-bottom: none; }
+        .bds-prose code {
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 0.88em;
+            padding: 2px 7px;
+            border-radius: 5px;
+        }
+        .bds-prose pre {
+            background: #0f172a;
+            color: #e2e8f0;
+            border-radius: 10px;
+            padding: 1rem 1.2rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-size: 0.88rem;
+        }
+        .bds-prose pre code { background: none; color: inherit; padding: 0; }
+        .bds-prose a {
+            color: #1d4ed8;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .bds-prose a:hover { color: #1e3a8a; }
+
+        /* FAQ section */
+        .bds-faq {
+            margin: 0 30px 28px;
+            padding: 24px;
+            background: #f7faff;
+            border-radius: 14px;
+            border: 1px solid #dde9f8;
+        }
+        .bds-faq__heading {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .bds-faq__heading i { color: #1d4ed8; }
+        .bds-faq__item {
+            border: 1px solid #e2eaf8;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            background: #fff;
+            transition: box-shadow 0.2s;
+        }
+        .bds-faq__item:last-child { margin-bottom: 0; }
+        .bds-faq__item:hover { box-shadow: 0 4px 14px rgba(30,58,138,0.08); }
+        .bds-faq__btn {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1e3a8a;
+            background: #fff;
+            padding: 14px 16px;
+        }
+        .bds-faq__btn:not(.collapsed) {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+        .bds-faq__btn:focus { box-shadow: none; }
+        .bds-faq__body {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.7;
+            background: #f8faff;
+            padding: 14px 18px;
         }
 
-        .content-wrapper table th,
-        .content-wrapper table td {
-            padding: 0.75rem;
-            border-bottom: 1px solid #e9ecef;
+        /* Stats strip */
+        .bds-stats {
+            display: flex;
+            border-top: 1px solid #f1f5f9;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .bds-stats__cell {
+            flex: 1;
+            padding: 13px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            border-right: 1px solid #f1f5f9;
+            cursor: default;
+            background: none;
+        }
+        .bds-stats__cell:last-child { border-right: none; }
+        .bds-stats__cell--btn {
+            cursor: pointer;
+            border: none;
+            transition: background 0.18s;
+        }
+        .bds-stats__cell--btn:hover {
+            background: #f0f6ff;
+        }
+        .bds-stats__cell--btn:hover .bds-stats__icon {
+            color: #1d4ed8;
+        }
+        .bds-stats__num {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+        .bds-stats__icon {
+            font-size: 17px;
+            color: #64748b;
+        }
+        .bds-stats__lbl {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        /* Prev/Next nav */
+        .bds-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 28px;
+        }
+        .bds-nav__btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border: 1px solid #e2e8f3;
+            border-radius: 11px;
+            background: #f8faff;
+            text-decoration: none;
+            color: #374151;
+            transition: all 0.2s;
+            max-width: 46%;
+            font-size: 13px;
+        }
+        .bds-nav__btn:hover {
+            background: #fff;
+            border-color: #93c5fd;
+            color: #1e3a8a;
+            box-shadow: 0 4px 14px rgba(59,130,246,0.1);
+            transform: translateY(-1px);
+        }
+        .bds-nav__btn i {
+            font-size: 20px;
+            color: #3b82f6;
+            flex-shrink: 0;
+        }
+        .bds-nav__btn--next { flex-direction: row; }
+        .bds-nav__btn--next > div { text-align: right; }
+        .bds-nav__label {
+            display: block;
+            font-size: 10.5px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .bds-nav__title {
+            display: block;
+            font-weight: 600;
+            font-size: 12.5px;
+            color: #1e293b;
+            margin-top: 2px;
+        }
+
+        .bds-back {
+            padding: 0 28px 24px;
             text-align: left;
         }
 
-        .content-wrapper table th {
-            background: #f8f9fa;
-            font-weight: 600;
-            color: #495057;
+        /* ─── Sidebar column ──────────────────────────────────────── */
+        .bds-sidebar-col {
+            position: sticky;
+            top: 24px;
+            max-height: calc(100vh - 48px);
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        .bds-sidebar-col::-webkit-scrollbar { display: none; }
+
+        .bds-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
-        /* FAQ Accordion Styles (Interview Preparation style) */
-        .gradient-accordion {
-            border-radius: 10px;
-            margin-bottom: 12px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
-            border: 2px solid transparent;
-            background-clip: padding-box;
+        /* CTA card */
+        .bds-cta {
+            border-radius: 16px;
+            padding: 22px 20px;
+            background: linear-gradient(155deg, #0f2460 0%, #1d4ed8 55%, #4338ca 100%);
+            color: #fff;
+            box-shadow: 0 10px 28px rgba(15,36,96,0.28);
+            border: 1px solid rgba(255,255,255,0.12);
+            transition: transform 0.24s ease, box-shadow 0.24s ease;
         }
-
-        .gradient-accordion:hover {
+        .bds-cta:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-            border-image-slice: 1;
-            border-width: 2px;
-            border-image-source: linear-gradient(90deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
-            border-style: solid;
+            box-shadow: 0 16px 34px rgba(15,36,96,0.34);
         }
-
-        .accordion-button {
+        .bds-cta__tag {
+            display: inline-block;
+            font-size: 10px;
             font-weight: 600;
-            color: #0d6efd;
-            transition: all 0.3s ease;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: rgba(255,255,255,0.16);
+            border-radius: 20px;
+            padding: 4px 12px;
+            margin-bottom: 14px;
+        }
+        .bds-cta__title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .bds-cta__body {
+            font-size: 12.5px;
+            line-height: 1.65;
+            color: rgba(255,255,255,0.82);
+            margin-bottom: 18px;
+        }
+        .bds-cta__actions { display: flex; flex-direction: column; gap: 9px; }
+        .bds-cta__btn {
+            display: block;
+            text-align: center;
+            border-radius: 10px;
+            padding: 11px 12px;
+            font-size: 12.5px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.18s;
+        }
+        .bds-cta__btn--primary {
+            background: #fff;
+            color: #1e3a8a;
+        }
+        .bds-cta__btn--primary:hover { background: #eff6ff; color: #1e3a8a; }
+        .bds-cta__btn--outline {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .bds-cta__btn--outline:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
+        /* Subscribe card */
+        .bds-subscribe {
+            border-radius: 16px;
+            background: #fff;
+            border: 1px solid #e2e8f3;
+            padding: 20px;
+            box-shadow: 0 2px 12px rgba(10,30,80,0.06);
+            text-align: center;
+            transition: transform 0.24s ease, box-shadow 0.24s ease;
+        }
+        .bds-subscribe:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(10,30,80,0.12);
+        }
+        .bds-subscribe__icon-wrap {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #eff6ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+        .bds-subscribe__icon {
+            font-size: 20px;
+            color: #1d4ed8;
+        }
+        .bds-subscribe__title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+        .bds-subscribe__body {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.55;
+            margin-bottom: 16px;
+        }
+        .bds-subscribe__form {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+        .bds-subscribe__form input {
+            width: 100%;
+            padding: 9px 13px;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+            font-size: 13px;
+            color: #1e293b;
+            background: #f8faff;
+            outline: none;
+            transition: border-color 0.18s;
+        }
+        .bds-subscribe__form input:focus { border-color: #93c5fd; }
+        .bds-subscribe__form button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 9px;
+            background: linear-gradient(90deg, #1e40af, #4f46e5);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.18s;
+        }
+        .bds-subscribe__form button:hover { opacity: 0.88; }
+
+        /* ─── Related posts ───────────────────────────────────────── */
+        .bds-related {
+            padding: 60px 0 72px;
+            background: #f4f7fb;
+            border-top: 1px solid #e2e8f3;
+        }
+        .bds-related__head { text-align: center; margin-bottom: 36px; }
+        .bds-related__heading {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+        .bds-related__sub {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+        .bds-related__line { display: block; margin: 0 auto; }
+
+        .bds-related .themebtu {
+            width: 100%;
+            text-align: center;
+            display: inline-block;
+            margin-top: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .bds-related .themebtu:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(0,73,255,0.16);
         }
 
-        .accordion-button:focus {
-            box-shadow: none;
+        .bds-related__author-link {
+            color: #475569;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .bds-related__author-link:hover {
+            color: #1d4ed8;
         }
 
-        .accordion-button:not(.collapsed) {
-            background: rgba(13, 110, 253, 0.1);
-            color: #0b5ed7;
+        .bds-related .blog-card-link {
+            text-decoration: none;
+            color: inherit;
+        }
+        .bds-related .blog-card {
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
+        }
+        .bds-related .blog-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 16px 34px rgba(10,30,80,0.16);
+        }
+        .bds-related .card-img-top {
+            transition: transform 0.4s ease;
+        }
+        .bds-related .blog-card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+        .bds-related__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
         }
 
-        .accordion-body {
-            background: rgba(240, 240, 240, 0.5);
-            padding: 15px;
-            border-radius: 0 0 8px 8px;
-            color: #333;
+        /* Related card */
+        .bds-rcard {
+            background: #fff;
+            border: 1px solid #e2e8f3;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+        .bds-rcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 32px rgba(10,30,80,0.12);
+        }
+        .bds-rcard__img-wrap { overflow: hidden; height: 190px; }
+        .bds-rcard__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .bds-rcard:hover .bds-rcard__img { transform: scale(1.04); }
+        .bds-rcard__body {
+            padding: 18px 18px 16px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .bds-rcard__cat {
+            display: inline-block;
+            font-size: 10.5px;
+            font-weight: 600;
+            color: #1e40af;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+        }
+        .bds-rcard__title {
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+        .bds-rcard__excerpt {
+            font-size: 12.5px;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 14px;
+            flex: 1;
+        }
+        .bds-rcard__footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9;
+        }
+        .bds-rcard__date {
+            font-size: 11px;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .bds-rcard__link {
+            font-size: 12px;
+            font-weight: 600;
+            color: #1d4ed8;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: gap 0.18s;
+        }
+        .bds-rcard__link:hover { gap: 8px; color: #1e3a8a; }
+
+        /* ─── Responsive ──────────────────────────────────────────── */
+        @media (max-width: 1100px) {
+            .bds-layout {
+                grid-template-columns: 210px minmax(0,1fr) 230px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .bds-layout {
+                grid-template-columns: 1fr;
+            }
+            .bds-toc-col,
+            .bds-sidebar-col {
+                position: static;
+                max-height: none;
+                overflow-y: visible;
+            }
+            /* On mobile, show TOC and Sidebar above & below article */
+            .bds-toc-col { order: -1; }
+            .bds-article { order: 0; }
+            .bds-sidebar-col { order: 1; }
+            .bds-hero__inner { padding-left: 10px; }
+            .bds-featured-img img { height: 240px; }
+            .bds-voice { margin: 16px 18px; }
+            .bds-prose { padding: 20px 18px; }
+            .bds-faq { margin: 0 18px 20px; }
+            .bds-nav { flex-direction: column; align-items: stretch; }
+            .bds-nav__btn { max-width: 100%; }
+        }
+
+        @media (max-width: 576px) {
+            .bds-hero { padding: 60px 0 70px; }
+            .bds-main { padding: 28px 0 40px; }
+            .bds-meta { flex-direction: column; align-items: flex-start; }
+            .bds-voice__controls {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .bds-voice__progress {
+                order: 3;
+                width: calc(100% - 56px);
+                flex: none;
+            }
         }
     </style>
+
+    {{-- ═══════════════════════════════════════════════════════════
+         SCRIPTS
+    ═══════════════════════════════════════════════════════════ --}}
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        /* ── Reading progress bar ── */
+        var progressFill = document.getElementById('bdsProgress');
+        var article      = document.querySelector('.bds-article');
+        if (progressFill && article) {
+            window.addEventListener('scroll', function () {
+                var rect  = article.getBoundingClientRect();
+                var total = article.offsetHeight - window.innerHeight;
+                var done  = Math.max(0, -rect.top);
+                progressFill.style.width = Math.min(100, (done / total) * 100) + '%';
+            }, { passive: true });
+        }
+
+        /* ── Estimated read time ── */
+        var readTimeEl = document.getElementById('bdsReadTime');
+        var prose      = document.querySelector('.bds-prose');
+        if (readTimeEl && prose) {
+            var words   = prose.innerText.trim().split(/\s+/).length;
+            var minutes = Math.max(1, Math.ceil(words / 220));
+            readTimeEl.textContent = minutes;
+        }
+
+        /* ── TOC active-link highlighting (IntersectionObserver) ── */
+        var tocLinks = document.querySelectorAll('.bds-toc__link');
+        if (tocLinks.length) {
+            var headings = Array.from(document.querySelectorAll('.bds-prose h1, .bds-prose h2, .bds-prose h3, .bds-prose h4, .bds-prose h5, .bds-prose h6'));
+
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        tocLinks.forEach(function (l) { l.classList.remove('is-active'); });
+                        var active = document.querySelector('.bds-toc__link[data-toc-id="' + entry.target.id + '"]');
+                        if (active) {
+                            active.classList.add('is-active');
+                            /* Scroll the TOC so active item is visible */
+                            var tocCol = document.querySelector('.bds-toc-col');
+                            if (tocCol) {
+                                var linkTop    = active.offsetTop;
+                                var colScroll  = tocCol.scrollTop;
+                                var colHeight  = tocCol.clientHeight;
+                                if (linkTop < colScroll || linkTop > colScroll + colHeight - 40) {
+                                    tocCol.scrollTo({ top: linkTop - colHeight / 2, behavior: 'smooth' });
+                                }
+                            }
+                        }
+                    }
+                });
+            }, { rootMargin: '0px 0px -60% 0px', threshold: 0 });
+
+            headings.forEach(function (h) { if (h.id) observer.observe(h); });
+        }
+
+        /* ── Share button ── */
+        var shareBtn = document.getElementById('bdsShareBtn');
+        if (shareBtn) {
+            shareBtn.addEventListener('click', function () {
+                if (navigator.share) {
+                    navigator.share({ title: document.title, url: window.location.href });
+                } else {
+                    navigator.clipboard.writeText(window.location.href).then(function () {
+                        shareBtn.querySelector('.bds-stats__lbl').textContent = 'Copied!';
+                        setTimeout(function () {
+                            shareBtn.querySelector('.bds-stats__lbl').textContent = 'Share';
+                        }, 2000);
+                    });
+                }
+            });
+        }
+
+        /* ── Print article only ── */
+        window.bdsPrintArticle = function () {
+            var article = document.querySelector('.bds-article');
+            if (!article) { window.print(); return; }
+            var printWindow = window.open('', '_blank', 'width=900,height=700');
+            var styles = Array.from(document.querySelectorAll('link[rel="stylesheet"], style'))
+                .map(function (el) { return el.outerHTML; }).join('\n');
+            printWindow.document.write(
+                '<!DOCTYPE html><html><head><title>' + document.title + '</title>' +
+                styles +
+                '</head><body style="padding:30px;font-family:Poppins,sans-serif">' +
+                article.outerHTML +
+                '</body></html>'
+            );
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.onload = function () {
+                printWindow.print();
+                printWindow.close();
+            };
+        };
+
+        /* ── Smooth-scroll for TOC links ── */
+        document.querySelectorAll('.bds-toc__link').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                var id = this.getAttribute('data-toc-id');
+                var target = document.getElementById(id);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        initVoicePlayer('bdsVoice', '.bds-prose');
+
+        function initVoicePlayer(prefix, textSelector) {
+            var synth = window.speechSynthesis;
+            if (!synth) {
+                return;
+            }
+
+            var textEl = document.querySelector(textSelector);
+            var playBtn = document.getElementById(prefix + 'Play');
+            var playIcon = document.getElementById(prefix + 'PlayIcon');
+            var progress = document.getElementById(prefix + 'Progress');
+            var timeEl = document.getElementById(prefix + 'Time');
+            var totalEl = document.getElementById(prefix + 'Total');
+            var rateEl = document.getElementById(prefix + 'Rate');
+            var volumeEl = document.getElementById(prefix + 'Volume');
+
+            if (!textEl || !playBtn || !playIcon || !progress || !timeEl || !totalEl || !rateEl || !volumeEl) {
+                return;
+            }
+
+            var text = (textEl.innerText || '').trim();
+            if (!text) {
+                return;
+            }
+
+            var utterance = null;
+            var isPaused = false;
+            var totalSeconds = Math.max(30, Math.ceil(text.split(/\s+/).length / 160 * 60));
+            totalEl.textContent = formatTime(totalSeconds);
+
+            playBtn.addEventListener('click', function () {
+                if (synth.speaking && !isPaused) {
+                    synth.pause();
+                    isPaused = true;
+                    playIcon.className = 'bi bi-play-fill';
+                    return;
+                }
+
+                if (synth.speaking && isPaused) {
+                    synth.resume();
+                    isPaused = false;
+                    playIcon.className = 'bi bi-pause-fill';
+                    return;
+                }
+
+                synth.cancel();
+                utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = parseFloat(rateEl.value || '1');
+                utterance.volume = parseFloat(volumeEl.value || '1');
+
+                utterance.onstart = function () {
+                    playIcon.className = 'bi bi-pause-fill';
+                    isPaused = false;
+                };
+
+                utterance.onboundary = function (event) {
+                    if (!event || typeof event.charIndex !== 'number') {
+                        return;
+                    }
+                    var pct = Math.min(100, (event.charIndex / text.length) * 100);
+                    progress.value = pct;
+                    var elapsed = Math.floor((pct / 100) * totalSeconds);
+                    timeEl.textContent = formatTime(elapsed);
+                };
+
+                utterance.onend = function () {
+                    playIcon.className = 'bi bi-play-fill';
+                    progress.value = 100;
+                    timeEl.textContent = totalEl.textContent;
+                    isPaused = false;
+                };
+
+                utterance.onerror = function () {
+                    playIcon.className = 'bi bi-play-fill';
+                    isPaused = false;
+                };
+
+                progress.value = 0;
+                timeEl.textContent = '0:00';
+                synth.speak(utterance);
+            });
+
+            rateEl.addEventListener('change', function () {
+                if (utterance) {
+                    utterance.rate = parseFloat(rateEl.value || '1');
+                }
+            });
+
+            volumeEl.addEventListener('input', function () {
+                if (utterance) {
+                    utterance.volume = parseFloat(volumeEl.value || '1');
+                }
+            });
+
+            function formatTime(seconds) {
+                var m = Math.floor(seconds / 60);
+                var s = seconds % 60;
+                return m + ':' + String(s).padStart(2, '0');
+            }
+        }
+
+    });
+    </script>
+
 @endsection

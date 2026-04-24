@@ -2,11 +2,10 @@
 @section('maincontent')
     <!-- Hero Section -->
 
-    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
+    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
     <div class="container">
         <div class="splash-area">
-            <h2 class="splash-title">Get in Touch</h2>
-            <h2 class="splash-title gradient-text">With Us</h2>
+            <h1 class="splash-title">Get in Touch <span class="gradient-text">With Us</span></h1>
         </div>
     </div>
 
@@ -43,9 +42,9 @@
 
 
     <!-- Contact Section -->
-    <section class="contact-page gap" id="contact-form">
+    <section data-aos="fade-up" class="contact-page gap" id="contact-form">
         <div class="container">
-            <div class="heading text-left mb-5">
+            <div data-aos="fade-up" data-aos-delay="100" class="heading text-left mb-5">
                 <h6>Start Your Project With Us.</h6>
                 <h2>Let's Talk</h2>
                 <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
@@ -57,7 +56,7 @@
                 </div>
                 <!-- Contact Details -->
                 <div class="offset-lg-1 col-xl-5 col-lg-5">
-                    <div class="details-card">
+                    <div data-aos="zoom-in-up" data-aos-delay="140" class="details-card">
                         <h4>Contact Details</h4>
 
                         <ul class="contact-list">
@@ -101,9 +100,9 @@
     </section>
 
     <!-- Branch Offices -->
-    <section class="offices gap" style="background-color:#f9fbfd;">
+    <section data-aos="fade-up" class="offices gap" style="background-color:#f9fbfd;">
         <div class="container">
-            <div class="heading text-left mb-5">
+            <div data-aos="fade-up" data-aos-delay="100" class="heading text-left mb-5">
                 <h6>Explore Our Locations</h6>
                 <h2>Discover Our Global Branch Network</h2>
                 <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
@@ -112,7 +111,7 @@
                 <div class="row g-4">
                     @foreach ($branches as $branch)
                         <div class="col-xl-6 col-lg-6">
-                            <div class="branch-card">
+                            <div data-aos="zoom-in-up" data-aos-delay="140" class="branch-card">
                                 <h3>{{ $branch->name ?? '' }}</h3>
                                 <ul>
                                     <li><i class="fa-solid fa-envelope"></i> {{ $branch->email ?? '' }}</li>
@@ -129,7 +128,7 @@
     </section>
 
     <!-- Map -->
-    <div class="heading mb-4 text-center pt-5">
+    <div data-aos="fade-up" data-aos-delay="100" class="heading mb-4 text-center pt-5">
         <h6>Find Us Here</h6>
         <h2>Our Head Office Location</h2>
         <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">

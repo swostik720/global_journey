@@ -9,12 +9,11 @@
 </head>
 
 <body>
-    <h1>Someone is Contacting Us </h1>
+    <h1>New Contact Request</h1>
     <p>Name: {{ $name }}</p>
     <p>Email: {{ $email }}</p>
     <p>Phone number: {{ $phone }}</p>
     <p>Message: {{ $contact_message }}</p>
-    <p>Branch: {{ $branch->name }}</p>
 
 </body>
 

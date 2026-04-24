@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Branch;
 use App\Models\Permission;
 use App\Models\StudyAbroad;
 use App\Models\Testimonial;
@@ -47,6 +48,11 @@ class AppServiceProvider extends ServiceProvider
         View::composer(['frontend.layouts.includes.header', 'frontend.layouts.includes.footer'], function ($view) {
             $data = Cache::remember('global_header_footer_data', 3600, function () {
                 return [
+                    'branches' => Branch::active()
+                        ->select(['name'])
+                        ->orderBy('name', 'asc')
+                        ->take(5)
+                        ->get(),
                     'studyabroads' => StudyAbroad::active()
                         ->select(['title', 'slug'])
                         ->orderBy('title', 'asc') // Alphabetically sorted
@@ -66,6 +72,7 @@ class AppServiceProvider extends ServiceProvider
                 ];
             });
 
+            $view->with('branches', $data['branches'] ?? collect());
             $view->with('studyabroads', $data['studyabroads'] ?? collect());
             $view->with('testpreparations', $data['testpreparations'] ?? collect());
             $view->with('interviewPreparations', $data['interviewPreparations'] ?? collect());

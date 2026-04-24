@@ -1,6 +1,6 @@
 @extends('frontend.layouts.includes.master')
 @section('maincontent')
-    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
+    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
         <div class="container">
             <div class="splash-area">
                 @php
@@ -9,10 +9,9 @@
                     $secondPart = $parts[2] ?? '';
                 @endphp
 
-                <h2 class="splash-title">{{ $firstPart }}</h2>
-                @if ($secondPart)
-                    <h2 class="splash-title gradient-text">{{ $secondPart }}</h2>
-                @endif
+                <h1 class="splash-title">
+                    {{ $firstPart }}@if ($secondPart) <span class="gradient-text">{{ $secondPart }}</span>@endif
+                </h1>
             </div>
         </div>
 
@@ -50,12 +49,12 @@
         </style>
     </section>
 
-    <section class="gap mt-5">
+    <section data-aos="fade-up" class="gap mt-5">
         <div class="container">
             <div class="row g-3">
                 @foreach ($gallery->images_path as $index => $image)
                     <div class="col-lg-3 col-md-4 col-6">
-                        <div class="gallery-item mb-3">
+                        <div data-aos="zoom-in-up" data-aos-delay="140" class="gallery-item mb-3">
                             <img src="{{ $image }}" alt="{{ $gallery->title }}"
                                 class="img-fluid rounded shadow-sm gallery-thumb" data-index="{{ $index }}">
                         </div>

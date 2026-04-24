@@ -1,6 +1,6 @@
-<section class="gap no-bottom video-section" style="background-color: #f2edf5;">
+<section data-aos="fade-up" class="gap no-bottom video-section" style="background-color: #f2edf5;">
     <div class="container">
-        <div class="heading-boder two text-center">
+        <div data-aos="fade-up" data-aos-delay="100" class="heading-boder two text-center">
             <h2>Let’s Start Your Journey <span>Together</span></h2>
             <p>We make a difference.</p>
         </div>
@@ -20,10 +20,10 @@
         <!-- Video Section -->
         <div class="row">
             <div class="offset-xl-1 col-xl-10">
-                <div class="video-img position-relative">
+                <div data-aos="zoom-in-up" data-aos-delay="180" class="video-img position-relative">
                     <div class="overlay-dark"></div>
                     <img class="w-100 rounded" alt="img" src="{{ asset('frontend/assets/img/team.jpg') }}">
-                    <a data-fancybox href="https://www.youtube.com/embed/oWomYbpdLjA?si=_9vfMRMOXfGv16pI">
+                    <a data-aos="zoom-in" data-aos-delay="260" data-fancybox href="https://www.youtube.com/embed/oWomYbpdLjA?si=_9vfMRMOXfGv16pI">
                         <i class="fa fa-play play-btn"></i>
                     </a>
                 </div>
@@ -38,7 +38,7 @@
                 <div class="offset-xl-1 col-xl-10">
                     <div class="row g-3 align-items-start">
                         <div class="col-xl-6">
-                            <div class="heading">
+                            <div data-aos="fade-up" data-aos-delay="100" class="heading">
                                 <h6>Get In Touch</h6>
                                 <h2 style="color: black;">Begin Your Global Education Journey Today!</h2>
                                 <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
@@ -50,7 +50,7 @@
                             </div>
                         </div>
 
-                        <div class="col-xl-6">
+                        <div data-aos="fade-left" data-aos-delay="220" class="col-xl-6">
                             @include('frontend.layouts.enquiry_form')
                         </div>
                     </div>

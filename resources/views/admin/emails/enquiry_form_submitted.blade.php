@@ -9,13 +9,12 @@
 </head>
 
 <body>
-    <h1>Someone is Enquiring Us </h1>
+    <h1>New Enquiry</h1>
     <p>Name: {{ $name }}</p>
     <p>Email: {{ $email }}</p>
     <p>Phone number: {{ $phone ?? '' }}</p>
     <p>Address: {{ $address }}</p>
     <p>Message: {{ $enquiry_message }}</p>
-    <p>Branch: {{ $branch->name }}</p>
 
 </body>
 

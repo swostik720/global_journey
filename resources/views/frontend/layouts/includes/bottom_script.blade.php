@@ -4,6 +4,21 @@
 <script src="{{ asset('frontend/assets/js/swiper.js') }}"></script>
 <script src="{{ asset('frontend/assets/js/custom.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.AOS) {
+            AOS.init({
+                duration: 750,
+                easing: 'ease-out-cubic',
+                once: true,
+                offset: 70,
+                delay: 60,
+            });
+        }
+    });
+</script>
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @if (Session::has('success') || Session::has('error'))

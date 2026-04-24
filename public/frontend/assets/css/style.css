@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap");
 @import url(https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
 
 :root {
@@ -7,7 +7,7 @@
 }
 body {
     overflow-x: hidden !important;
-    font-family: "Inter";
+    font-family: "Poppins", sans-serif;
 }
 p {
     font-size: 16px;
@@ -567,8 +567,33 @@ span.swiper-pagination-bullet.swiper-pagination-bullet-active {
 .links ul li a:hover:before {
     width: 100%;
 }
+
+/* Branch name in footer — no link, but same hover underline behaviour */
+.links ul li .footer-branch-name {
+    color: #555;
+    text-transform: capitalize;
+    position: relative;
+    cursor: default;
+    display: inline-block;
+}
+.links ul li .footer-branch-name:before {
+    position: absolute;
+    content: "";
+    width: 0%;
+    height: 2px;
+    background-color: #444;
+    bottom: -4px;
+    transition: width 0.3s ease;
+}
+.links ul li:hover .footer-branch-name {
+    color: #444;
+}
+.links ul li:hover .footer-branch-name:before {
+    width: 100%;
+}
+
 .links {
-    padding-left: 40px;
+    padding-left: 0;
 }
 .latest-news p {
     color: #555;
@@ -2923,7 +2948,7 @@ blockquote {
 /*  */
 
 .snip1493 {
-    font-family: "Open Sans", Arial, sans-serif;
+    font-family: "Poppins", sans-serif;
     position: relative;
     overflow: hidden;
     margin: 10px;
@@ -3053,7 +3078,7 @@ blockquote {
 /*  */
 /*  */
 figure.snip1253 {
-    font-family: "Raleway", Arial, sans-serif;
+    font-family: "Poppins", sans-serif;
     color: #fff;
     position: relative;
     overflow: hidden;

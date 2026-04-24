@@ -2,11 +2,10 @@
 
 @section('maincontent')
     <!-- Hero Section -->
-    <section class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
+    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
         <div class="container">
             <div class="splash-area">
-                <h2 class="splash-title">Interview</h2>
-                <h2 class="splash-title gradient-text">Preperation</h2>
+                <h1 class="splash-title">Interview <span class="gradient-text">Preperation</span></h1>
             </div>
         </div>
 
@@ -44,9 +43,9 @@
     </section>
 
     <!-- Interview Preparation Grid -->
-    <section class="py-5 position-relative">
+    <section data-aos="fade-up" class="py-5 position-relative">
         <div class="container">
-            <div class="heading text-center mb-5">
+            <div data-aos="fade-up" data-aos-delay="100" class="heading text-center mb-5">
                 <h6 class="text-primary fw-semibold">Tips & Preparations</h6>
                 <h2 class="fw-bold">Interview Preparation Resources</h2>
                 <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}" class="img-fluid mt-3"
@@ -56,7 +55,7 @@
             <div class="row g-4 justify-content-center">
                 @forelse ($interviewPreparations as $item)
                     <div class="col-md-6 col-lg-4">
-                        <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden prep-card position-relative">
+                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden prep-card position-relative">
                             <a href="{{ route('interview-preparation.details', $item->slug) }}"
                                 class="text-decoration-none text-dark h-100 d-block">
                                 <div class="ratio ratio-4x3">
@@ -64,7 +63,7 @@
                                         src="{{ $item->image ? asset('uploaded-images/interwiew-preperations-images/' . $item->image) : asset('frontend/assets/img/default.jpg') }}"
                                         style="object-fit:cover; width:100%; height:100%;">
                                 </div>
-                                <div class="card-body p-4">
+                                <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body p-4">
                                     <h5 class="card-title fw-bold">{{ $item->title }}</h5>
                                     <p class="card-text small text-muted mb-3">{!! Str::limit($item->description, 100) !!}</p>
                                     <span class="themebtu mt-auto">Learn More <i class="bi bi-arrow-right ms-1"></i></span>
@@ -84,9 +83,9 @@
     </section>
 
     <!-- Visa Conditions Section -->
-    <section class="py-5 bg-light">
+    <section data-aos="fade-up" class="py-5 bg-light">
         <div class="container">
-            <div class="heading text-center mb-5">
+            <div data-aos="fade-up" data-aos-delay="100" class="heading text-center mb-5">
                 <h6 class="text-primary fw-semibold">Visa Interview Checklist & Conditions</h6>
                 <h2 class="fw-bold">Prepare Confidently for Your Visa Interview</h2>
                 <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}" class="img-fluid mt-3"
@@ -109,7 +108,7 @@
             <div class="row g-4 justify-content-center mb-5">
                 @foreach ($visaConditions as $condition)
                     <div class="col-md-6 col-lg-4">
-                        <div class="card visa-condition-card h-100 p-4 text-center position-relative overflow-hidden">
+                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card visa-condition-card h-100 p-4 text-center position-relative overflow-hidden">
                             <i class="bi bi-shield-check text-white mb-3 card-icon pulse-icon"></i>
                             <p class="fw-semibold fs-6 text-white mt-2">{{ $condition }}</p>
                             <div class="overlay"></div>
@@ -121,9 +120,9 @@
     </section>
 
     <!-- Tips Section -->
-    <section class="py-5">
+    <section data-aos="fade-up" class="py-5">
         <div class="container">
-            <div class="heading text-center mb-5">
+            <div data-aos="fade-up" data-aos-delay="100" class="heading text-center mb-5">
                 <h6 class="text-primary fw-semibold">Visa Interview Tips</h6>
                 <h2 class="fw-bold">Essential Tips to Succeed</h2>
                 <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}" class="img-fluid mt-3"
@@ -147,7 +146,7 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 @foreach ($tips as $tip)
                     <div class="col">
-                        <div class="card tip-card h-100 p-4 text-center position-relative overflow-hidden">
+                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card tip-card h-100 p-4 text-center position-relative overflow-hidden">
                             <i class="bi bi-lightbulb-fill text-warning mb-3 card-icon pulse-icon"></i>
                             <p class="fw-semibold mb-0">{{ $tip }}</p>
                             <div class="overlay"></div>

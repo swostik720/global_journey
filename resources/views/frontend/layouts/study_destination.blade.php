@@ -1,6 +1,6 @@
-<section class="project gap">
+<section data-aos="fade-up" class="project gap">
     <div class="container">
-        <div class="heading-boder">
+        <div data-aos="fade-up" data-aos-delay="100" class="heading-boder">
             <h2>Study in the best <br><span>Destination</span></h2>
             <p>Favourite destination</p>
         </div>
@@ -8,7 +8,7 @@
             <div class="swiper-wrapper">
                 @foreach ($studyabroads as $studyabroad)
                     <div class="swiper-slide">
-                        <figure
+                        <figure data-aos="zoom-in" data-aos-delay="{{ 120 + (($loop->index % 4) * 80) }}"
                             class="snip1493 card border-0 shadow-sm h-100 d-flex flex-column p-0 bg-white transition-all overflow-hidden"
                             style="min-height: 500px; cursor:pointer; border-radius: 20px; overflow: hidden; position: relative;">
 
@@ -42,8 +42,8 @@
             <div class="swiper-button-prev"><i class="fa fa-arrow-left"></i></div>
             <div class="swiper-pagination"></div>
         </div>
-        <div class="btugap">
-            <a href="{{ route('study-abroad') }}" class="themebtu">View all Destinations</a>
+        <div data-aos="fade-up" data-aos-delay="220" class="btugap">
+            <a data-aos="fade-up" data-aos-delay="300" href="{{ route('study-abroad') }}" class="themebtu">View all Destinations</a>
         </div>
         <div class="tp-hero__shapes">
             <div class="style-shapes-1"></div>
