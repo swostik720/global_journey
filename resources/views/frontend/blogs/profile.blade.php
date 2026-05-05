@@ -1,71 +1,107 @@
 @extends('frontend.layouts.includes.master')
+@section('meta_title', ($author->name ?? 'Author Profile') . ' | ' . ($setting->name ?? config('app.name')))
+@section('meta_description', 'Explore author profile, expertise, and published blogs from the Global Journey knowledge team.')
 @section('maincontent')
+    @php
+        $expertiseItems = collect(explode(',', (string) ($author->expertise ?? '')))
+            ->map(fn ($item) => trim($item))
+            ->filter()
+            ->values();
 
-    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
-        <div class="container">
-            <div class="splash-area">
-                <h1 class="splash-title">Writer <span class="gradient-text">{{ $user->name }}</span></h1>
-            </div>
-        </div>
-    </section>
+        if ($expertiseItems->isEmpty()) {
+            $expertiseItems = $categoryExpertise;
+        }
 
-    <section data-aos="fade-up" class="abp-main">
+        $socialLinks = collect([
+            ['label' => 'LinkedIn', 'icon' => 'bi bi-linkedin', 'url' => $author->linkedin_url],
+            ['label' => 'X', 'icon' => 'bi bi-twitter-x', 'url' => $author->x_url],
+            ['label' => 'Facebook', 'icon' => 'bi bi-facebook', 'url' => $author->facebook_url],
+            ['label' => 'Instagram', 'icon' => 'bi bi-instagram', 'url' => $author->instagram_url],
+            ['label' => 'Amazon', 'icon' => 'bi bi-amazon', 'url' => $author->amazon_url],
+        ])->filter(fn ($item) => filled($item['url']))->values();
+    @endphp
+
+    @include('frontend.layouts.includes.page_hero', [
+        'eyebrow' => 'Author Profile',
+        'title' => 'Meet ',
+        'accent' => $author->name,
+        'subtitle' => 'Explore the author profile, expertise areas, and published resources created to guide students through study abroad decisions.',
+        'meta' => [$publishedCount . ' Articles', $author->company ?: 'Global Journey', $author->title ?: 'Author'],
+    ])
+
+    <section data-aos="fade-up" class="bap-main">
         <div class="container">
-            <div class="row g-4 g-xl-5">
-                <div class="col-lg-4 col-xl-3">
-                    <aside class="abp-sidebar">
-                        <div data-aos="zoom-in-up" data-aos-delay="140" class="abp-card abp-card--author text-center">
-                            <img src="{{ $user->image_path }}" alt="{{ $user->name }}" class="abp-avatar">
-                            <h2 class="abp-name">{{ $user->name }}</h2>
-                            <p class="abp-role">{{ ucwords(str_replace('_', ' ', $user->user_type ?? 'Content Writer')) }}</p>
-                            <a href="mailto:{{ $user->email }}" class="themebtu abp-mail-btn">Email Author</a>
+            <div class="bap-layout">
+                <aside class="bap-sidebar">
+                    <div data-aos="zoom-in-up" data-aos-delay="120" class="bap-card bap-card--hero">
+                        <div class="bap-card__glow"></div>
+                        <img src="{{ $author->profile_picture_path }}" alt="{{ $author->name }}" class="bap-avatar">
+                        <h2 class="bap-name">{{ $author->name }}</h2>
+                        <p class="bap-title">{{ $author->title ?: 'Author' }}</p>
+
+                        <div class="bap-actions">
+                            @if ($author->email)
+                                <a href="mailto:{{ $author->email }}" class="themebtu bap-btn">Email Author</a>
+                            @endif
+                            @if ($author->website)
+                                <a href="{{ $author->website }}" target="_blank" rel="noopener noreferrer" class="bap-ghost-btn">Visit Website</a>
+                            @endif
                         </div>
 
-                        <div data-aos="zoom-in-up" data-aos-delay="140" class="abp-card">
-                            <h3 class="abp-card__title">Writer Snapshot</h3>
-                            <div data-aos="zoom-in-up" data-aos-delay="140" class="abp-meta-list">
-                                <div data-aos="zoom-in-up" data-aos-delay="140" class="abp-meta-item">
-                                    <span class="abp-meta-item__label">Published Articles</span>
-                                    <strong>{{ $publishedCount }}</strong>
-                                </div>
-                                <div data-aos="zoom-in-up" data-aos-delay="140" class="abp-meta-item">
-                                    <span class="abp-meta-item__label">Primary Niche</span>
-                                    <strong>{{ $categoryExpertise->first() ?? 'Study Abroad' }}</strong>
-                                </div>
-                                <div data-aos="zoom-in-up" data-aos-delay="140" class="abp-meta-item">
-                                    <span class="abp-meta-item__label">Contact</span>
-                                    <strong>{{ $user->email }}</strong>
-                                </div>
-                            </div>
-                        </div>
-
-                        @if ($categoryExpertise->isNotEmpty())
-                            <div data-aos="zoom-in-up" data-aos-delay="140" class="abp-card">
-                                <h3 class="abp-card__title">Expertise</h3>
-                                <div class="abp-tags">
-                                    @foreach ($categoryExpertise as $tag)
-                                        <span class="abp-tag">{{ $tag }}</span>
-                                    @endforeach
-                                </div>
+                        @if ($socialLinks->isNotEmpty())
+                            <div class="bap-socials">
+                                @foreach ($socialLinks as $social)
+                                    <a href="{{ $social['url'] }}" target="_blank" rel="noopener noreferrer" aria-label="{{ $social['label'] }}">
+                                        <i class="{{ $social['icon'] }}"></i>
+                                    </a>
+                                @endforeach
                             </div>
                         @endif
-                    </aside>
-                </div>
+                    </div>
 
-                <div class="col-lg-8 col-xl-9">
-                    <section data-aos="fade-up" class="abp-about">
-                        <div data-aos="fade-up" data-aos-delay="100" class="heading mb-4">
-                            <h6>About Writer</h6>
-                            <h2>{{ $user->name }}</h2>
-                            <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
+                    <div data-aos="zoom-in-up" data-aos-delay="170" class="bap-card">
+                        <h3 class="bap-card__title">Author Snapshot</h3>
+                        <div class="bap-stat-list">
+                            <div class="bap-stat-item">
+                                <span>Articles Written</span>
+                                <strong>{{ $publishedCount }}</strong>
+                            </div>
+                            <div class="bap-stat-item">
+                                <span>Company</span>
+                                <strong>{{ $author->company ?: 'Global Journey' }}</strong>
+                            </div>
+                            <div class="bap-stat-item">
+                                <span>Favourite Tool</span>
+                                <strong>{{ $author->favourite_tool ?: 'Research & Writing Stack' }}</strong>
+                            </div>
+                            <div class="bap-stat-item">
+                                <span>Email</span>
+                                <strong>{{ $author->email ?: 'Not provided' }}</strong>
+                            </div>
                         </div>
+                    </div>
 
-                        <div class="abp-about__body">
+                    @if ($expertiseItems->isNotEmpty())
+                        <div data-aos="zoom-in-up" data-aos-delay="220" class="bap-card">
+                            <h3 class="bap-card__title">Expertise</h3>
+                            <div class="bap-tags">
+                                @foreach ($expertiseItems as $tag)
+                                    <span class="bap-tag">{{ $tag }}</span>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+                </aside>
+
+                <div class="bap-content">
+                    <section data-aos="fade-up" class="bap-panel bap-panel--intro">
+                        <div class="bap-panel__head">
+                            <span class="bap-panel__eyebrow">Author Profile</span>
+                            <h2>About {{ $author->name }}</h2>
+                        </div>
+                        <div class="bap-prose">
                             <p>
-                                <strong>{{ $user->name }}</strong> contributes high-value, practical content that helps students and families make confident decisions around study abroad, test preparation, and admissions strategy.
-                            </p>
-                            <p>
-                                With <strong>{{ $publishedCount }} published article{{ $publishedCount === 1 ? '' : 's' }}</strong>, this writer focuses on clear guidance, actionable checklists, and real-world insight that improve clarity and outcomes for readers.
+                                {!! $author->about_author ?: '<strong>' . e($author->name) . '</strong> shares practical guidance for students and families navigating study abroad, admissions, interviews, and test preparation.' !!}
                             </p>
                             @if ($featuredBlog)
                                 <p>
@@ -75,45 +111,63 @@
                         </div>
                     </section>
 
-                    <section data-aos="fade-up" class="abp-articles mt-4 mt-md-5">
-                        <div data-aos="fade-up" data-aos-delay="100" class="heading mb-4">
-                            <h6>Articles</h6>
-                            <h2>Written by {{ $user->name }}</h2>
-                            <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
+                    {{-- <section data-aos="fade-up" class="bap-panel">
+                        <div class="bap-panel__head">
+                            <span class="bap-panel__eyebrow">Credentials</span>
+                            <h2>Professional Overview</h2>
+                        </div>
+                        <div class="bap-overview-grid">
+                            <div class="bap-overview-card">
+                                <span class="bap-overview-card__label">Education</span>
+                                <strong>{{ $author->education ?: 'Not added yet' }}</strong>
+                            </div>
+                            <div class="bap-overview-card">
+                                <span class="bap-overview-card__label">Expertise</span>
+                                <strong>{{ $author->expertise ?: ($categoryExpertise->first() ?? 'Study Abroad Guidance') }}</strong>
+                            </div>
+                            <div class="bap-overview-card">
+                                <span class="bap-overview-card__label">Company</span>
+                                <strong>{{ $author->company ?: 'Global Journey' }}</strong>
+                            </div>
+                            <div class="bap-overview-card">
+                                <span class="bap-overview-card__label">Favourite Tool</span>
+                                <strong>{{ $author->favourite_tool ?: 'Not added yet' }}</strong>
+                            </div>
+                            <div class="bap-overview-card">
+                                <span class="bap-overview-card__label">Website</span>
+                                <strong>{{ $author->website ?: 'Not added yet' }}</strong>
+                            </div>
+                            <div class="bap-overview-card">
+                                <span class="bap-overview-card__label">Articles Written By Author</span>
+                                <strong>{{ $publishedCount }}</strong>
+                            </div>
+                        </div>
+                    </section> --}}
+
+                    <section data-aos="fade-up" class="bap-panel">
+                        <div class="bap-panel__head">
+                            <span class="bap-panel__eyebrow">Articles</span>
+                            <h2>Written by {{ $author->name }}</h2>
                         </div>
 
                         @if ($authorBlogs->isNotEmpty())
                             <div class="row g-4">
                                 @foreach ($authorBlogs as $blog)
                                     <div class="col-md-6">
-                                        <a href="{{ route('blog.details', $blog->slug) }}" class="abp-blog-link d-block h-100" aria-label="Read blog: {{ $blog->title }}">
-                                            <div data-aos="zoom-in-up" data-aos-delay="140" class="card abp-blog-card h-100 border-0 shadow-sm rounded-4 overflow-hidden d-flex flex-column">
+                                        <a href="{{ route('blog.details', $blog->slug) }}" class="bap-blog-link d-block h-100" aria-label="Read blog: {{ $blog->title }}">
+                                            <div class="card bap-blog-card h-100 border-0 rounded-4 overflow-hidden d-flex flex-column">
                                                 @if ($blog->image_path)
                                                     <img src="{{ $blog->image_path }}" class="card-img-top" alt="{{ $blog->title }}" loading="lazy">
                                                 @endif
-                                                <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body d-flex flex-column">
+                                                <div class="card-body d-flex flex-column">
+                                                    <div class="bap-blog-card__meta">
+                                                        <span><i class="bi bi-calendar-event"></i> {{ \Carbon\Carbon::parse($blog->blog_date)->format('M d, Y') }}</span>
+                                                        <span><i class="bi bi-folder2-open"></i> {{ $blog->category->name ?? 'General' }}</span>
+                                                    </div>
                                                     <h5 class="card-title fw-bold">{{ $blog->title }}</h5>
                                                     <p class="card-text text-muted">
                                                         {{ \Illuminate\Support\Str::words(strip_tags($blog->short_description), 22, '...') }}
                                                     </p>
-
-                                                    <div class="mb-2">
-                                                        <span class="badge rounded-pill bg-light text-dark border">
-                                                            {{ $blog->category->name ?? 'General' }}
-                                                        </span>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-between text-muted small mb-2">
-                                                        <div>
-                                                            <i class="bi bi-calendar-event me-1"></i>
-                                                            {{ \Carbon\Carbon::parse($blog->blog_date)->format('M d, Y') }}
-                                                        </div>
-                                                        <div>
-                                                            <i class="bi bi-clock me-1"></i>
-                                                            {{ max(1, ceil(str_word_count(strip_tags($blog->short_description)) / 160)) }} min read
-                                                        </div>
-                                                    </div>
-
                                                     <span class="themebtu mt-auto">Read More</span>
                                                 </div>
                                             </div>
@@ -126,8 +180,8 @@
                                 {{ $authorBlogs->links('pagination::bootstrap-4') }}
                             </div>
                         @else
-                            <div class="abp-empty">
-                                No published articles by this writer yet.
+                            <div class="bap-empty">
+                                No published articles by this author yet.
                             </div>
                         @endif
                     </section>
@@ -135,6 +189,9 @@
             </div>
         </div>
     </section>
+
+    {{-- @include('frontend.layouts.take_next_step')
+    @include('frontend.layouts.stay_updated', ['stayUpdatedInputId' => 'author-stay-updated-email']) --}}
 
     <style>
         .splash-title {
@@ -156,179 +213,331 @@
             padding: 0 15px;
         }
 
-        .abp-main {
-            padding: 48px 0 64px;
+        .bap-main {
+            padding: 52px 0 60px;
             background: #f4f7fb;
         }
 
-        .abp-sidebar {
+        .bap-layout {
+            display: grid;
+            grid-template-columns: 320px minmax(0, 1fr);
+            gap: 30px;
+            align-items: start;
+        }
+
+        .bap-sidebar {
             position: sticky;
-            top: 24px;
+            top: 110px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px;
         }
 
-        .abp-card {
+        .bap-card,
+        .bap-panel {
             background: #fff;
-            border: 1px solid #e2e8f3;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(10, 30, 80, 0.07);
-            padding: 20px;
-            transition: transform 0.24s ease, box-shadow 0.24s ease;
+            border: 1px solid #dfebfb;
+            border-radius: 22px;
+            box-shadow: 0 16px 36px rgba(15, 36, 96, 0.08);
         }
 
-        .abp-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 28px rgba(10, 30, 80, 0.13);
+        .bap-card {
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .abp-avatar {
-            width: 110px;
-            height: 110px;
+        .bap-card--hero {
+            background: linear-gradient(180deg, #fdfefe 0%, #f4f8ff 100%);
+            text-align: center;
+        }
+
+        .bap-card__glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top, rgba(29, 78, 216, 0.16), transparent 55%);
+            pointer-events: none;
+        }
+
+        .bap-avatar {
+            position: relative;
+            z-index: 1;
+            width: 124px;
+            height: 124px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid #eff6ff;
-            box-shadow: 0 8px 20px rgba(29, 78, 216, 0.15);
-            margin-bottom: 14px;
+            border: 5px solid #ffffff;
+            box-shadow: 0 18px 34px rgba(29, 78, 216, 0.18);
+            margin-bottom: 16px;
         }
 
-        .abp-name {
-            font-size: 1.2rem;
+        .bap-name {
+            position: relative;
+            z-index: 1;
+            font-size: 1.42rem;
             font-weight: 700;
             color: #0f172a;
             margin-bottom: 4px;
         }
 
-        .abp-role {
-            font-size: 0.82rem;
-            font-weight: 500;
+        .bap-title {
+            position: relative;
+            z-index: 1;
             color: #64748b;
-            margin-bottom: 14px;
+            font-size: 0.86rem;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            letter-spacing: 0.04em;
+            margin-bottom: 18px;
         }
 
-        .abp-mail-btn {
+        .bap-actions {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .bap-btn,
+        .bap-ghost-btn {
             width: 100%;
             text-align: center;
-            margin-top: 4px;
+            display: inline-block;
+            border-radius: 12px;
         }
 
-        .abp-card__title {
+        .bap-ghost-btn {
+            padding: 11px 14px;
+            text-decoration: none;
+            font-weight: 600;
+            color: #12306f;
+            border: 1px solid #cdddf7;
+            background: #fff;
+            transition: all 0.2s ease;
+        }
+
+        .bap-ghost-btn:hover {
+            color: #0f2460;
+            border-color: #9dbcf2;
+            transform: translateY(-1px);
+        }
+
+        .bap-socials {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .bap-socials a {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            text-decoration: none;
+            color: #12306f;
+            background: #eff6ff;
+            border: 1px solid #cfe0fb;
+            transition: all 0.2s ease;
+        }
+
+        .bap-socials a:hover {
+            background: linear-gradient(135deg, #0f2460, #1d4ed8);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .bap-card__title {
             font-size: 1rem;
             font-weight: 700;
             color: #0f172a;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
-        .abp-meta-list {
+        .bap-stat-list {
             display: grid;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .abp-meta-item {
+        .bap-stat-item {
             display: flex;
             justify-content: space-between;
+            gap: 14px;
             align-items: baseline;
-            gap: 10px;
-            border-bottom: 1px dashed #e2e8f0;
-            padding-bottom: 8px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #d8e4f8;
         }
 
-        .abp-meta-item:last-child {
+        .bap-stat-item:last-child {
             border-bottom: none;
             padding-bottom: 0;
         }
 
-        .abp-meta-item__label {
-            color: #64748b;
+        .bap-stat-item span {
             font-size: 0.86rem;
+            color: #64748b;
         }
 
-        .abp-meta-item strong {
-            color: #1e293b;
-            font-size: 0.9rem;
+        .bap-stat-item strong {
+            font-size: 0.92rem;
+            color: #0f172a;
             text-align: right;
         }
 
-        .abp-tags {
+        .bap-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .abp-tag {
-            font-size: 0.78rem;
-            font-weight: 600;
-            padding: 6px 10px;
+        .bap-tag {
+            padding: 8px 12px;
             border-radius: 999px;
-            background: #eff6ff;
+            font-size: 0.8rem;
+            font-weight: 600;
             color: #1d4ed8;
+            background: #eff6ff;
             border: 1px solid #bfdbfe;
-            transition: transform 0.2s ease;
         }
 
-        .abp-tag:hover {
-            transform: translateY(-1px);
+        .bap-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
 
-        .abp-about,
-        .abp-articles {
-            background: #fff;
-            border: 1px solid #e2e8f3;
-            border-radius: 18px;
-            box-shadow: 0 4px 20px rgba(10, 30, 80, 0.07);
-            padding: 24px;
+        .bap-panel {
+            padding: 28px;
         }
 
-        .abp-about__body p {
+        .bap-panel--intro {
+            background: linear-gradient(135deg, #ffffff 0%, #f7fbff 100%);
+        }
+
+        .bap-panel__head {
+            margin-bottom: 18px;
+        }
+
+        .bap-panel__eyebrow {
+            display: inline-block;
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #1d4ed8;
+            background: #eff6ff;
+            border: 1px solid #cfe0fb;
+            border-radius: 999px;
+            padding: 6px 12px;
+            margin-bottom: 12px;
+        }
+
+        .bap-panel__head h2 {
+            margin: 0;
+            font-size: 2rem;
+            color: #0f172a;
+            font-weight: 700;
+        }
+
+        .bap-prose p {
             color: #334155;
-            line-height: 1.85;
+            line-height: 1.9;
             margin-bottom: 1rem;
         }
 
-        .abp-about__body p:last-child {
+        .bap-prose p:last-child {
             margin-bottom: 0;
         }
 
-        .abp-about__body a {
+        .bap-prose a {
             color: #1d4ed8;
             font-weight: 600;
             text-decoration: underline;
             text-underline-offset: 3px;
         }
 
-        .abp-blog-link {
+        .bap-overview-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .bap-overview-card {
+            border-radius: 18px;
+            background: linear-gradient(180deg, #ffffff 0%, #f6f9ff 100%);
+            border: 1px solid #dbe8fb;
+            padding: 18px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
+        }
+
+        .bap-overview-card__label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .bap-overview-card strong {
+            color: #0f172a;
+            line-height: 1.55;
+            font-size: 1rem;
+        }
+
+        .bap-blog-link {
             text-decoration: none;
             color: inherit;
         }
 
-        .abp-blog-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .bap-blog-card {
+            border: 1px solid #dfebfb !important;
+            background: #fff;
+            box-shadow: 0 12px 28px rgba(15, 36, 96, 0.08);
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
         }
 
-        .abp-blog-card:hover {
+        .bap-blog-card:hover {
             transform: translateY(-6px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 18px 34px rgba(15, 36, 96, 0.14);
         }
 
-        .abp-blog-card .card-img-top {
+        .bap-blog-card .card-img-top {
             height: 220px;
             object-fit: cover;
         }
 
-        .abp-blog-card .themebtu {
+        .bap-blog-card__meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.78rem;
+            color: #64748b;
+            margin-bottom: 14px;
+        }
+
+        .bap-blog-card__meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .bap-blog-card .themebtu {
             width: 100%;
             text-align: center;
             display: inline-block;
             margin-top: 10px;
         }
 
-        .abp-empty {
+        .bap-empty {
             padding: 24px;
-            border-radius: 12px;
-            border: 1px dashed #bfdbfe;
+            border-radius: 16px;
+            border: 1px dashed #bfd5f7;
             background: #f8fbff;
             color: #475569;
             text-align: center;
@@ -336,19 +545,27 @@
         }
 
         @media (max-width: 992px) {
-            .abp-sidebar {
-                position: static;
+            .bap-layout {
+                grid-template-columns: 1fr;
             }
 
-            .abp-main {
-                padding: 34px 0 44px;
+            .bap-sidebar {
+                position: static;
             }
         }
 
         @media (max-width: 576px) {
-            .abp-about,
-            .abp-articles {
+            .bap-main {
+                padding: 34px 0 44px;
+            }
+
+            .bap-panel,
+            .bap-card {
                 padding: 18px;
+            }
+
+            .bap-overview-grid {
+                grid-template-columns: 1fr;
             }
 
             .splash-title {

@@ -30,7 +30,7 @@
                 <div class="table-responsive no-wrap">
                     <table class="table" id="datatable">
 
-                        <x-table.header :headers="['SN', 'image', 'title', 'country', 'status', 'Actions']" />
+                        <x-table.header :headers="['SN', 'image', 'title', 'country', 'quick info', 'highlights', 'cta', 'status', 'Actions']" />
 
                         <tbody id="tablecontents">
                             @forelse ($study_abroads as $study_abroad)
@@ -43,6 +43,12 @@
                                     <x-table.td>{{ $study_abroad->title }}</x-table.td>
 
                                     <x-table.td>{{ $study_abroad->country->name ?? 'N/A' }}</x-table.td>
+
+                                    <x-table.td>{{ is_array($study_abroad->quick_info_items) ? count($study_abroad->quick_info_items) : 0 }}</x-table.td>
+
+                                    <x-table.td>{{ is_array($study_abroad->key_highlights) ? count($study_abroad->key_highlights) : 0 }}</x-table.td>
+
+                                    <x-table.td>{{ !empty($study_abroad->cta_title) ? 'Configured' : 'N/A' }}</x-table.td>
 
                                     <x-table.switch :model="$study_abroad" />
 

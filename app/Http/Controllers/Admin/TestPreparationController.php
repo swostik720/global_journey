@@ -43,7 +43,15 @@ class TestPreparationController extends Controller
     public function index(): View
     {
         return view('admin.test_preparation.index', [
-            'test_preparations' => TestPreparation::query()->select(['id', 'image', 'title', 'status'])->latest()->get()
+            'test_preparations' => TestPreparation::query()->select([
+                'id',
+                'image',
+                'title',
+                'status',
+                'quick_info_items',
+                'key_highlights',
+                'cta_title',
+            ])->latest()->get()
         ]);
     }
 
@@ -56,6 +64,8 @@ class TestPreparationController extends Controller
     {
         $data = $request->safe()->except('image');
         $data['faqs'] = $this->normalizeFaqs($request->input('faqs', []));
+        $data['quick_info_items'] = $this->normalizeQuickInfoItems($request->input('quick_info_items', []));
+        $data['key_highlights'] = $this->normalizeSimpleList($request->input('key_highlights', []));
 
         $test_preparation = TestPreparation::create($data);
         if ($request->hasFile('image')) {
@@ -79,6 +89,8 @@ class TestPreparationController extends Controller
     {
         $data = $request->safe()->except('image');
         $data['faqs'] = $this->normalizeFaqs($request->input('faqs', []));
+        $data['quick_info_items'] = $this->normalizeQuickInfoItems($request->input('quick_info_items', []));
+        $data['key_highlights'] = $this->normalizeSimpleList($request->input('key_highlights', []));
         if ($request->input('image_removed') == 'true') {
             $test_preparation->deleteImage('image', 'test-preparation-images');
             $data['image'] = null;
@@ -117,5 +129,37 @@ class TestPreparationController extends Controller
         } else {
             return response()->json(['error' => 'No test preparation selected for deletion.'], 400);
         }
+    }
+
+    private function normalizeQuickInfoItems(array $items): array
+    {
+        return collect($items)
+            ->map(function ($item) {
+                return [
+                    'icon' => trim((string) ($item['icon'] ?? 'bi bi-info-circle')),
+                    'title' => trim((string) ($item['title'] ?? '')),
+                    'value' => trim((string) ($item['value'] ?? '')),
+                ];
+            })
+            ->filter(function ($item) {
+                return $item['title'] !== '' || $item['value'] !== '';
+            })
+            ->values()
+            ->all();
+    }
+
+    private function normalizeSimpleList(array $items): array
+    {
+        return collect($items)
+            ->map(function ($item) {
+                return [
+                    'text' => trim((string) ($item['text'] ?? '')),
+                ];
+            })
+            ->filter(function ($item) {
+                return $item['text'] !== '';
+            })
+            ->values()
+            ->all();
     }
 }

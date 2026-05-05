@@ -1,11 +1,21 @@
 @extends('frontend.layouts.includes.master')
+@section('meta_title', ('Document Checklist for ' . ($country->name ?? 'Your Destination')) . ' | ' . ($setting->name ?? config('app.name')))
+@section('meta_description', 'Review required study abroad documents and supporting financial checklist items to prepare a stronger application file.')
 @section('maincontent')
-    <div class="container py-5">
-        <!-- Page Heading -->
-        <div data-aos="fade-up" data-aos-delay="100" class="heading mb-5 text-center pt-5">
-            <h6 class="text-primary">Document Checklist for {{ $country->name ?? 'Country' }}</h6>
+    @include('frontend.layouts.includes.page_hero', [
+        'eyebrow' => 'Document Checklist',
+        'title' => 'Study Documents for ',
+        'accent' => $country->name ?? 'Your Country',
+        'subtitle' => 'Review the essential financial and supporting documents typically required for a stronger study abroad application file.',
+        'meta' => ['Country-Specific Guidance', 'Downloadable Checklist', 'GTE Support'],
+    ])
+
+    <section class="gj-page-shell gj-page-shell--white">
+    <div class="container">
+        <div data-aos="fade-up" data-aos-delay="100" class="gj-section-header">
+            <span class="gj-section-header__eyebrow">Document Checklist for {{ $country->name ?? 'Country' }}</span>
             <h2>Annual Income Documents for Studying in {{ $country->name ?? 'Country' }}</h2>
-            <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}" class="mx-auto mt-3" style="max-width:200px;">
+            <p>Start with the core documents first so your financial profile and supporting case stay organized from the beginning.</p>
         </div>
 
         <!-- Download Section -->
@@ -19,7 +29,7 @@
 
             @if (file_exists(public_path($pdfPath)))
                 <a href="{{ asset($pdfPath) }}" class="themebtu" download>
-                    <i class="fa fa-download me-2"></i> Download PDF
+                    <i class="bi bi-download me-2"></i> Download PDF
                 </a>
             @else
                 <p class="text-danger mt-3">No PDF available for this country yet.</p>
@@ -31,17 +41,17 @@
             <div class="row g-4">
                 @foreach ($checklist->documents as $doc)
                     <div class="col-md-6 col-lg-4">
-                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card checklist-card shadow-sm h-100 text-center">
+                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card checklist-card gj-grid-card shadow-sm h-100 text-center">
                             <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body p-4">
                                 <div class="checklist-icon mb-3 text-primary">
-                                    <i class="fa fa-file fa-3x"></i>
+                                    <i class="bi bi-file-earmark-text-fill fs-1"></i>
                                 </div>
 
                                 <!-- Title (Clickable) -->
                                 <div class="checklist-header d-flex justify-content-between align-items-center"
                                     style="cursor: pointer;" onclick="toggleDescription(this)">
                                     <p class="fw-semibold text-dark mb-0" style="font-size: 1.1rem;">{{ $doc['name'] }}</p>
-                                    <i class="fa fa-chevron-down text-primary transition"></i>
+                                    <i class="bi bi-chevron-down text-primary transition"></i>
                                 </div>
 
                                 <!-- Hidden Description -->
@@ -83,7 +93,7 @@
                 </p>
                 @if (file_exists(public_path($pdfPath)))
                     <a href="{{ asset($pdfPath) }}" class="themebtu" download>
-                        <i class="fa fa-download me-2"></i> Download PDF
+                        <i class="bi bi-download me-2"></i> Download PDF
                     </a>
                 @else
                     <p class="text-danger mt-3">No PDF available for this country yet.</p>
@@ -95,6 +105,7 @@
             </div>
         @endif
     </div>
+    </section>
 
     <style>
         /* Card Styles */
@@ -143,6 +154,18 @@
                 transform: translateY(0);
             }
         }
+
+        @media (hover: none) {
+            .checklist-card:hover {
+                transform: none;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                background: #fff;
+            }
+
+            .checklist-card:hover .checklist-icon {
+                transform: none;
+            }
+        }
     </style>
 
     <script>
@@ -166,3 +189,4 @@
         }
     </script>
 @endsection
+

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Front\AllController;
+use App\Http\Controllers\Front\LegalPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,9 @@ Route::post('subscribe-store', [AllController::class, 'storeSubscribe'])->name('
 
 Route::get('enquiry-us', [AllController::class, 'enquiryUsIndex'])->name('enquiry-us');
 Route::post('enquiry-store', [AllController::class, 'storeEnquiry'])->name('enquiry.store');
+
+Route::get('terms-and-conditions', [LegalPageController::class, 'terms'])->name('terms-and-conditions');
+Route::get('privacy-policy', [LegalPageController::class, 'privacy'])->name('privacy-policy');
 
 // Interview Preparation Frontend
 Route::get('interview-preparation', [AllController::class, 'interviewPreparationIndex'])->name('interview-preparation');

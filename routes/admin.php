@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\BlogAuthorController;
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Admin\BranchController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Admin\TestPreparationController;
 use App\Http\Controllers\Admin\RolePermission\RoleController;
 use App\Http\Controllers\Admin\Settings\SiteSettingController;
 use App\Http\Controllers\Admin\Settings\SmtpSettingController;
+use App\Http\Controllers\Admin\Settings\LegalPageSettingController;
 use App\Http\Controllers\Admin\RolePermission\AdminUserController;
 use App\Http\Controllers\Admin\RolePermission\PermissionController;
 use App\Http\Controllers\Admin\RolePermission\RolePermissionController;
@@ -27,6 +29,7 @@ use App\Http\Controllers\Admin\CountryGuideController;
 use App\Http\Controllers\Admin\EnrollNowController;
 use App\Http\Controllers\Admin\GalleryCategoryController;
 use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\Admin\FaqController;
 
 Route::middleware(['is_member'])->group(function () {
 
@@ -47,6 +50,10 @@ Route::middleware(['is_member'])->group(function () {
         //-------------------------- SMTP SETTING --------------------------------------
         Route::get('/smtp-setting', [SmtpSettingController::class, 'index'])->name('smtp');
         Route::put('/smtp/update/{id?}', [SmtpSettingController::class, 'update'])->name('smtp.update');
+
+        //-------------------------- LEGAL PAGES --------------------------------------
+        Route::get('/legal-pages', [LegalPageSettingController::class, 'index'])->name('legal-pages');
+        Route::put('/legal-pages/update', [LegalPageSettingController::class, 'update'])->name('legal-pages.update');
     });
 
     Route::resource('contacts', ContactController::class);
@@ -78,6 +85,10 @@ Route::middleware(['is_member'])->group(function () {
     Route::get('status-change-category', [CategoryController::class, 'changeStatus'])->name('status-change-category');
     Route::resource('categories', CategoryController::class);
     Route::post('categories/bulk-delete', [CategoryController::class, 'bulkDelete'])->name('categories.bulk-delete');
+
+    Route::get('status-change-blog-author', [BlogAuthorController::class, 'changeStatus'])->name('status-change-blog-author');
+    Route::resource('blog-authors', BlogAuthorController::class);
+    Route::post('blog-authors/bulk-delete', [BlogAuthorController::class, 'bulkDelete'])->name('blog-authors.bulk-delete');
 
     Route::get('status-change-blog', [BlogController::class, 'changeStatus'])->name('status-change-blog');
     Route::resource('blogs', BlogController::class);
@@ -124,4 +135,8 @@ Route::middleware(['is_member'])->group(function () {
     Route::post('gallery/bulk-delete', [GalleryController::class, 'bulkDelete'])->name('gallery.bulk-delete');
     Route::delete('gallery/{gallery}/image', [GalleryController::class, 'deleteImage'])
         ->name('gallery.deleteImage');
+
+    Route::get('status-change-faq', [FaqController::class, 'changeStatus'])->name('status-change-faq');
+    Route::resource('faqs', FaqController::class);
+    Route::post('faqs/bulk-delete', [FaqController::class, 'bulkDelete'])->name('faqs.bulk-delete');
 });

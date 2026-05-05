@@ -16,7 +16,7 @@
                 <div class="table-responsive no-wrap">
                     <table class="table" id="datatable">
 
-                        <x-table.header :headers="['SN', 'image', 'title', 'status', 'Actions']" />
+                        <x-table.header :headers="['SN', 'image', 'title', 'quick info', 'highlights', 'cta', 'status', 'Actions']" />
 
                         <tbody id="tablecontents">
                             @forelse ($test_preparations as $test_preparation)
@@ -28,6 +28,12 @@
                                     <x-table.table_image name="{{ $test_preparation->image }}"
                                         url="{{ $test_preparation->image_path }}" />
                                     <x-table.td>{{ $test_preparation->title }}</x-table.td>
+
+                                    <x-table.td>{{ is_array($test_preparation->quick_info_items) ? count($test_preparation->quick_info_items) : 0 }}</x-table.td>
+
+                                    <x-table.td>{{ is_array($test_preparation->key_highlights) ? count($test_preparation->key_highlights) : 0 }}</x-table.td>
+
+                                    <x-table.td>{{ !empty($test_preparation->cta_title) ? 'Configured' : 'N/A' }}</x-table.td>
 
                                     <x-table.switch :model="$test_preparation" />
 

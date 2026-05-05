@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsureUserIsOrgMember;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -19,6 +20,16 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Trust forwarded headers from ngrok/reverse proxies so HTTPS and host are detected correctly.
+        $middleware->trustProxies(
+            at: '*',
+            headers: Request::HEADER_X_FORWARDED_FOR |
+                Request::HEADER_X_FORWARDED_HOST |
+                Request::HEADER_X_FORWARDED_PORT |
+                Request::HEADER_X_FORWARDED_PROTO |
+                Request::HEADER_X_FORWARDED_PREFIX
+        );
+
         $middleware->prependToGroup('is_member', [
             EnsureUserIsOrgMember::class,
         ]);

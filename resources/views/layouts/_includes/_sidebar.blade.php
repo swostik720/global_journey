@@ -56,9 +56,11 @@
                 <i class="menu-icon tf-icons bx bxs-buildings"></i>
             </x-sidebar-item>
 
-            <x-sidebar-multilist-head icon="bx bxs-notepad" name="BLOGS" :routes="['admin/categories', 'admin/blogs']">
+            <x-sidebar-multilist-head icon="bx bxs-notepad" name="BLOGS" :routes="['admin/categories', 'admin/blog-authors', 'admin/blogs']">
                 <x-sidebar-item route="{{ route('admin.categories.index') }}" name="BLOG CATEGORIES"
                     uri="admin/categories">
+                </x-sidebar-item>
+                <x-sidebar-item route="{{ route('admin.blog-authors.index') }}" name="AUTHORS" uri="admin/blog-authors">
                 </x-sidebar-item>
                 <x-sidebar-item route="{{ route('admin.blogs.index') }}" name="BLOGS" uri="admin/blogs">
                 </x-sidebar-item>
@@ -70,6 +72,10 @@
 
             <x-sidebar-item route="{{ route('admin.enquiries.index') }}" name="ENQUIRY REQ" uri="admin/enquiries">
                 <i class="menu-icon tf-icons bx bxs-phone-incoming"></i>
+            </x-sidebar-item>
+
+            <x-sidebar-item route="{{ route('admin.faqs.index') }}" name="HOME FAQS" uri="admin/faqs">
+                <i class="menu-icon tf-icons bx bx-help-circle"></i>
             </x-sidebar-item>
 
             <x-sidebar-multilist-head icon="bx bxs-plane-alt" name="STUDY ABROAD" :routes="['admin/countries', 'admin/study-abroads']">
@@ -131,12 +137,15 @@
                 <i class="menu-icon tf-icons bx bxs-edit-location"></i>
             </x-sidebar-item>
 
-            <x-sidebar-multilist-head icon="bx bxs-cog" name="SETTINGS" :routes="['admin/setting/company-setting', 'admin/setting/smtp-setting']">
+            <x-sidebar-multilist-head icon="bx bxs-cog" name="SETTINGS" :routes="['admin/setting/company-setting', 'admin/setting/smtp-setting', 'admin/setting/legal-pages']">
                 <x-sidebar-item route="{{ route('admin.setting.company') }}" name="COMPANY SETTING"
                     uri="admin/setting/company-setting">
                 </x-sidebar-item>
                 <x-sidebar-item route="{{ route('admin.setting.smtp') }}" name="SMTP SETTING"
                     uri="admin/setting/smtp-setting">
+                </x-sidebar-item>
+                <x-sidebar-item route="{{ route('admin.setting.legal-pages') }}" name="LEGAL PAGES"
+                    uri="admin/setting/legal-pages">
                 </x-sidebar-item>
             </x-sidebar-multilist-head>
 

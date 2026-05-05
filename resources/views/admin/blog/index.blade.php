@@ -32,7 +32,7 @@
                     </div>
                     <div class="table-responsive no-wrap">
                         <table class="table" id="datatable">
-                            <x-table.header :headers="['SN', 'image', 'category', 'title', 'blog date', 'status', 'Actions']" />
+                            <x-table.header :headers="['SN', 'image', 'author', 'category', 'title', 'blog date', 'quick info', 'highlights', 'cta', 'status', 'Actions']" />
                             <tbody id="tablecontents">
                                 @forelse ($blogs as $blog)
                                     <tr>
@@ -41,6 +41,8 @@
 
                                         <x-table.table_image name="{{ $blog->image }}" url="{{ $blog->image_path }}" />
 
+                                        <x-table.td>{{ $blog->author->name ?? 'N/A' }}</x-table.td>
+
                                         <x-table.td>{{ $blog->category->name ?? '' }}</x-table.td>
 
                                         <x-table.td>{{ $blog->title }}</x-table.td>
@@ -48,6 +50,12 @@
                                         <x-table.td>
                                             {{ \Carbon\Carbon::parse($blog->blog_date)->format('d F Y') }}
                                         </x-table.td>
+
+                                        <x-table.td>{{ is_array($blog->quick_info_items) ? count($blog->quick_info_items) : 0 }}</x-table.td>
+
+                                        <x-table.td>{{ is_array($blog->key_highlights) ? count($blog->key_highlights) : 0 }}</x-table.td>
+
+                                        <x-table.td>{{ !empty($blog->cta_title) ? 'Configured' : 'N/A' }}</x-table.td>
 
                                         <x-table.switch :model="$blog" />
 

@@ -1,55 +1,23 @@
 @extends('frontend.layouts.includes.master')
+@section('meta_title', ($gallery->title ?? 'Gallery Details') . ' | ' . ($setting->name ?? config('app.name')))
+@section('meta_description', 'View gallery highlights, event moments, and student activities captured by Global Journey.')
 @section('maincontent')
-    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
-        <div class="container">
-            <div class="splash-area">
-                @php
-                    $parts = explode(' ', $gallery->title ?? '', 3); // split into max 3 parts
-                    $firstPart = isset($parts[0], $parts[1]) ? $parts[0] . ' ' . $parts[1] : $parts[0] ?? '';
-                    $secondPart = $parts[2] ?? '';
-                @endphp
+    @php
+        $parts = explode(' ', $gallery->title ?? '', 3);
+        $firstPart = isset($parts[0], $parts[1]) ? $parts[0] . ' ' . $parts[1] : $parts[0] ?? '';
+        $secondPart = $parts[2] ?? '';
+    @endphp
 
-                <h1 class="splash-title">
-                    {{ $firstPart }}@if ($secondPart) <span class="gradient-text">{{ $secondPart }}</span>@endif
-                </h1>
-            </div>
-        </div>
+    @include('frontend.layouts.includes.page_hero', [
+        'eyebrow' => 'Gallery Details',
+        'title' => trim($firstPart) . ' ',
+        'accent' => $secondPart ?: null,
+        'subtitle' => 'Explore the full image set from this Global Journey gallery and revisit the moments behind the event.',
+        'meta' => [count($gallery->images_path ?? [] ) . ' Images', 'Event Moments', 'Student Highlights'],
+        'primaryAction' => ['label' => 'Back to Galleries', 'url' => route('galleries.index')],
+    ])
 
-        <style>
-            /* Keep font size fixed at 70px on large screens */
-            .splash-title {
-                font-size: 70px;
-                line-height: 1.1;
-                margin: 0;
-                padding-left: 50px;
-                white-space: nowrap;
-                /* prevent wrapping */
-            }
-
-            .gradient-text {
-                background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-
-            /* Container responsive adjustments */
-            .splash-area-section .container {
-                max-width: 100%;
-                /* horizontal scroll if needed */
-                padding: 0 15px;
-            }
-
-            /* Scale down text slightly on very small screens */
-            @media (max-width: 400px) {
-                .splash-title {
-                    font-size: 60px;
-                    padding-left: 10px;
-                }
-            }
-        </style>
-    </section>
-
-    <section data-aos="fade-up" class="gap mt-5">
+    <section data-aos="fade-up" class="gj-page-shell gj-page-shell--white gj-page-shell--compact">
         <div class="container">
             <div class="row g-3">
                 @foreach ($gallery->images_path as $index => $image)
@@ -62,9 +30,9 @@
                 @endforeach
             </div>
 
-            <div class="text-center" style="margin-left:0px; width:10%;">
+            <div class="text-center gj-divider-space">
                 <a href="{{ route('galleries.index') }}" class="themebtu">
-                    <i class="fa fa-arrow-left"></i> Back
+                    <i class="bi bi-arrow-left"></i> Back
                 </a>
             </div>
         </div>
@@ -91,6 +59,19 @@
         .gallery-item img:hover {
             transform: scale(1.05);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 575.98px) {
+            .gallery-item img {
+                height: 160px;
+            }
+        }
+
+        @media (hover: none) {
+            .gallery-item img:hover {
+                transform: none;
+                box-shadow: none;
+            }
         }
 
         /* Lightbox styling */
@@ -207,3 +188,4 @@
         });
     </script>
 @endsection
+

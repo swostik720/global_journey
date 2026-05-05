@@ -21,6 +21,61 @@
         <b class="d-block text-uppercase text-14"></b><span>{!! $test_preparation->description ?? '' !!}</span>
     </div>
 
+    @if (!empty($test_preparation->quick_info_items))
+        <div class="card-content mt-4">
+            <h5 class="mb-3">Quick Information Grid</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Icon</th>
+                            <th>Title</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($test_preparation->quick_info_items as $item)
+                            <tr>
+                                <td>{{ $item['icon'] ?? '' }}</td>
+                                <td>{{ $item['title'] ?? '' }}</td>
+                                <td>{{ $item['value'] ?? '' }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+
+    @if (!empty($test_preparation->key_highlights))
+        <div class="card-content mt-4">
+            <h5 class="mb-3">Key Highlights</h5>
+            <ul class="mb-0">
+                @foreach ($test_preparation->key_highlights as $highlight)
+                    <li>{{ $highlight['text'] ?? '' }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    @if (!empty($test_preparation->cta_title) || !empty($test_preparation->cta_description) || !empty($test_preparation->cta_button_text) || !empty($test_preparation->cta_button_url))
+        <div class="card-content mt-4">
+            <h5 class="mb-3">CTA Block</h5>
+            @if (!empty($test_preparation->cta_title))
+                <p class="mb-1"><strong>Title:</strong> {{ $test_preparation->cta_title }}</p>
+            @endif
+            @if (!empty($test_preparation->cta_description))
+                <p class="mb-1"><strong>Description:</strong> {{ $test_preparation->cta_description }}</p>
+            @endif
+            @if (!empty($test_preparation->cta_button_text))
+                <p class="mb-1"><strong>Button Text:</strong> {{ $test_preparation->cta_button_text }}</p>
+            @endif
+            @if (!empty($test_preparation->cta_button_url))
+                <p class="mb-0"><strong>Button URL:</strong> {{ $test_preparation->cta_button_url }}</p>
+            @endif
+        </div>
+    @endif
+
     @if (!empty($test_preparation->faqs))
         <div class="card-content mt-4">
             <h5 class="mb-3">FAQs</h5>

@@ -1,80 +1,58 @@
 @extends('frontend.layouts.includes.master')
+@section('meta_title', 'Contact Us | ' . ($setting->name ?? config('app.name')))
+@section('meta_description', 'Contact Global Journey for admissions guidance, destination planning, visa documentation support, and consultation booking.')
 @section('maincontent')
-    <!-- Hero Section -->
-
-    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
-    <div class="container">
-        <div class="splash-area">
-            <h1 class="splash-title">Get in Touch <span class="gradient-text">With Us</span></h1>
-        </div>
-    </div>
-
-    <style>
-        /* Keep font size fixed at 70px */
-        .splash-title {
-            font-size: 70px;
-            line-height: 1.1;
-            margin: 0;
-            padding-left: 50px;
-        }
-
-        .gradient-text {
-            background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Responsive container padding to avoid cutting text */
-        .splash-area-section .container {
-            max-width: 100%;
-            padding: 0 15px;
-        }
-
-        /* Optional: scale text slightly on very small screens */
-        @media (max-width: 400px) {
-            .splash-title {
-                font-size: 70px;
-                padding-left: 10px;
-            }
-        }
-    </style>
-</section>
+    @include('frontend.layouts.includes.page_hero', [
+        'eyebrow' => 'Contact Global Journey',
+        'title' => 'Get in Touch ',
+        'accent' => 'With Us',
+        'subtitle' => 'Speak with our counselors for clear next steps on destination choice, admissions, documentation, and visa preparation.',
+        'meta' => ['Fast Response', '3 Branches', 'Personalized Guidance'],
+        'primaryAction' => ['label' => 'Start Consultation', 'url' => '#contact-form'],
+    ])
 
 
     <!-- Contact Section -->
-    <section data-aos="fade-up" class="contact-page gap" id="contact-form">
+    <section data-aos="fade-up" class="contact-page gj-page-shell gj-page-shell--white" id="contact-form">
         <div class="container">
-            <div data-aos="fade-up" data-aos-delay="100" class="heading text-left mb-5">
-                <h6>Start Your Project With Us.</h6>
-                <h2>Let's Talk</h2>
-                <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
+            <div data-aos="fade-up" data-aos-delay="100" class="gj-section-header contact-page__header">
+                <span class="gj-section-header__eyebrow">Start Your Project With Us</span>
+                <h2>Let's Plan Your Next Move</h2>
+                <p>Tell us where you want to study, and we'll map the most practical route from application to arrival.</p>
             </div>
-            <div class="row">
-                <!-- Form -->
-                <div class="col-xl-6 col-lg-6 mb-4">
-                    @include('frontend.layouts.contact_form')
+            <div class="row g-4 g-xl-5 align-items-start contact-page__row">
+                <div class="col-xl-7 col-lg-7">
+                    <div data-aos="zoom-in-up" data-aos-delay="130" class="contact-page__panel gj-surface-card gj-prose-card">
+                        <div class="contact-page__panel-intro">
+                            <span class="gj-meta-pill"><i class="bi bi-chat-square-heart-fill"></i> Consultation Form</span>
+                            <h3>Book a conversation with the Global Journey team</h3>
+                            <p>Share your destination, budget, and timeline. We'll help you identify the right country, course, and application strategy.</p>
+                        </div>
+                        @include('frontend.layouts.contact_form')
+                    </div>
                 </div>
-                <!-- Contact Details -->
-                <div class="offset-lg-1 col-xl-5 col-lg-5">
-                    <div data-aos="zoom-in-up" data-aos-delay="140" class="details-card">
+                <div class="col-xl-5 col-lg-5">
+                    <div data-aos="zoom-in-up" data-aos-delay="160" class="details-card contact-page__details gj-surface-card">
+                        <span class="gj-meta-pill"><i class="bi bi-geo-alt-fill"></i> Contact Details</span>
                         <h4>Contact Details</h4>
+                        <p class="contact-page__details-copy">Reach our counselors directly or connect with us on social platforms for updates and support.</p>
 
                         <ul class="contact-list">
                             <li>
                                 <a href="tel:{{ $setting->phone ?? '+01-84856938' }}">
-                                    <i class="fa-solid fa-phone"></i>
+                                    <i class="bi bi-telephone-fill"></i>
                                     <span>{{ $setting->phone ?? '+01-84856938' }}</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="tel:{{ $setting->mobile ?? '+977-9843215204' }}">
-                                    <i class="fa-solid fa-mobile"></i>
+                                    <i class="bi bi-phone-fill"></i>
                                     <span>{{ $setting->mobile ?? '+977-9843215204' }}</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="mailto:{{ $setting->email ?? 'contact@globaljourneyedu.com.np' }}">
-                                    <i class="fa-solid fa-envelope"></i>
+                                    <i class="bi bi-envelope-fill"></i>
                                     <span>{{ $setting->email ?? 'contact@globaljourneyedu.com.np' }}</span>
                                 </a>
                             </li>
@@ -85,13 +63,13 @@
                         <h5>Connect with Us</h5>
                         <ul class="social-links">
                             <li><a href="{{ $setting->fb_link ?? '#' }}" target="_blank"><i
-                                        class="fa-brands fa-facebook-f"></i></a></li>
+                                        class="bi bi-facebook"></i></a></li>
                             <li><a href="{{ $setting->twitter_link ?? '#' }}" target="_blank"><i
-                                        class="fa-brands fa-twitter"></i></a></li>
+                                        class="bi bi-twitter"></i></a></li>
                             <li><a href="{{ $setting->instagram_link ?? '#' }}" target="_blank"><i
-                                        class="fa-brands fa-instagram"></i></a></li>
+                                        class="bi bi-instagram"></i></a></li>
                             <li><a href="{{ $setting->linkedIn_link ?? '#' }}" target="_blank"><i
-                                        class="fa-brands fa-linkedin-in"></i></a></li>
+                                        class="bi bi-linkedin"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -100,38 +78,12 @@
     </section>
 
     <!-- Branch Offices -->
-    <section data-aos="fade-up" class="offices gap" style="background-color:#f9fbfd;">
-        <div class="container">
-            <div data-aos="fade-up" data-aos-delay="100" class="heading text-left mb-5">
-                <h6>Explore Our Locations</h6>
-                <h2>Discover Our Global Branch Network</h2>
-                <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
-            </div>
-            <div class="container">
-                <div class="row g-4">
-                    @foreach ($branches as $branch)
-                        <div class="col-xl-6 col-lg-6">
-                            <div data-aos="zoom-in-up" data-aos-delay="140" class="branch-card">
-                                <h3>{{ $branch->name ?? '' }}</h3>
-                                <ul>
-                                    <li><i class="fa-solid fa-envelope"></i> {{ $branch->email ?? '' }}</li>
-                                    <li><i class="fa-solid fa-location-dot"></i> {{ $branch->contact_address ?? '' }}</li>
-                                    <li><i class="fa-solid fa-phone"></i> {{ $branch->phone ?? '' }}</li>
-                                    <li><i class="fa-solid fa-clock"></i> {{ $branch->working_hours ?? '' }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>
+    @include('frontend.layouts.branch_network')
 
     <!-- Map -->
-    <div data-aos="fade-up" data-aos-delay="100" class="heading mb-4 text-center pt-5">
-        <h6>Find Us Here</h6>
-        <h2>Our Head Office Location</h2>
-        <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
+    <div data-aos="fade-up" data-aos-delay="100" class="heading-boder text-center contact-map-heading" style="margin-top: 50px;">
+        <h2>Our Head Office <br><span>Location</span></h2>
+        <p>Visit our headquarters or connect with the branch closest to you.</p>
     </div>
     <div class="map-wrapper">
         <iframe
@@ -139,7 +91,10 @@
             allowfullscreen="" loading="lazy">
         </iframe>
     </div>
+    @include('frontend.layouts.take_next_step')
+    @include('frontend.layouts.stay_updated')
 @endsection
+
 
 @push('custom_css')
     <style>
@@ -148,57 +103,69 @@
             --grad: linear-gradient(135deg, #0038A6, #0046C4, #0058E8, #003070, #001F50);
         }
 
-        /* Hero Section */
-        .contact-hero {
-            position: relative;
-            background-size: cover;
-            background-position: center;
-            padding: 120px 0;
-            color: #fff;
+        .contact-page__header {
+            max-width: 760px;
+            margin-bottom: 36px;
         }
 
-        .contact-hero .overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
+        .contact-map-heading {
+            width: 100% !important;
+            max-width: 100% !important;
+            text-align: center !important;
+            margin: 0 auto 22px;
+            padding-top: 1.5rem !important;
         }
 
-        .contact-hero .splash-area {
-            position: relative;
-            z-index: 2;
+        .contact-map-heading h2,
+        .contact-map-heading h2 span,
+        .contact-map-heading p {
+            display: block !important;
+            width: 100% !important;
+            text-align: center !important;
+            margin-left: auto !important;
+            margin-right: auto !important;
+            float: none !important;
         }
 
-        .contact-hero h2 {
-            font-size: 38px;
-            font-weight: 700;
-            margin-bottom: 20px;
+        .contact-map-heading p {
+            max-width: 64ch;
+            margin-top: 8px;
+            color: #4b5f82;
         }
 
-        .theme-btn {
-            display: inline-block;
-            padding: 12px 28px;
-            background: var(--grad);
-            color: #fff !important;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all .4s ease;
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
+        .contact-page__panel,
+        .contact-page__details {
+            border-radius: 24px;
         }
 
-        .theme-btn:hover {
-            background-position: right center;
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        .contact-page__panel {
+            padding: clamp(24px, 3vw, 34px);
         }
 
-        /* Details Card */
+        .contact-page__panel-intro {
+            margin-bottom: 22px;
+        }
+
+        .contact-page__panel-intro h3 {
+            margin: 16px 0 10px;
+            color: var(--gj-ink-800);
+            font-size: clamp(1.55rem, 2vw, 2rem);
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .contact-page__panel-intro p,
+        .contact-page__details-copy {
+            color: var(--gj-muted-700);
+            line-height: 1.75;
+            margin-bottom: 0;
+        }
+
         .details-card {
             background: #fff;
-            border-radius: 14px;
-            padding: 25px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
             transition: all .3s ease;
         }
 
@@ -208,8 +175,10 @@
         }
 
         .details-card h4 {
+            margin-top: 18px;
             font-weight: 700;
-            margin-bottom: 18px;
+            margin-bottom: 12px;
+            color: var(--gj-ink-800);
         }
 
         .contact-list {
@@ -281,59 +250,6 @@
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
         }
 
-        /* Branch Cards */
-        .branch-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-            transition: transform .4s ease, box-shadow .4s ease, border .4s ease;
-            border: 2px solid transparent;
-        }
-
-        .branch-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-            border: 2px solid transparent;
-            border-image: var(--grad) 1;
-        }
-
-        .branch-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 14px;
-        }
-
-        .branch-card ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .branch-card li {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 15px;
-            color: #555;
-            margin-bottom: 10px;
-            transition: color .3s ease;
-        }
-
-        .branch-card li:hover {
-            color: #0038A6;
-        }
-
-        .branch-card i {
-            color: #0038A6;
-            transition: transform .3s ease, color .3s ease;
-        }
-
-        .branch-card li:hover i {
-            transform: scale(1.2);
-            color: #0058E8;
-        }
-
         /* Map */
         .map-wrapper {
             width: 100%;
@@ -354,5 +270,34 @@
             height: 100%;
             border: none;
         }
+
+        @media (max-width: 991.98px) {
+            .contact-page__header {
+                margin-bottom: 28px;
+            }
+
+            .contact-page__panel,
+            .details-card {
+                padding: 24px;
+            }
+
+            .map-wrapper {
+                height: 280px;
+                margin-bottom: 40px;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+            .map-wrapper {
+                height: 200px;
+                border-radius: 12px;
+                margin-bottom: 32px;
+            }
+
+            .map-wrapper:hover {
+                transform: none;
+            }
+        }
     </style>
 @endpush
+

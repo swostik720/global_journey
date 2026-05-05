@@ -20,12 +20,13 @@ use Illuminate\Support\Facades\RateLimiter;
 use App\Http\Requests\Admin\ContactStoreRequest;
 use App\Http\Requests\Front\EnquiryStoreRequest;
 use App\Http\Requests\Front\SubscribeStoreRequest;
+use App\Models\BlogAuthor;
 use App\Models\Branch;
 use App\Models\Enquiry;
 use App\Models\InterviewPreparation;
 use App\Models\EnrollNow;
 use App\Models\Gallery;
-use App\Models\User;
+use App\Models\Faq;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 
@@ -71,17 +72,54 @@ class AllController extends Controller
             ->get();
 
         $blogs = Blog::active()
-            ->select(['image', 'title', 'slug', 'user_id', 'blog_date', 'short_description'])
+            ->with(['author:id,name', 'category:id,name'])
+            ->select(['id', 'image', 'title', 'slug', 'blog_author_id', 'user_id', 'blog_date', 'short_description', 'category_id', 'faqs'])
             ->latest()
+            ->limit(3)
+            ->get();
+
+        $hasMoreBlogs = Blog::active()->count() > 3;
+
+        $homepageFaqs = Faq::active()
+            ->select(['id', 'question', 'answer'])
+            ->orderBy('sort_order', 'asc')
+            ->latest('id')
             ->limit(6)
             ->get();
 
-        return view('frontend.mainindex', compact('testimonials', 'studyabroads', 'blogs'));
+        $homepageFaqSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'FAQPage',
+            'mainEntity' => $homepageFaqs
+                ->filter(function ($faq) {
+                    return filled($faq->question) && filled($faq->answer);
+                })
+                ->map(function ($faq) {
+                    $cleanAnswer = trim((string) preg_replace('/\s+/u', ' ', strip_tags((string) $faq->answer)));
+
+                    return [
+                        '@type' => 'Question',
+                        'name' => trim((string) $faq->question),
+                        'acceptedAnswer' => [
+                            '@type' => 'Answer',
+                            'text' => $cleanAnswer,
+                        ],
+                    ];
+                })
+                ->values()
+                ->all(),
+        ];
+
+        if (empty($homepageFaqSchema['mainEntity'])) {
+            $homepageFaqSchema = null;
+        }
+
+        return view('frontend.mainindex', compact('testimonials', 'studyabroads', 'blogs', 'hasMoreBlogs', 'homepageFaqs', 'homepageFaqSchema'));
     }
     public function aboutIndex()
     {
         $teams = Team::active()
-            ->select(['image', 'name', 'slug', 'responsibility', 'fb_link', 'twitter_link', 'linkedin_link', 'instagram_link'])
+            ->select(['image', 'name', 'slug', 'email', 'phone', 'responsibility', 'fb_link', 'twitter_link', 'linkedin_link', 'instagram_link'])
             ->orderBy('rank', 'asc')
             ->get();
         return view('frontend.about.index', compact('teams'));
@@ -269,63 +307,83 @@ class AllController extends Controller
             ->active()
             ->firstOrFail();
 
-        return view('frontend.test_preparation.details', compact('testpreparation'));
+        $testPreparationsOptions = TestPreparation::active()
+            ->orderBy('title')
+            ->pluck('title', 'id');
+
+        return view('frontend.test_preparation.details', compact('testpreparation', 'testPreparationsOptions'));
     }
     public function blogIndex()
     {
         $blogs = Blog::active()
-            ->select(['image', 'title', 'slug', 'user_id', 'blog_date', 'short_description', 'category_id', 'faqs'])
+            ->with(['author:id,name', 'category:id,name'])
+            ->select(['id', 'image', 'title', 'slug', 'blog_author_id', 'user_id', 'blog_date', 'short_description', 'category_id', 'faqs'])
             ->latest()
             ->paginate(3);
         return view('frontend.blogs.index', compact('blogs'));
     }
     public function blogDetails($slug, Request $request)
     {
-        $blog = Blog::where('slug', $slug)
+        $blog = Blog::with(['author', 'category'])
+            ->where('slug', $slug)
             ->active()
             ->firstOrFail();
+
+        $viewedSessionKey = 'blog_viewed_' . $blog->id;
+        if (!$request->session()->has($viewedSessionKey)) {
+            $blog->increment('open_count');
+            $request->session()->put($viewedSessionKey, true);
+            $blog->refresh();
+        }
+
+        $testPreparationsOptions = TestPreparation::active()
+            ->orderBy('title')
+            ->pluck('title', 'id');
 
         $categories = Category::active()
             ->select(['id', 'name'])
             ->withCount('blogs')
             ->having('blogs_count', '>', 0)
             ->get();
-        $relatedPosts = Blog::where('category_id', $blog->category_id)
+        $relatedPosts = Blog::with(['author:id,name', 'category:id,name'])
+            ->where('category_id', $blog->category_id)
             ->where('id', '!=', $blog->id)
             ->active()
             ->latest()
             ->limit(4)
             ->get();
-        $previousBlog = Blog::where('id', '<', $blog->id)
+        $previousBlog = Blog::with('author:id,name')
+            ->where('id', '<', $blog->id)
             ->active()
             ->latest('id')
             ->first();
 
-        $nextBlog = Blog::where('id', '>', $blog->id)
+        $nextBlog = Blog::with('author:id,name')
+            ->where('id', '>', $blog->id)
             ->active()
             ->first();
 
-        return view('frontend.blogs.details', compact('blog', 'categories', 'relatedPosts', 'previousBlog', 'nextBlog'));
+        return view('frontend.blogs.details', compact('blog', 'categories', 'relatedPosts', 'previousBlog', 'nextBlog', 'testPreparationsOptions'));
     }
 
     public function blogProfile(string $authorSlug)
     {
         $authorId = (int) Str::afterLast($authorSlug, '-');
-        $user = User::findOrFail($authorId);
+        $author = BlogAuthor::active()->withCount('blogs')->findOrFail($authorId);
 
         $authorBlogs = Blog::active()
-            ->where('user_id', $user->id)
-            ->with(['category', 'user'])
+            ->where('blog_author_id', $author->id)
+            ->with(['category', 'author'])
             ->latest()
             ->paginate(6);
 
         $featuredBlog = Blog::active()
-            ->where('user_id', $user->id)
+            ->where('blog_author_id', $author->id)
             ->latest()
             ->first();
 
         $categoryExpertise = Blog::active()
-            ->where('user_id', $user->id)
+            ->where('blog_author_id', $author->id)
             ->with('category:id,name')
             ->latest()
             ->get()
@@ -335,10 +393,10 @@ class AllController extends Controller
             ->take(8)
             ->values();
 
-        $publishedCount = Blog::active()->where('user_id', $user->id)->count();
+        $publishedCount = Blog::active()->where('blog_author_id', $author->id)->count();
 
         return view('frontend.blogs.profile', compact(
-            'user',
+            'author',
             'authorBlogs',
             'featuredBlog',
             'categoryExpertise',

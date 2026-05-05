@@ -1,58 +1,24 @@
 @extends('frontend.layouts.includes.master')
 
-@section('title', 'Interview Preparation for ' . $interviewPreparation->title)
+@section('meta_title', 'Interview Preparation for ' . ($interviewPreparation->title ?? 'Details') . ' | ' . ($setting->name ?? config('app.name')))
+@section('meta_description', strip_tags($interviewPreparation->description ?? ''))
 
 @section('maincontent')
-    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }});">
-        <div class="container">
-            <div class="splash-area">
-                @php
-                    $parts = explode(' ', $interviewPreparation->title ?? '', 3); // split into max 3 parts
-                    $firstPart = isset($parts[0], $parts[1]) ? $parts[0] . ' ' . $parts[1] : $parts[0] ?? '';
-                    $secondPart = $parts[2] ?? '';
-                @endphp
+    @php
+        $parts = explode(' ', $interviewPreparation->title ?? '', 3);
+        $firstPart = isset($parts[0], $parts[1]) ? $parts[0] . ' ' . $parts[1] : $parts[0] ?? '';
+        $secondPart = $parts[2] ?? '';
+    @endphp
 
-                <h1 class="splash-title">
-                    {{ $firstPart }}@if ($secondPart) <span class="gradient-text">{{ $secondPart }}</span>@endif
-                </h1>
-            </div>
-        </div>
+    @include('frontend.layouts.includes.page_hero', [
+        'eyebrow' => 'Interview Preparation Details',
+        'title' => trim($firstPart) . ' ',
+        'accent' => $secondPart ?: null,
+        'subtitle' => 'Detailed preparation guidance, common questions, and interview-ready tactics designed for student visa success.',
+        'meta' => ['Interview Questions', 'Visa Conditions', 'Preparation Tips'],
+    ])
 
-        <style>
-            /* Fixed font size on large screens */
-            .splash-title {
-                font-size: 70px;
-                line-height: 1.1;
-                margin: 0;
-                padding-left: 50px;
-                white-space: wrap;
-                /* prevent wrapping */
-            }
-
-            .gradient-text {
-                background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-
-            /* Responsive container */
-            .splash-area-section .container {
-                max-width: 100%;
-                /* horizontal scroll if needed */
-                padding: 0 15px;
-            }
-
-            /* Scale down for very small screens */
-            @media (max-width: 400px) {
-                .splash-title {
-                    font-size: 60px;
-                    padding-left: 10px;
-                }
-            }
-        </style>
-    </section>
-
-    <section data-aos="fade-up">
+    <section data-aos="fade-up" class="gj-page-shell gj-page-shell--white gj-page-shell--compact">
         <div class="container mt-5 mb-5">
             <div class="row justify-content-center">
                 <div class="col-xl-10">
@@ -141,6 +107,8 @@
                             </div>
                         </section>
                     @endif
+
+                    @include('frontend.layouts.includes.faq_schema', ['faqs' => $interviewPreparation->faqs ?? []])
 
                 </div>
             </div>

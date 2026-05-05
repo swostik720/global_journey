@@ -1,48 +1,17 @@
 @extends('frontend.layouts.includes.master')
+@section('meta_title', 'Gallery | ' . ($setting->name ?? config('app.name')))
+@section('meta_description', 'Browse Global Journey galleries featuring events, student experiences, workshops, and destination-focused activities.')
 @section('maincontent')
-    <!-- Hero Section -->
-    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
-        <div class="container">
-            <div class="splash-area">
-                <h1 class="splash-title">Our <span class="gradient-text">Galleries</span></h1>
-            </div>
-        </div>
-
-        <style>
-            /* Keep font size fixed at 70px */
-            .splash-title {
-                font-size: 70px;
-                padding-left: 50px;
-                line-height: 1.1;
-                margin: 0;
-                /* white-space: nowrap; */
-                /* prevent wrapping */
-            }
-
-            .gradient-text {
-                background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-
-            /* Responsive container padding to avoid cutting text */
-            .splash-area-section .container {
-                max-width: 100%;
-                padding: 0 15px;
-            }
-
-            /* Optional: slightly scale text on very small screens */
-            @media (max-width: 400px) {
-                .splash-title {
-                    font-size: 70px;
-                    padding-left: 10px;
-                }
-            }
-        </style>
-    </section>
+    @include('frontend.layouts.includes.page_hero', [
+        'eyebrow' => 'Moments & Milestones',
+        'title' => 'Our ',
+        'accent' => 'Galleries',
+        'subtitle' => 'A closer look at events, student wins, campus moments, and the people behind the Global Journey experience.',
+        'meta' => ['Events', 'Student Stories', 'Campus Highlights'],
+    ])
 
     <!-- Gallery Cards Section -->
-    <section data-aos="fade-up" class="gap no-top mt-5">
+    <section data-aos="fade-up" class="gj-page-shell gj-page-shell--blue gj-page-shell--compact">
         <div class="container">
             <div class="row g-4">
                 @foreach ($galleries as $gallery)
@@ -125,6 +94,31 @@
 
         .gallery-card:hover .image-wrapper img {
             transform: scale(1.1);
+        }
+
+        @media (max-width: 575.98px) {
+            .image-wrapper img {
+                height: 180px;
+            }
+
+            .gallery-card:hover {
+                transform: translateY(-4px) scale(1.01);
+            }
+        }
+
+        @media (hover: none) {
+            .gallery-card:hover {
+                transform: none;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            }
+
+            .gallery-card:hover .image-wrapper img {
+                transform: none;
+            }
+
+            .gallery-card:hover .overlay {
+                opacity: 0;
+            }
         }
 
         /* Overlay fade-in on hover */

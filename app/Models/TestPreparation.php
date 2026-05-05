@@ -17,6 +17,8 @@ class TestPreparation extends Model
 
     protected $casts = [
         'faqs' => 'array',
+        'quick_info_items' => 'array',
+        'key_highlights' => 'array',
     ];
 
     public function getImagePathAttribute(): string

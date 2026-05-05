@@ -1,61 +1,31 @@
 @extends('frontend.layouts.includes.master')
+@section('meta_title', 'Interview Preparation | ' . ($setting->name ?? config('app.name')))
+@section('meta_description', 'Prepare for visa interviews with practical guidance, confidence-building strategies, and common interview question support.')
 
 @section('maincontent')
-    <!-- Hero Section -->
-    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
-        <div class="container">
-            <div class="splash-area">
-                <h1 class="splash-title">Interview <span class="gradient-text">Preperation</span></h1>
-            </div>
-        </div>
-
-        <style>
-            /* Keep font size fixed at 70px */
-            .splash-title {
-                font-size: 70px;
-                padding-left: 50px;
-                line-height: 1.1;
-                margin: 0;
-                /* white-space: nowrap; */
-                /* prevent wrapping */
-            }
-
-            .gradient-text {
-                background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-
-            /* Responsive container padding to avoid cutting text */
-            .splash-area-section .container {
-                max-width: 100%;
-                padding: 0 15px;
-            }
-
-            /* Optional: slightly scale text on very small screens */
-            @media (max-width: 400px) {
-                .splash-title {
-                    font-size: 70px;
-                    padding-left: 10px;
-                }
-            }
-        </style>
-    </section>
+    @include('frontend.layouts.includes.page_hero', [
+        'eyebrow' => 'Interview Confidence',
+        'title' => 'Interview ',
+        'accent' => 'Preparation',
+        'subtitle' => 'Sharpen your communication, structure your answers, and walk into visa interviews with more confidence and clarity.',
+        'meta' => ['Mock Sessions', 'Visa-Focused Coaching', 'Confidence Building'],
+        'primaryAction' => ['label' => 'Prepare With Us', 'url' => route('contact-us')],
+    ])
 
     <!-- Interview Preparation Grid -->
-    <section data-aos="fade-up" class="py-5 position-relative">
+    <section data-aos="fade-up" class="gj-page-shell gj-page-shell--white position-relative">
         <div class="container">
-            <div data-aos="fade-up" data-aos-delay="100" class="heading text-center mb-5">
-                <h6 class="text-primary fw-semibold">Tips & Preparations</h6>
+            <div data-aos="fade-up" data-aos-delay="100" class="gj-section-header">
+                <span class="gj-section-header__eyebrow">Tips & Preparations</span>
                 <h2 class="fw-bold">Interview Preparation Resources</h2>
-                <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}" class="img-fluid mt-3"
-                    style="max-width: 150px;">
+                <p>Use our preparation resources to understand the most common interview themes, expectations, and decision-making signals.</p>
             </div>
 
             <div class="row g-4 justify-content-center">
                 @forelse ($interviewPreparations as $item)
                     <div class="col-md-6 col-lg-4">
-                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden prep-card position-relative">
+                        <div data-aos="zoom-in-up" data-aos-delay="140"
+                            class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden prep-card position-relative">
                             <a href="{{ route('interview-preparation.details', $item->slug) }}"
                                 class="text-decoration-none text-dark h-100 d-block">
                                 <div class="ratio ratio-4x3">
@@ -83,13 +53,12 @@
     </section>
 
     <!-- Visa Conditions Section -->
-    <section data-aos="fade-up" class="py-5 bg-light">
+    <section data-aos="fade-up" class="gj-page-shell gj-page-shell--blue">
         <div class="container">
-            <div data-aos="fade-up" data-aos-delay="100" class="heading text-center mb-5">
-                <h6 class="text-primary fw-semibold">Visa Interview Checklist & Conditions</h6>
+            <div data-aos="fade-up" data-aos-delay="100" class="gj-section-header">
+                <span class="gj-section-header__eyebrow">Visa Interview Checklist & Conditions</span>
                 <h2 class="fw-bold">Prepare Confidently for Your Visa Interview</h2>
-                <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}" class="img-fluid mt-3"
-                    style="max-width: 150px;">
+                <p>Cover the fundamentals before the interview so your case reads as prepared, credible, and complete.</p>
             </div>
 
             @php
@@ -108,7 +77,8 @@
             <div class="row g-4 justify-content-center mb-5">
                 @foreach ($visaConditions as $condition)
                     <div class="col-md-6 col-lg-4">
-                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card visa-condition-card h-100 p-4 text-center position-relative overflow-hidden">
+                        <div data-aos="zoom-in-up" data-aos-delay="140"
+                            class="card visa-condition-card h-100 p-4 text-center position-relative overflow-hidden">
                             <i class="bi bi-shield-check text-white mb-3 card-icon pulse-icon"></i>
                             <p class="fw-semibold fs-6 text-white mt-2">{{ $condition }}</p>
                             <div class="overlay"></div>
@@ -120,13 +90,12 @@
     </section>
 
     <!-- Tips Section -->
-    <section data-aos="fade-up" class="py-5">
+    <section data-aos="fade-up" class="gj-page-shell gj-page-shell--white">
         <div class="container">
-            <div data-aos="fade-up" data-aos-delay="100" class="heading text-center mb-5">
-                <h6 class="text-primary fw-semibold">Visa Interview Tips</h6>
+            <div data-aos="fade-up" data-aos-delay="100" class="gj-section-header">
+                <span class="gj-section-header__eyebrow">Visa Interview Tips</span>
                 <h2 class="fw-bold">Essential Tips to Succeed</h2>
-                <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}" class="img-fluid mt-3"
-                    style="max-width: 150px;">
+                <p>Simple, high-impact habits that improve how clearly and confidently you communicate your study intent.</p>
             </div>
 
             @php
@@ -146,7 +115,8 @@
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 @foreach ($tips as $tip)
                     <div class="col">
-                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card tip-card h-100 p-4 text-center position-relative overflow-hidden">
+                        <div data-aos="zoom-in-up" data-aos-delay="140"
+                            class="card tip-card h-100 p-4 text-center position-relative overflow-hidden">
                             <i class="bi bi-lightbulb-fill text-warning mb-3 card-icon pulse-icon"></i>
                             <p class="fw-semibold mb-0">{{ $tip }}</p>
                             <div class="overlay"></div>
@@ -179,7 +149,12 @@
             left: 0;
             height: 4px;
             width: 0;
-            background: linear-gradient(90deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+            background: linear-gradient(135deg,
+                    #0038A6,
+                    #0046C4,
+                    #0058E8,
+                    #003070,
+                    #001F50);
             transition: width 0.5s ease;
             border-radius: 4px 4px 0 0;
         }
@@ -311,6 +286,23 @@
             .tip-card,
             .prep-card {
                 min-height: 180px;
+            }
+        }
+
+        @media (max-width: 575.98px) {
+
+            .visa-condition-card,
+            .tip-card,
+            .prep-card {
+                min-height: 0;
+            }
+        }
+
+        @media (hover: none) {
+            .visa-condition-card:hover,
+            .tip-card:hover,
+            .prep-card:hover {
+                transform: none;
             }
         }
     </style>

@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(SiteSettingsTableSeeder::class);
         $this->call(SmtpSettingsTableSeeder::class);
+        $this->call(LegalPagesSeeder::class);
         $this->call(TestimonialsTableSeeder::class);
         $this->call(TeamsTableSeeder::class);
         $this->call(CountriesTableSeeder::class);
@@ -43,5 +44,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CountryGuideSeeder::class);
 
         $this->call(GalleryCategorySeeder::class);
+        $this->call(HomeFaqSeeder::class);
     }
 }

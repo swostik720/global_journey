@@ -1,20 +1,21 @@
 @extends('frontend.layouts.includes.master')
+@section('meta_title', 'Enquiry | ' . ($setting->name ?? config('app.name')))
+@section('meta_description', 'Send your study abroad enquiry and get personalized advice from Global Journey counselors based on your goals and timeline.')
 @section('maincontent')
-    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
+    @include('frontend.layouts.includes.page_hero', [
+        'eyebrow' => 'Tell Us Your Goals',
+        'title' => 'Let Us Know What You\'re ',
+        'accent' => 'Looking For',
+        'subtitle' => 'Share your destination, budget, and timeline so our team can recommend the right academic and visa strategy.',
+        'meta' => ['Quick Response', 'Personalized Advice', 'Clear Next Steps'],
+        'primaryAction' => ['label' => 'Send Your Enquiry', 'url' => '#enquiry-form'],
+    ])
+    <section data-aos="fade-up" class="contact-page gj-page-shell gj-page-shell--white" id="enquiry-form">
         <div class="container">
-            <div class="splash-area">
-                <h2>Let Us Know What
-                    You're Looking For</h2>
-                <a href="#">Get in Touch</a>
-            </div>
-        </div>
-    </section>
-    <section data-aos="fade-up" class="contact-page gap">
-        <div class="container">
-            <div data-aos="fade-up" data-aos-delay="100" class="heading">
-                <h6>Start Your Project With Us.</h6>
+            <div data-aos="fade-up" data-aos-delay="100" class="gj-section-header gj-section-header--left">
+                <span class="gj-section-header__eyebrow">Start Your Project With Us</span>
                 <h2>Let's Talk</h2>
-                <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
+                <p>Tell us what you need and we&apos;ll route your enquiry to the right counselor for faster, better guidance.</p>
             </div>
             <div class="row">
                 <div class="col-xl-6 col-lg-6">
@@ -46,19 +47,19 @@
                             <ul class="brandicon">
                                 <li>
                                     <a href="{{ $setting->fb_link ?? '#' }}" target="_blank"><i
-                                            class="fa-brands fa-facebook-f"></i></a>
+                                            class="bi bi-facebook"></i></a>
                                 </li>
                                 <li>
                                     <a href="{{ $setting->twitter_link ?? '#' }}" target="_blank"><i
-                                            class="fa-brands fa-twitter"></i></a>
+                                            class="bi bi-twitter"></i></a>
                                 </li>
                                 <li>
                                     <a href="{{ $setting->instagram_link ?? '#' }}" target="_blank"><i
-                                            class="fa-brands fa-instagram"></i></a>
+                                            class="bi bi-instagram"></i></a>
                                 </li>
                                 <li>
                                     <a href="{{ $setting->linkedIn_link ?? '#' }}" target="_blank"><i
-                                            class="fa-brands fa-linkedin-in"></i></a>
+                                            class="bi bi-linkedin"></i></a>
                                 </li>
                             </ul>
                         </li>
@@ -100,3 +101,4 @@
         </div>
     </section>
 @endsection
+

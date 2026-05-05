@@ -27,6 +27,61 @@
         <b class="d-block text-uppercase text-14"></b><span>{!! $study_abroad->description ?? '' !!}</span>
     </div>
 
+    @if (!empty($study_abroad->quick_info_items))
+        <div class="card-content mt-4">
+            <h5 class="mb-3">Quick Information Grid</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Icon</th>
+                            <th>Title</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($study_abroad->quick_info_items as $item)
+                            <tr>
+                                <td>{{ $item['icon'] ?? '' }}</td>
+                                <td>{{ $item['title'] ?? '' }}</td>
+                                <td>{{ $item['value'] ?? '' }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endif
+
+    @if (!empty($study_abroad->key_highlights))
+        <div class="card-content mt-4">
+            <h5 class="mb-3">Key Highlights</h5>
+            <ul class="mb-0">
+                @foreach ($study_abroad->key_highlights as $highlight)
+                    <li>{{ $highlight['text'] ?? '' }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    @if (!empty($study_abroad->cta_title) || !empty($study_abroad->cta_description) || !empty($study_abroad->cta_button_text) || !empty($study_abroad->cta_button_url))
+        <div class="card-content mt-4">
+            <h5 class="mb-3">CTA Block</h5>
+            @if (!empty($study_abroad->cta_title))
+                <p class="mb-1"><strong>Title:</strong> {{ $study_abroad->cta_title }}</p>
+            @endif
+            @if (!empty($study_abroad->cta_description))
+                <p class="mb-1"><strong>Description:</strong> {{ $study_abroad->cta_description }}</p>
+            @endif
+            @if (!empty($study_abroad->cta_button_text))
+                <p class="mb-1"><strong>Button Text:</strong> {{ $study_abroad->cta_button_text }}</p>
+            @endif
+            @if (!empty($study_abroad->cta_button_url))
+                <p class="mb-0"><strong>Button URL:</strong> {{ $study_abroad->cta_button_url }}</p>
+            @endif
+        </div>
+    @endif
+
     @if (!empty($study_abroad->faqs))
         <div class="card-content mt-4">
             <h5 class="mb-3">FAQs</h5>

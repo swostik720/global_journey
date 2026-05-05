@@ -1,824 +1,1191 @@
-@extends('frontend.layouts.includes.master')
+﻿@extends('frontend.layouts.includes.master')
+@section('meta_title', 'About Us | ' . ($setting->name ?? config('app.name')))
+@section('meta_description', 'Learn about Global Journey, our counseling approach, and how we guide students through admissions, visas, and destination planning.')
+
 @section('maincontent')
-    <section data-aos="fade-up" class="splash-area-section" style="background-image: url({{ asset('frontend/assets/img/background.jpg') }})">
-    <div class="container">
-        <div class="splash-area">
-            <h1 class="splash-title">We Deliver <span class="gradient-text">Results</span></h1>
+    @include('frontend.layouts.includes.page_hero', [
+        'eyebrow' => 'About Global Journey',
+        'title' => 'About ',
+        'accent' => 'Global Journey',
+        'subtitle' => 'From Nepal to the world, we guide students with clarity, strategy, and trusted support through admissions, visas, and long-term academic planning.',
+        'meta' => ['13+ Years of Guidance', 'Student-First Counseling', 'Trusted Branch Network'],
+        'primaryAction' => ['label' => 'Talk to Our Team', 'url' => route('contact-us')],
+        'secondaryAction' => ['label' => 'Explore Services', 'url' => route('study-abroad')],
+    ])
+
+    <section data-aos="fade-up" class="about-intro gap">
+        <div class="container">
+            <div class="row about-intro__row g-4 g-xl-5">
+                <div class="heading-boder two text-center" data-aos="fade-up" data-aos-delay="140">
+                        <h2>Message from <span>CEO</span></h2>
+                        <p>Students First. Results Always.</p>
+                    </div>
+                <div class="col-xl-5 col-lg-6">
+                    <div class="about-intro__media" data-aos="zoom-in-up" data-aos-delay="120">
+                        <img src="{{ asset('frontend/assets/img/ceo.png') }}" alt="Global Journey CEO">
+                        <div class="about-intro__badge">13+ Years Of Guidance</div>
+                    </div>
+                </div>
+                <div class="col-xl-7 col-lg-6">
+
+                    <div class="about-intro__right">
+                        <div class="about-intro__content" data-aos="fade-up" data-aos-delay="180">
+                        <p>
+                            I&apos;m Bishal Neupane, Founder and CEO of Global Journey Education. With over 13 years of
+                            experience in the international education sector and as a QEAC/PIER Certified Education
+                            Counselor, I take great pride in helping students turn their academic dreams into reality.
+                        </p>
+                        <p>
+                            At Global Journey Education, we are committed to providing honest, personalized, and
+                            professional guidance to students aspiring to study abroad. Every student&apos;s journey is
+                            unique, and our goal is to ensure they receive the support, information, and confidence they
+                            need to make informed decisions for their future.
+                        </p>
+                        <p>
+                            We are proud to serve students and families through our conveniently located branch offices
+                            in Kumaripati, Chabahil, and Birtamode, where our experienced counselors are always ready to
+                            assist you.
+                        </p>
+                        <p>
+                            Thank you for trusting Global Journey Education as your partner in shaping a brighter,
+                            global future.
+                        </p>
+                        <div class="about-intro__signature">
+                            <span>Warm regards,</span>
+                            <strong>Bishal Neupane</strong>
+                            <span>CEO, Global Journey Education</span>
+                            <span>QEAC Certified Counselor</span>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
+    <section data-aos="fade-up" class="about-team-slider gap no-top">
+        <div class="container">
+            <div class="heading-boder two text-center" data-aos="fade-up" data-aos-delay="100">
+                <h2>Meet Our Expert <span>Team</span></h2>
+                <p>Guiding your journey to global education success</p>
+            </div>
+
+            <div class="about-team-slider__wrap" data-aos="zoom-in-up" data-aos-delay="140">
+                <div class="swiper aboutTeamSwiper">
+                    <div class="swiper-wrapper">
+                        @forelse ($teams as $team)
+                            <div class="swiper-slide">
+                                <article class="about-team-slide-card">
+                                    <div class="about-team-slide-card__left">
+                                        <img src="{{ $team->image_path }}" alt="{{ $team->name }}">
+                                        <span class="about-team-slide-card__name">{{ $team->name }}</span>
+                                    </div>
+                                    <div class="about-team-slide-card__right">
+                                        <blockquote>"{{ $team->responsibility ?: 'Education Counseling Specialist' }}"</blockquote>
+                                        <p>
+                                            We provide full-profile guidance, admission strategy, and complete process
+                                            mapping for confident global education outcomes.
+                                        </p>
+
+                                        <div class="about-team-slide-card__contacts">
+                                            <a href="mailto:{{ $team->email ?: '' }}" @if (!$team->email) aria-disabled="true" @endif>
+                                                <i class="bi bi-envelope-fill"></i>
+                                                <span>{{ $team->email ?: 'Email not available' }}</span>
+                                            </a>
+                                            <a href="tel:{{ $team->phone ?: '' }}" @if (!$team->phone) aria-disabled="true" @endif>
+                                                <i class="bi bi-telephone-fill"></i>
+                                                <span>{{ $team->phone ?: 'Phone not available' }}</span>
+                                            </a>
+                                        </div>
+
+                                        <a href="{{ route('contact-us') }}" class="about-team-slide-card__btn">Explore Programs</a>
+                                    </div>
+                                </article>
+                            </div>
+                        @empty
+                            <div class="swiper-slide">
+                                <article class="about-team-slide-card about-team-slide-card--empty">
+                                    <div class="about-team-slide-card__right">
+                                        <blockquote>"Our team profiles will be updated shortly."</blockquote>
+                                    </div>
+                                </article>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+
+                <button class="about-team-nav about-team-nav--prev" type="button" aria-label="Previous team member">
+                    <i class="bi bi-arrow-left"></i>
+                </button>
+                <button class="about-team-nav about-team-nav--next" type="button" aria-label="Next team member">
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+
+                <div class="about-team-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <section data-aos="fade-up" class="about-why gap no-top pt-4">
+        <div class="container">
+            <div class="heading-boder two text-center py-5" data-aos="fade-up" data-aos-delay="100">
+                <h2>Why Choose Global Journey Education <span>Services?</span></h2>
+            </div>
+
+            <div class="about-why__grid">
+                <article class="about-why-card" data-aos="zoom-in-up" data-aos-delay="120">
+                    <i class="bi bi-mortarboard-fill"></i>
+                    <h4>We are Caring and Focus</h4>
+                    <p>We provide personalized guidance, focusing on each student&apos;s unique academic journey.</p>
+                </article>
+
+                <article class="about-why-card" data-aos="zoom-in-up" data-aos-delay="160">
+                    <i class="bi bi-trophy-fill"></i>
+                    <h4>High Success Rate</h4>
+                    <p>We have a strong track record of securing placements in top universities worldwide.</p>
+                </article>
+
+                <article class="about-why-card" data-aos="zoom-in-up" data-aos-delay="200">
+                    <i class="bi bi-signpost-split-fill"></i>
+                    <h4>Result Oriented Performance</h4>
+                    <p>We offer clear, actionable plans to help students achieve their educational goals.</p>
+                </article>
+
+                <article class="about-why-card" data-aos="zoom-in-up" data-aos-delay="240">
+                    <i class="bi bi-people-fill"></i>
+                    <h4>Trustworthy</h4>
+                    <p>We deliver honest, reliable support, ensuring confidence throughout the application process.</p>
+                </article>
+
+                <article class="about-why-card" data-aos="zoom-in-up" data-aos-delay="280">
+                    <i class="bi bi-gear-fill"></i>
+                    <h4>Career & Country Planning</h4>
+                    <p>Plan beyond admission with clear guidance for career pathway, migration direction, and lifestyle fit.</p>
+                </article>
+
+                <article class="about-why-card" data-aos="zoom-in-up" data-aos-delay="320">
+                    <i class="bi bi-mortarboard-fill"></i>
+                    <h4>University & Course Selection</h4>
+                    <p>Find the right course, college, and destination that align with your goals and future potential.</p>
+                </article>
+            </div>
+
+            <div class="about-why__cta">
+                <a href="{{ route('contact-us') }}" class="themebtu">Start Your Journey</a>
+            </div>
+        </div>
+    </section>
+    @include('frontend.layouts.includes.contact_band', [
+        'eyebrow' => 'Start Your Project With Us',
+        'title' => "Let's Plan Your Next Move",
+        'subtitle' => 'Speak with our counselors for clear next steps on destination choice, admissions, documentation, and visa preparation.',
+        'panelTitle' => 'Book a conversation with the Global Journey team',
+        'panelCopy' => 'Share your destination, budget, and timeline. We will help you identify the right country, course, and application strategy.',
+    ])
+    @include('frontend.layouts.branch_network')
+    @include('frontend.layouts.take_next_step')
+    @include('frontend.layouts.stay_updated')
+@endsection
+
+@push('custom_css')
     <style>
-        /* Keep font size fixed at 70px */
-        .splash-title {
-            font-size: 70px;
-            padding-left: 50px;
-            line-height: 1.1;
+        .about-hero {
+            min-height: 500px;
+        }
+
+        .about-hero__inner {
+            padding-left: 40px !important;
+            white-space: normal !important;
+            overflow: visible !important;
+            max-width: 860px;
+        }
+
+        .about-hero__subtitle {
+            margin-top: 18px;
+            color: #e8f3ff;
+            font-size: 18px;
+            line-height: 1.8;
+            max-width: 640px;
+        }
+
+        .about-intro {
+            background: linear-gradient(180deg, #f7faff 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-intro::before {
+            content: "";
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            right: -80px;
+            top: -80px;
+            background: radial-gradient(circle, rgba(29, 78, 216, 0.15) 0%, transparent 70%);
+            animation: glowPulse 4.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .about-intro__row {
+            align-items: flex-start;
+        }
+
+        .about-intro__media {
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 22px 50px rgba(0, 35, 104, 0.16);
+            min-height: 620px;
+            animation: liftIn 0.8s ease both, floatSoft 6s ease-in-out infinite;
+            max-width: 560px;
+            margin-inline: auto;
+        }
+
+        .about-intro__media img {
+            width: 100%;
+            display: block;
+            height: 620px;
+            object-fit: cover;
+            object-position: center top;
+            transition: transform 0.55s ease, filter 0.4s ease;
+        }
+
+        .about-intro__media::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(140deg, rgba(96, 179, 255, 0.34), rgba(158, 214, 255, 0.12));
+            opacity: 0;
+            transition: opacity 0.35s ease;
+            pointer-events: none;
+        }
+
+        .about-intro__media:hover img {
+            transform: scale(1.05);
+            filter: brightness(1.03);
+        }
+
+        .about-intro__media:hover::after {
+            opacity: 1;
+        }
+
+        .about-intro__badge {
+            position: absolute;
+            left: 18px;
+            bottom: 18px;
+            background: linear-gradient(135deg, #0038a6, #0058e8);
+            color: #fff;
+            border-radius: 999px;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            pointer-events: none;
+        }
+
+        .about-intro__media:hover .about-intro__badge {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about-intro__content p {
+            margin-bottom: 14px;
+            color: #5c6d8b;
+            font-size: 15px;
+            line-height: 1.82;
+        }
+
+        .about-intro__content {
+            background: #ffffff;
+            border: 1px solid #dce7fb;
+            border-radius: 18px;
+            padding: 24px 24px 18px;
+            box-shadow: 0 14px 34px rgba(0, 35, 104, 0.08);
+            animation: liftIn 0.95s ease both;
+            margin-top: 12px;
+            position: relative;
+        }
+
+        .about-intro__content::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #0038a6, #0058e8, #60a5fa);
+            border-radius: 18px 18px 0 0;
+            animation: lineGrow 1.1s ease 0.35s forwards;
+        }
+
+        .about-intro__right {
+            padding-top: 8px;
+        }
+
+        .about-intro__content p {
+            transition: color 0.28s ease;
+        }
+
+        .about-intro__content p:hover {
+            color: #0d3f9b;
+        }
+
+        .about-intro__signature {
+            margin-top: 18px;
+            border-top: 1px solid #dce7fb;
+            padding-top: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            color: #2d4577;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .about-intro__signature strong {
+            color: #0f2e73;
+            font-size: 16px;
+        }
+
+        .about-team-slider {
+            position: relative;
+            padding: 10px 0 18px;
+            background: linear-gradient(180deg, #ffffff 0%, #f3f8ff 100%);
+            overflow: hidden;
+        }
+
+        .about-team-slider::before,
+        .about-team-slider::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .about-team-slider::before {
+            width: 320px;
+            height: 320px;
+            top: -140px;
+            right: -120px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.16) 0%, rgba(37, 99, 235, 0) 72%);
+        }
+
+        .about-team-slider::after {
+            width: 300px;
+            height: 300px;
+            bottom: -150px;
+            left: -100px;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.14) 0%, rgba(14, 165, 233, 0) 70%);
+        }
+
+        .about-team-slider .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-team-slider .heading-boder.two {
+            margin-bottom: 8px;
+        }
+
+        .about-team-slider .heading-boder.two p {
+            max-width: 58ch;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-team-slider__wrap {
+            position: relative;
+            margin-top: 30px;
+            padding: 28px 74px 58px;
+            background: linear-gradient(145deg, #f8fbff 0%, #eef4ff 100%);
+            border-radius: 22px;
+            border: 1px solid #d6e2f8;
+            box-shadow: 0 22px 50px rgba(7, 30, 70, 0.12);
+            animation: liftIn 0.9s ease both;
+        }
+
+        .about-team-slider__wrap::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 22px;
+            background: linear-gradient(120deg, transparent 35%, rgba(255, 255, 255, 0.42) 50%, transparent 65%);
+            transform: translateX(-120%);
+            animation: sweepShine 5.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .aboutTeamSwiper .swiper-wrapper {
+            align-items: stretch;
+        }
+
+        .aboutTeamSwiper .swiper-slide {
+            height: auto;
+        }
+
+        .about-team-slide-card {
+            height: 420px;
+            min-height: 420px;
+            background: #fff;
+            border: 1px solid #d9e4f5;
+            border-radius: 18px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            box-shadow: 0 14px 32px rgba(8, 29, 71, 0.1);
+            animation: liftIn 0.7s ease both;
+            transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+
+        .about-team-slide-card:hover {
+            transform: translateY(-8px);
+            border-color: #b8cff8;
+            box-shadow: 0 24px 42px rgba(7, 30, 70, 0.17);
+        }
+
+        .about-team-slide-card__left {
+            position: relative;
+            min-height: 420px;
+            background: linear-gradient(180deg, #ffffff 0%, #edf3ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .about-team-slide-card__left img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            transition: transform 0.45s ease;
+        }
+
+        .about-team-slide-card:hover .about-team-slide-card__left img {
+            transform: scale(1.03);
+        }
+
+        .about-team-slide-card__name {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(14, 36, 84, 0.92);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            box-shadow: 0 10px 20px rgba(15, 36, 84, 0.26);
+        }
+
+        .about-team-slide-card__right {
+            padding: 22px 22px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            overflow: hidden;
+        }
+
+        .about-team-slide-card__right blockquote {
             margin: 0;
-            white-space: wrap; /* prevent wrapping */
-        }
-
-        .gradient-text {
-            background: linear-gradient(90deg, #0026cc, #001a80, #000d40);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Responsive container padding to avoid cutting text */
-        .splash-area-section .container {
+            color: #132f72;
+            font-size: clamp(1.24rem, 2.1vw, 1.75rem);
+            line-height: 1.3;
+            font-style: italic;
+            font-weight: 500;
+            font-family: Georgia, 'Times New Roman', serif;
             max-width: 100%;
-            padding: 0 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        @media (max-width: 400px) {
-            .splash-title {
-                font-size: 70px;
-                padding-left: 10px;
+        .about-team-slide-card__right p {
+            margin: 0;
+            color: #5d7198;
+            font-size: 13px;
+            line-height: 1.72;
+            max-width: 520px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .about-team-slide-card__contacts {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 9px;
+            margin-top: 4px;
+        }
+
+        .about-team-slide-card__contacts a {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            width: fit-content;
+            color: #163a88;
+            background: #f6f9ff;
+            border: 1px solid #d6e3fb;
+            border-radius: 999px;
+            padding: 8px 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 11px;
+            transition: all 0.3s ease;
+            max-width: 100%;
+        }
+
+        .about-team-slide-card__contacts a i {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            background: linear-gradient(135deg, #0f2454, #1d4ed8);
+            font-size: 10px;
+            flex-shrink: 0;
+            box-shadow: 0 8px 16px rgba(29, 78, 216, 0.24);
+        }
+
+        .about-team-slide-card__contacts a span {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .about-team-slide-card__contacts a:hover {
+            transform: translateY(-2px);
+            background: #ebf2ff;
+            border-color: #bfd2f8;
+        }
+
+        .about-team-slide-card__contacts a[aria-disabled="true"] {
+            opacity: 0.75;
+            pointer-events: none;
+        }
+
+        .about-team-slide-card--empty {
+            grid-template-columns: 1fr;
+            min-height: 260px;
+        }
+
+        .about-team-slide-card__btn {
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: fit-content;
+            padding: 10px 21px;
+            background: linear-gradient(135deg, #0f2454, #1d4ed8);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid rgba(29, 78, 216, 0.4);
+            border-radius: 999px;
+            box-shadow: 0 12px 20px rgba(16, 46, 120, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .about-team-slide-card__btn:hover {
+            transform: translateY(-2px);
+            color: #fff;
+            background: linear-gradient(135deg, #0a1d48, #183fa8);
+        }
+
+        .about-team-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 46px;
+            height: 46px;
+            border: 1px solid #d0dcf5;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.96);
+            color: #0d2e75;
+            box-shadow: 0 14px 24px rgba(0, 35, 104, 0.13);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            z-index: 5;
+        }
+
+        .about-team-nav:hover {
+            background: linear-gradient(135deg, #0038a6, #0058e8);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        .about-team-nav--prev {
+            left: 0;
+        }
+
+        .about-team-nav--next {
+            right: 0;
+        }
+
+        .about-team-pagination {
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .about-team-pagination .swiper-pagination-bullet {
+            width: 10px;
+            height: 10px;
+            border-radius: 99px;
+            background: #c6d6f3;
+            opacity: 1;
+            transition: all 0.3s ease;
+        }
+
+        .about-team-pagination .swiper-pagination-bullet-active {
+            width: 26px;
+            background: linear-gradient(135deg, #0038a6, #0058e8);
+        }
+
+        .about-why {
+            background: linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+        }
+
+        .about-why__grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .about-why-card {
+            border-radius: 18px;
+            background: #fff;
+            border: 1px solid #dce7fb;
+            box-shadow: 0 14px 34px rgba(0, 35, 104, 0.09);
+            padding: 28px 24px;
+            transition: all 0.3s ease;
+            display: grid;
+            grid-template-columns: 64px 1fr;
+            align-items: start;
+            gap: 16px;
+            animation: liftIn 0.65s ease both;
+        }
+
+        .about-why-card:nth-child(1) {
+            animation-delay: 0.04s;
+        }
+
+        .about-why-card:nth-child(2) {
+            animation-delay: 0.08s;
+        }
+
+        .about-why-card:nth-child(3) {
+            animation-delay: 0.12s;
+        }
+
+        .about-why-card:nth-child(4) {
+            animation-delay: 0.16s;
+        }
+
+        .about-why-card:nth-child(5) {
+            animation-delay: 0.2s;
+        }
+
+        .about-why-card:nth-child(6) {
+            animation-delay: 0.24s;
+        }
+
+        .about-why-card:hover {
+            transform: translateY(-6px);
+            background: linear-gradient(135deg, #0038a6, #0058e8);
+            box-shadow: 0 18px 40px rgba(0, 56, 166, 0.28);
+        }
+
+        .about-why-card i {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #e9f1ff;
+            color: #0f388b;
+            font-size: 22px;
+            transition: all 0.3s ease;
+        }
+
+        .about-why-card h4,
+        .about-why-card p {
+            grid-column: 2;
+        }
+
+        .about-why-card h4 {
+            margin-bottom: 6px;
+            font-size: 24px;
+            color: #0a245f;
+            transition: color 0.3s ease;
+        }
+
+        .about-why-card p {
+            margin: 0;
+            color: #607192;
+            line-height: 1.75;
+            transition: color 0.3s ease;
+        }
+
+        .about-why-card:hover i {
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .about-why-card:hover h4,
+        .about-why-card:hover p {
+            color: #fff;
+        }
+
+        .about-why__cta {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .sa-contact-section {
+            padding: 0 0 58px;
+            background: #f4f7fb;
+            --grad: linear-gradient(135deg, #0038A6, #0046C4, #0058E8, #003070, #001F50);
+        }
+
+        .sa-contact-wrap {
+            border-radius: 16px;
+            border: 1px solid #dde7f5;
+            background: #f6f8fc;
+            box-shadow: 0 10px 28px rgba(15, 41, 95, 0.08);
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.95fr);
+            gap: 28px;
+            padding: 26px;
+            animation: liftIn 0.9s ease both;
+        }
+
+        .sa-contact-form-col {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .sa-contact__badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #1e40af;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 20px;
+            padding: 4px 10px;
+            margin-bottom: 10px;
+        }
+
+        .sa-contact__title {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .sa-contact__line {
+            max-width: 80px;
+            margin-top: 2px;
+        }
+
+        .sa-contact {
+            border-radius: 16px;
+            background: #ffffff;
+            border: 1px solid #dbe6f6;
+            padding: 22px;
+        }
+
+        .bds-contact-form-wrap .contact-form__form {
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            background: transparent;
+            box-shadow: none;
+            width: 100%;
+        }
+
+        .bds-contact-form-wrap input,
+        .bds-contact-form-wrap select,
+        .bds-contact-form-wrap textarea {
+            border-radius: 10px;
+            border: 1px solid #d6e1f3;
+            background: #ffffff;
+            padding: 10px 12px;
+        }
+
+        .bds-contact-form-wrap button.themebtu,
+        .bds-contact-form-wrap .themebtu {
+            width: 100%;
+            text-align: center;
+            margin-top: 6px;
+        }
+
+        .sa-contact-section .details-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            transition: all .3s ease;
+            align-self: flex-start;
+            margin-top: 96px;
+        }
+
+        .sa-contact-section .details-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+        }
+
+        .sa-contact-section .details-card h4 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1f2937;
+        }
+
+        .sa-contact-section .details-card h5 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 14px 0 10px;
+            color: #1f2937;
+        }
+
+        .sa-contact-section .details-card hr {
+            border-color: #e5eaf2;
+            margin: 16px 0;
+        }
+
+        .sa-contact-section .contact-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sa-contact-section .contact-list li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            text-decoration: none;
+            color: #333;
+            font-size: 15px;
+            transition: all .3s ease;
+        }
+
+        .sa-contact-section .contact-list li a:hover {
+            color: #0038A6;
+        }
+
+        .sa-contact-section .contact-list i {
+            width: 40px;
+            height: 40px;
+            background: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: all .4s ease;
+        }
+
+        .sa-contact-section .contact-list li:hover i {
+            background: var(--grad);
+            color: #fff;
+            box-shadow: 0 0 12px rgba(0, 56, 166, 0.5);
+        }
+
+        .sa-contact-section .social-links {
+            list-style: none;
+            display: flex;
+            gap: 12px;
+            padding: 0;
+            margin: 12px 0 0;
+        }
+
+        .sa-contact-section .social-links li {
+            list-style: none;
+        }
+
+        .sa-contact-section .social-links a {
+            display: grid;
+            place-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #f3f3f3;
+            color: #333;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all .5s ease;
+        }
+
+        .sa-contact-section .social-links a:hover {
+            background: var(--grad);
+            color: #fff;
+            transform: rotate(10deg) scale(1.1);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes liftIn {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes lineGrow {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes sweepShine {
+            0%,
+            70%,
+            100% {
+                transform: translateX(-120%);
+            }
+
+            30% {
+                transform: translateX(120%);
+            }
+        }
+
+        @keyframes navPulse {
+            0%,
+            100% {
+                box-shadow: 0 10px 20px rgba(0, 35, 104, 0.12);
+            }
+
+            50% {
+                box-shadow: 0 14px 26px rgba(0, 56, 166, 0.28);
+            }
+        }
+
+        @keyframes glowPulse {
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.12);
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatSoft {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @media (max-width: 1199px) {
+            .about-team-slider__wrap {
+                padding: 22px 58px 52px;
+            }
+
+            .about-team-slide-card {
+                height: 380px;
+                min-height: 380px;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .about-team-slide-card__left {
+                min-height: 380px;
+            }
+
+            .about-intro__media {
+                min-height: 560px;
+            }
+
+            .about-intro__media img {
+                height: 560px;
+            }
+
+            .sa-contact-wrap {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 18px;
+                padding: 18px;
+            }
+
+            .sa-contact-section .details-card {
+                margin-top: 0;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .about-hero__inner {
+                padding-left: 10px !important;
+            }
+
+            .about-intro__right {
+                padding-top: 0;
+            }
+
+            .about-team-slider__wrap {
+                padding: 16px 12px 62px;
+                border-radius: 16px;
+            }
+
+            .about-team-slide-card {
+                min-height: 0;
+                height: auto;
+                grid-template-columns: 1fr;
+            }
+
+            .about-team-slide-card__left {
+                min-height: 250px;
+            }
+
+            .about-team-slide-card__right p {
+                font-size: 13px;
+            }
+
+            .about-team-nav {
+                top: auto;
+                bottom: -4px;
+                transform: none;
+            }
+
+            .about-team-nav--prev {
+                left: calc(50% - 62px);
+            }
+
+            .about-team-nav--next {
+                right: calc(50% - 62px);
+            }
+
+            .about-why__grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 767px) {
+            .about-team-slider {
+                padding: 4px 0 10px;
+            }
+
+            .about-hero {
+                min-height: 400px;
+            }
+
+            .about-hero__subtitle {
+                font-size: 15px;
+            }
+
+            .about-team-slide-card__right blockquote {
+                font-size: 28px;
+            }
+
+            .about-team-slide-card__right p {
+                font-size: 15px;
+            }
+
+            .about-why__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-intro__media {
+                min-height: 460px;
+            }
+
+            .about-intro__media img {
+                height: 460px;
+            }
+
+            .about-team-nav {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .about-intro__media {
+                min-height: 320px;
+            }
+
+            .about-intro__media img {
+                height: 320px;
+            }
+
+            .about-hero {
+                min-height: 320px;
+            }
+
+            .about-hero__subtitle {
+                font-size: 13px;
+            }
+        }
+
+        @media (hover: none) {
+            .about-why__card:hover {
+                transform: none;
             }
         }
     </style>
-</section>
+@endpush
 
-    <section data-aos="fade-up" class="things-differently gap py-5" style="background-color: #f8f9fc;">
-        <div class="container">
-            <div class="row align-items-center gy-5">
-
-                <!-- Left Column: Heading and Image -->
-                <div class="col-xl-7">
-                    <div data-aos="fade-up" data-aos-delay="100" class="heading pe-xl-5">
-                        <h6>Message from the CEO</h6>
-                        <h2>
-                            Welcome to Global Journey Education!
-                        </h2>
-                        <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}" class="mb-4">
-
-                        <div class="ceo-img position-relative text-center text-xl-start">
-                            <img src="{{ asset('frontend/assets/img/ceo.png') }}" alt="CEO"
-                                class="img-fluid rounded-4 shadow-lg ceo-photo">
-                            <div class="overlay"></div>
-                            <div class="floating-badge">
-                                <span>13+ Years<br>Experience</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Message -->
-                <div class="col-xl-5">
-                    <div data-aos="zoom-in-up" data-aos-delay="140" class="signature bg-white p-4 p-md-5 rounded-4 shadow-sm position-relative animate-card">
-                        <p class="mb-3">
-                            I’m <strong>Bishal Neupane</strong>, Founder and CEO of Global Journey Education.
-                            With over 13 years of experience in the international education sector and as a
-                            QEAC/PIER Certified Education Counselor, I take great pride in helping students
-                            turn their academic dreams into reality.
-                        </p>
-
-                        <p class="mb-3">
-                            At Global Journey Education, we are committed to providing honest, personalized,
-                            and professional guidance to students aspiring to study abroad. Every student’s
-                            journey is unique, and our goal is to ensure they receive the support, information,
-                            and confidence they need to make informed decisions for their future.
-                        </p>
-
-                        <p class="mb-3">
-                            We are proud to serve students and families through our conveniently located branch
-                            offices in <strong>Kumaripati, Chabahil,</strong> and <strong>Birtamode</strong>,
-                            where our experienced counselors are always ready to assist you.
-                        </p>
-
-                        <p class="mb-4">
-                            Thank you for trusting Global Journey Education as your partner in shaping a
-                            brighter, global future.
-                        </p>
-
-                        <div class="ceo text-end text-xl-start">
-                            <span class="d-block fw-semibold">
-                                Warm regards,<br>
-                                <strong>Bishal Neupane</strong><br>
-                                CEO, Global Journey Education<br>
-                                QEAC Certified Counselor
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <style>
-            /* ===============================
-                                                       CEO SECTION ENHANCED STYLES
-                                                    ================================ */
-            .things-differently {
-                position: relative;
-                overflow: hidden;
-            }
-
-            /* CEO Image Effects */
-            .ceo-img {
-                position: relative;
-                display: inline-block;
-                overflow: hidden;
-                border-radius: 18px;
-            }
-
-            .ceo-img img {
-                transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1), filter 0.5s ease;
-            }
-
-            .ceo-img:hover img {
-                transform: scale(1.07);
-                filter: brightness(1.1);
-            }
-
-            .ceo-img .overlay {
-                position: absolute;
-                inset: 0;
-                background: linear-gradient(135deg, rgba(0, 56, 166, 0.25), rgba(0, 56, 166, 0.1));
-                opacity: 0;
-                transition: opacity 0.5s ease;
-                border-radius: 18px;
-            }
-
-            .ceo-img:hover .overlay {
-                opacity: 1;
-            }
-
-            /* Floating Badge */
-            .floating-badge {
-                position: absolute;
-                bottom: 20px;
-                right: 20px;
-                background: linear-gradient(135deg, #0038A6, #0070FF);
-                color: #fff;
-                padding: 10px 15px;
-                border-radius: 10px;
-                font-size: 0.9rem;
-                font-weight: 600;
-                box-shadow: 0 4px 15px rgba(0, 56, 166, 0.3);
-                opacity: 0;
-                transform: translateY(15px);
-                transition: all 0.5s ease;
-            }
-
-            .ceo-img:hover .floating-badge {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-            /* Signature Card */
-            .animate-card {
-                border: 2px solid transparent;
-                transition: all 0.6s ease;
-            }
-
-            .animate-card:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 12px 30px rgba(0, 56, 166, 0.15);
-                border-color: #0038A6;
-                background: linear-gradient(145deg, #ffffff, #f7f9ff);
-            }
-
-            /* Text hover glow */
-            .animate-card p:hover {
-                color: #0038A6;
-                transition: color 0.3s ease;
-            }
-
-            /* Responsive */
-            @media (max-width: 992px) {
-                .heading h2 {
-                    font-size: 2rem;
-                }
-
-                .floating-badge {
-                    bottom: 15px;
-                    right: 15px;
-                    font-size: 0.8rem;
-                }
-            }
-        </style>
-    </section>
-
-
-    <section data-aos="fade-up">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-6">
-                    <div data-aos="fade-up" data-aos-delay="100" class="heading pt-5">
-                        <h6>Meet Our Team Members</h6>
-                        <h2>Guiding your jouryney</h2>
-                        <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-container teamSwiper mt-5">
-                <div class="swiper-wrapper">
-                    @foreach ($teams as $team)
-                        <div class="swiper-slide">
-                            <div data-aos="zoom-in-up" data-aos-delay="140" class="team-card">
-                                <!-- Team Image -->
-                                <div class="team-img-wrapper">
-                                    <img class="team-img" alt="img" src="{{ $team->image_path ?? '' }}">
-                                </div>
-
-                                <!-- Team Info -->
-                                <div class="team-info">
-                                    <h6>{{ $team->name ?? '' }}</h6>
-                                    <p>{{ $team->responsibility ?? '' }}</p>
-
-                                    <!-- Social icons (hidden until hover) -->
-                                    <ul class="team-social d-flex justify-content-center gap-2">
-                                        <li>
-                                            <a href="mailto:{{ $team->email ?? '' }}">
-                                                <i class="fa fa-envelope"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="tel:{{ $team->phone ?? '' }}">
-                                                <i class="fa fa-phone"></i>
-                                            </a>
-                                        </li>
-
-                                        {{-- <li><a href="{{ $team->fb_link ?? '' }}"><i class="fa-brands fa-facebook-f"></i></a>
-                                        </li>
-                                        <li><a href="{{ $team->twitter_link ?? '' }}"><i
-                                                    class="fa-brands fa-twitter"></i></a></li>
-                                        <li><a href="{{ $team->instagram_link ?? '' }}"><i
-                                                    class="fa-brands fa-instagram"></i></a></li>
-                                        <li><a href="{{ $team->linkedin_link ?? '' }}"><i
-                                                    class="fa-brands fa-linkedin-in"></i></a></li> --}}
-                                    </ul>
-                                </div>
-
-                                <!-- Progress Bar -->
-                                <div class="progress-bar"></div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="swiper-button-next">
-                    <i class="fa fa-arrow-right"></i>
-                </div>
-                <div class="swiper-button-prev">
-                    <i class="fa fa-arrow-left"></i>
-                </div>
-                <div class="swiper-pagination"></div>
-            </div>
-        </div>
-        <style>
-            /* Card container */
-            .team-card {
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                height: 100%;
-                overflow: hidden;
-                border-radius: 16px;
-                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-                transition: transform 0.3s ease;
-                background: #fff;
-            }
-
-            .team-card:hover {
-                transform: translateY(-8px);
-            }
-
-            /* Image takes 70% height */
-            .team-img-wrapper {
-                flex: 0 0 70%;
-                width: 100%;
-                overflow: hidden;
-            }
-
-            .team-img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                transition: 0.4s ease;
-            }
-
-            .team-card:hover .team-img {
-                transform: scale(1.05);
-            }
-
-            /* Info takes 30% height */
-            .team-info {
-                flex: 0 0 30%;
-                padding: 15px;
-                text-align: center;
-                background: #fff;
-                position: relative;
-            }
-
-            .team-info h6 {
-                font-size: 16px;
-                font-weight: 600;
-                margin-bottom: 4px;
-            }
-
-            .team-info p {
-                font-size: 14px;
-                color: #777;
-                margin: 0;
-            }
-
-            /* Social icons hidden by default */
-            .team-social {
-                margin-top: 10px;
-                opacity: 0;
-                transform: translateY(10px);
-                transition: 0.3s ease;
-            }
-
-            .team-social li a {
-                color: gray;
-                font-size: 14px;
-                padding: 6px;
-                display: inline-block;
-                transition: all 0.3s ease;
-            }
-
-            .team-social li a:hover {
-                color: #6c63ff;
-            }
-
-            /* Show social icons on hover */
-            .team-card:hover .team-social {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-            /* Progress Bar Effect */
-            .progress-bar {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                height: 4px;
-                width: 0;
-                background: linear-gradient(90deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
-                transition: width 0.5s ease;
-            }
-
-            .team-card:hover .progress-bar {
-                width: 100%;
-            }
-
-            /* Force all swiper slides to have the same size */
-            .swiper-slide {
-                height: 500px !important;
-                /* fixed slide height */
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            /* Team card inside each slide */
-            .team-item {
-                width: 100%;
-                height: 100%;
-                /* fill the slide height */
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                background: #fff;
-                border-radius: 10px;
-                overflow: hidden;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            }
-
-            /* Image always the same size */
-            .team-item img {
-                width: 100%;
-                height: 220px;
-                /* fixed image height */
-                object-fit: cover;
-                /* crop instead of stretching */
-            }
-
-            /* Text area takes remaining space */
-            .team-item .p-3 {
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-
-            /* Swiper buttons - rounded square with gradient hover */
-            .swiper-button-next,
-            .swiper-button-prev {
-                background: #fff;
-                border-radius: 15px;
-                width: 50px;
-                height: 50px;
-                color: #444 !important;
-                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-                transition: all 0.3s ease;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .swiper-button-next:hover,
-            .swiper-button-prev:hover {
-                background: linear-gradient(45deg, #667eea, #764ba2);
-                color: #fff !important;
-                transform: scale(1.1);
-                box-shadow: 0 0 15px rgba(118, 75, 162, 0.4);
-            }
-
-            /* Pagination dots */
-            .swiper-pagination-bullet {
-                width: 12px;
-                height: 12px;
-                border-radius: 6px;
-                background: #c9d1d9;
-                opacity: 1;
-                transition: all 0.3s ease;
-            }
-
-            .swiper-pagination-bullet-active {
-                width: 35px;
-                background: linear-gradient(45deg, #667eea, #764ba2);
-                border-radius: 6px;
-            }
-        </style>
-
-    </section>
-    <section data-aos="fade-up" class="we-deliver-results gap" style="background-color: #f2edf5;">
-        <div class="container">
-            <div data-aos="fade-up" data-aos-delay="100" class="heading two">
-                <h2>Why Choose Global Journey Education Services?</h2>
-                <img alt="line" src="{{ asset('frontend/assets/img/headingline.png') }}">
-            </div>
-            <div class="row">
-                <div class="col-xl-3 col-md-6 col-sm-12">
-                    <div class="makes-us-different-text makes-us-different-hover">
-                        <i>
-                            <svg enable-background="new 0 0 64 64" height="512" viewBox="0 0 64 64" width="512"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="m33 19v-2h3v-3c0-1.654-1.346-3-3-3h-2c-.552 0-1-.449-1-1v-1h3c.552 0 1 .449 1 1h2c0-1.654-1.346-3-3-3v-2h-2v2h-3v3c0 1.654 1.346 3 3 3h2c.552 0 1 .449 1 1v1h-3c-.552 0-1-.449-1-1h-2c0 1.654 1.346 3 3 3v2z" />
-                                <path
-                                    d="m62.618 47-5-10h-13.974c2.044-1.651 3.356-4.174 3.356-7v-1h-7c-2.826 0-5.349 1.312-7 3.356v-9.406c5.598-.508 10-5.222 10-10.95 0-6.065-4.935-11-11-11s-11 4.935-11 11c0 5.728 4.402 10.442 10 10.949v5.406c-1.651-2.043-4.174-3.355-7-3.355h-7v1c0 4.962 4.037 9 9 9h5v2h-1.382-3.236-20l-5 10h3.618v16h52v-16zm-36.618-14c-3.521 0-6.442-2.612-6.929-6h4.929c3.521 0 6.442 2.612 6.929 6zm14-2h4.929c-.486 3.388-3.408 6-6.929 6h-4.929c.487-3.388 3.408-6 6.929-6zm-17-19c0-4.962 4.037-9 9-9s9 4.038 9 9-4.037 9-9 9-9-4.038-9-9zm8 27h7 18.382l3 6h-26.764l-3-6zm-23.382 0h18.764l-3 6h-18.764zm-.618 8h17.618l2.382-4.764v18.764h-20zm48 14h-26v-18.764l2.382 4.764h23.618z" />
-                                <path d="m53 53h-15v6h15zm-2 4h-11v-2h11z" />
-                                <path d="m9 53h2v2h-2z" />
-                                <path d="m9 57h2v2h-2z" />
-                                <path d="m9 49h2v2h-2z" />
-                                <path
-                                    d="m49 33h2v-19h-2.233l4.233-7.056 4.233 7.056h-2.233v9h2v-7h3.767l-7.767-12.944-7.767 12.944h3.767z" />
-                                <path d="m55 25h2v2h-2z" />
-                                <path d="m55 29h2v2h-2z" />
-                                <path
-                                    d="m6 23h2v-9h-2.233l4.233-7.056 4.233 7.056h-2.233v19h2v-17h3.767l-7.767-12.944-7.767 12.944h3.767z" />
-                                <path d="m6 25h2v2h-2z" />
-                                <path d="m6 29h2v2h-2z" />
-                                <path d="m46 41h2v2h-2z" />
-                                <path d="m50 41h2v2h-2z" />
-                                <path d="m54 41h2v2h-2z" />
-                                <path d="m8 41h2v2h-2z" />
-                                <path d="m12 41h2v2h-2z" />
-                                <path d="m16 41h2v2h-2z" />
-                            </svg>
-                        </i>
-                        <h4>
-                            We are Caring and Focus</h4>
-                        <p>
-                            We provide personalized guidance, focusing on each student’s unique academic journey.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-sm-12">
-                    <div class="makes-us-different-text makes-us-different-hover">
-                        <i>
-                            <svg id="Ecommerce" enable-background="new 0 0 48 48" height="512" viewBox="0 0 48 48"
-                                width="512" xmlns="http://www.w3.org/2000/svg">
-                                <g>
-                                    <path
-                                        d="m25 7.03c0-.552-.447-1-1-1-5.514 0-10 4.486-10 10 0 .552.447 1 1 1s1-.448 1-1c0-4.411 3.589-8 8-8 .553 0 1-.448 1-1z" />
-                                    <path
-                                        d="m22.246 45.79h1.754 1.754c1.652 0 2.999-1.345 3-3v-1.099c1.032-.475 1.755-1.512 1.755-2.721v-3.72c.176-.382.281-.802.281-1.25 0-1.016.226-2 .671-2.927.441-.919 1.086-1.752 1.864-2.409 3.746-3.165 5.709-7.989 5.25-12.909-.7-7.375-6.813-13.189-14.265-13.525l-.31-.01-.354.011c-7.408.335-13.521 6.149-14.222 13.526-.458 4.917 1.505 9.742 5.251 12.906.778.658 1.423 1.491 1.864 2.41.445.927.671 1.911.671 2.927 0 .447.105.868.281 1.25v3.721c0 1.209.722 2.247 1.755 2.721v1.1c.001 1.653 1.348 2.998 3 2.998zm4.508-3c0 .552-.449 1-1 1h-1.754-1.754c-.551 0-1-.449-1-1v-.82h2.754 2.754zm1.755-3.819c0 .551-.448 1-1 1h-3.509-3.509c-.552 0-1-.449-1-1v-2.068c.232.058.47.097.719.097h3.79 3.79c.249 0 .487-.039.719-.097zm-9.299-4.971c0-1.318-.292-2.595-.868-3.793-.563-1.171-1.385-2.233-2.376-3.071-3.247-2.742-4.948-6.926-4.551-11.191.607-6.389 5.903-11.426 12.275-11.715l.31-.01.265.009c6.417.29 11.713 5.327 12.319 11.714.398 4.267-1.303 8.451-4.55 11.193-.991.838-1.813 1.9-2.376 3.071-.576 1.198-.868 2.475-.868 3.793 0 .551-.448 1-1 1h-3.79-3.79c-.552 0-1-.449-1-1z" />
-                                </g>
-                            </svg>
-                        </i>
-                        <h4>High Success Rate</h4>
-                        <p>
-                            We have a strong track record of securing placements in top universities worldwide.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-sm-12">
-                    <div class="makes-us-different-text makes-us-different-hover">
-                        <i>
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 60.07 60.07"
-                                style="enable-background:new 0 0 60.07 60.07;" xml:space="preserve">
-                                <path
-                                    d="M59.921,27.964C58.908,13.099,46.934,1.124,32.068,0.11L31,0.038v28.994h28.994L59.921,27.964z M33,27.032V2.199
-                                                                                                                                                                                                                      c2.475,0.265,4.854,0.859,7.097,1.732c-0.004,0.035-0.02,0.065-0.02,0.101c0,0.552,0.448,1,1,1c0.301,0,0.562-0.14,0.746-0.35
-                                                                                                                                                                                                                      c4.937,2.317,9.089,6.035,11.952,10.637c-0.18-0.177-0.426-0.287-0.698-0.287c-0.552,0-1,0.448-1,1s0.448,1,1,1s1-0.448,1-1
-                                                                                                                                                                                                                      c0-0.129-0.029-0.25-0.073-0.363c0.512,0.85,0.969,1.735,1.39,2.64c-0.193,0.182-0.317,0.437-0.317,0.723c0,0.552,0.448,1,1,1
-                                                                                                                                                                                                                      c0.021,0,0.039-0.011,0.061-0.012c0.855,2.218,1.434,4.569,1.696,7.012H33z" />
-                                <path
-                                    d="M31.318,31.032l20.097,20.097l0.706-0.766c4.618-5.008,7.415-11.494,7.876-18.263l0.073-1.068H31.318z M51.343,48.229
-                                                                                                                                                                                                                      L36.146,33.032h21.762C57.308,38.616,55.007,43.942,51.343,48.229z" />
-                                <circle cx="35.076" cy="4.032" r="1" />
-                                <circle cx="35.076" cy="10.032" r="1" />
-                                <circle cx="38.076" cy="7.032" r="1" />
-                                <circle cx="44.076" cy="7.032" r="1" />
-                                <circle cx="41.076" cy="10.032" r="1" />
-                                <circle cx="47.076" cy="10.032" r="1" />
-                                <circle cx="50.076" cy="13.032" r="1" />
-                                <circle cx="38.076" cy="13.032" r="1" />
-                                <circle cx="44.076" cy="13.032" r="1" />
-                                <circle cx="50.076" cy="19.032" r="1" />
-                                <circle cx="53.076" cy="22.032" r="1" />
-                                <circle cx="35.076" cy="16.032" r="1" />
-                                <circle cx="35.076" cy="22.032" r="1" />
-                                <circle cx="38.076" cy="19.032" r="1" />
-                                <circle cx="44.076" cy="19.032" r="1" />
-                                <circle cx="41.076" cy="16.032" r="1" />
-                                <circle cx="47.076" cy="16.032" r="1" />
-                                <circle cx="41.076" cy="22.032" r="1" />
-                                <circle cx="47.076" cy="22.032" r="1" />
-                                <circle cx="56.076" cy="25.032" r="1" />
-                                <circle cx="50.076" cy="25.032" r="1" />
-                                <circle cx="38.076" cy="25.032" r="1" />
-                                <circle cx="44.076" cy="25.032" r="1" />
-                                <path
-                                    d="M29,0.038L27.932,0.11C12.269,1.179,0,14.321,0,30.032c0,7.239,2.621,14.233,7.38,19.695l0.704,0.808L29,29.618V0.038z
-                                                                                                                                                                                                                       M27,28.79L8.199,47.591C4.194,42.623,2,36.43,2,30.032C2,15.729,12.896,3.705,27,2.199V28.79z" />
-                                <path
-                                    d="M9.498,51.948l0.808,0.704c5.461,4.759,12.456,7.38,19.694,7.38c6.927,0,13.687-2.425,19.037-6.826l0.851-0.7
-                                                                                                                                                                                                                      L29.414,32.032L9.498,51.948z M29.414,34.86l1.101,1.101L13.707,52.768c-0.426-0.306-0.856-0.604-1.266-0.934L29.414,34.86z
-                                                                                                                                                                                                                       M21.198,56.592c-0.695-0.231-1.379-0.491-2.053-0.776l15.613-15.613l1.414,1.414L21.198,56.592z M37.586,43.032L39,44.446
-                                                                                                                                                                                                                      L25.756,57.691c-0.795-0.122-1.583-0.277-2.362-0.467L37.586,43.032z M17.219,54.914c-0.616-0.316-1.218-0.657-1.81-1.019
-                                                                                                                                                                                                                      l16.52-16.52l1.415,1.415L17.219,54.914z M28.315,57.96l12.099-12.1l1.414,1.414L31.117,57.986
-                                                                                                                                                                                                                      c-0.372,0.015-0.743,0.046-1.117,0.046C29.436,58.032,28.876,57.994,28.315,57.96z M43.242,48.689l1.415,1.415l-6.763,6.763
-                                                                                                                                                                                                                      c-1.2,0.354-2.419,0.639-3.659,0.83L43.242,48.689z M42.56,55.029l3.512-3.512l0.828,0.828
-                                                                                                                                                                                                                      C45.536,53.38,44.077,54.266,42.56,55.029z" />
-                            </svg>
-                        </i>
-                        <h4>Result Oriented Performance</h4>
-                        <p>
-                            We offer clear, actionable plans to help students achieve their educational goals.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 col-sm-12">
-                    <div class="makes-us-different-text makes-us-different-hover">
-                        <i>
-                            <svg xmlns="http://www.w3.org/2000/svg" id="&#x421;&#x43B;&#x43E;&#x439;_1"
-                                data-name="&#x421;&#x43B;&#x43E;&#x439; 1" viewBox="0 0 128 128" width="512"
-                                height="512">
-                                <path
-                                    d="M14,50c.4,0,.79,0,1.18-.06L16,54.38A2,2,0,0,0,20,53.62L19.08,49a14,14,0,0,0,8.28-17.22L54.21,18.92a12.15,12.15,0,0,0,2.18,2.35l-22,31.59a2,2,0,0,0,3.28,2.28L59.89,23.26a11.29,11.29,0,0,0,2.11.56V41a2,2,0,0,0,4,0V23.82a11.29,11.29,0,0,0,2.11-.56L90.36,55.14a2,2,0,1,0,3.28-2.28l-22-31.59a12.15,12.15,0,0,0,2.18-2.35l26.85,12.89A14,14,0,0,0,108.92,49L108,53.62a2,2,0,1,0,3.92.76l.86-4.44c.39,0,.78.06,1.18.06a14,14,0,1,0-11.62-21.8L75.52,15.31A11.67,11.67,0,0,0,76,12a12,12,0,0,0-24,0,11.67,11.67,0,0,0,.48,3.31L25.62,28.2A14,14,0,1,0,14,50ZM114,26a10,10,0,1,1-10,10A10,10,0,0,1,114,26ZM64,4a8,8,0,1,1-8,8A8,8,0,0,1,64,4ZM14,26A10,10,0,1,1,4,36,10,10,0,0,1,14,26Z" />
-                                <path
-                                    d="M110.71,94.45A12.67,12.67,0,0,0,116,84V67a6.85,6.85,0,0,0-7-7H96a6.85,6.85,0,0,0-7,7V84a12.65,12.65,0,0,0,5.24,10.41,24.91,24.91,0,0,0-3.78,1.66,2,2,0,1,0,1.92,3.51A20.9,20.9,0,0,1,102.51,97C114.16,97,124,107.08,124,119a2,2,0,0,0,4,0A26.37,26.37,0,0,0,110.71,94.45ZM93,67a2.84,2.84,0,0,1,3-3h13a2.84,2.84,0,0,1,3,3v5H93Zm0,17V76h19v8c0,5.13-4.08,9-9.49,9S93,89.13,93,84Z" />
-                                <path
-                                    d="M34.86,99.26a2,2,0,0,0,1.81-3.57c-.48-.25-2.44-1.08-2.94-1.26A12.65,12.65,0,0,0,39,84V67a6.85,6.85,0,0,0-7-7H19a6.85,6.85,0,0,0-7,7V84a12.65,12.65,0,0,0,5.24,10.41A26,26,0,0,0,0,119a2,2,0,0,0,4,0A21.78,21.78,0,0,1,25.51,97,20.69,20.69,0,0,1,34.86,99.26ZM16,67a2.84,2.84,0,0,1,3-3H32a2.84,2.84,0,0,1,3,3v5H16Zm0,17V76H35v8c0,5.13-4.08,9-9.49,9S16,89.13,16,84Z" />
-                                <path
-                                    d="M73.5,93.8A17.31,17.31,0,0,0,82,79V56a9,9,0,0,0-9-9H55a9,9,0,0,0-9,9V79a17.45,17.45,0,0,0,8.61,14.72A33.14,33.14,0,0,0,30.5,126a2,2,0,0,0,4,0A29.23,29.23,0,0,1,64,96.42,29.57,29.57,0,0,1,93.5,126a2,2,0,0,0,4,0A33.63,33.63,0,0,0,73.5,93.8ZM50,56a5,5,0,0,1,5-5H73a5,5,0,0,1,5,5v7H50Zm0,23V67H78V79c0,7.27-6.35,13.42-13.88,13.42S50,86.27,50,79Z" />
-                            </svg>
-                        </i>
-                        <h4>Trustworthy</h4>
-                        <p>
-                            We deliver honest, reliable support, ensuring confidence throughout the application process.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="btugap">
-                <a href="{{ route('contact-us') }}" class="themebtu">Enquire Now</a>
-            </div>
-        </div>
-        <style>
-            .makes-us-different-text {
-                position: relative;
-                background: #fff;
-                border-radius: 15px;
-                padding: 35px 25px;
-                text-align: center;
-                height: 100%;
-                transition: all 0.5s ease;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-                overflow: hidden;
-            }
-
-            /* SVG Icon */
-            .makes-us-different-text i svg {
-                width: 60px;
-                height: 60px;
-                fill: #0038A6;
-                transition: transform 0.5s ease 0.1s, fill 0.4s ease 0.1s;
-            }
-
-            /* Title */
-            .makes-us-different-text h4 {
-                font-size: 1.25rem;
-                font-weight: 600;
-                color: #222;
-                margin-top: 20px;
-                margin-bottom: 10px;
-                transition: color 0.4s ease 0.2s;
-            }
-
-            /* Paragraph */
-            .makes-us-different-text p {
-                font-size: 0.95rem;
-                color: #555;
-                line-height: 1.6;
-                transition: color 0.4s ease 0.25s;
-            }
-
-            /* Hover Effect */
-            .makes-us-different-text:hover {
-                transform: translateY(-12px) scale(1.02);
-                background: linear-gradient(135deg,
-                        #0038A6,
-                        #0046C4,
-                        #0058E8,
-                        #003070,
-                        #001F50);
-                color: #fff;
-                box-shadow: 0 12px 30px rgba(0, 56, 166, 0.35);
-                transition-delay: 0.1s;
-            }
-
-            /* Hover Icon */
-            .makes-us-different-text:hover i svg {
-                fill: #fff;
-                transform: scale(1.2);
-            }
-
-            /* Hover Text */
-            .makes-us-different-text:hover h4,
-            .makes-us-different-text:hover p {
-                color: #fff;
-            }
-
-            /* Subtle Glow Animation */
-            .makes-us-different-text::after {
-                content: "";
-                position: absolute;
-                inset: 0;
-                border-radius: 15px;
-                background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent 70%);
-                opacity: 0;
-                transition: opacity 0.6s ease;
-            }
-
-            .makes-us-different-text:hover::after {
-                opacity: 1;
-            }
-
-            /* Button Section */
-            .btugap {
-                text-align: center;
-                margin-top: 40px;
-            }
-        </style>
-
-
-    </section>
-    <div class="counter-style py-5" style="background-color: #f9fafc;">
-        <div class="container">
-            <div class="row g-4 justify-content-center">
-
-                <!-- Counter 1 -->
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div data-aos="zoom-in-up" data-aos-delay="140" class="card counter-card border-0 shadow-sm rounded-4 text-center py-5 h-100">
-                        <div class="display-5 fw-bold text-gradient mb-2">
-                            <span class="counter" data-target="100">100</span>+
-                        </div>
-                        <div class="boder mx-auto my-3" style="width:50px; height:3px; background:#ddd;"></div>
-                        <span class="fs-5 fw-semibold text-secondary">Institutions</span>
-                    </div>
-                </div>
-
-                <!-- Counter 2 -->
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div data-aos="zoom-in-up" data-aos-delay="140" class="card counter-card border-0 shadow-sm rounded-4 text-center py-5 h-100">
-                        <div class="display-5 fw-bold text-gradient mb-2">
-                            <span class="counter" data-target="5000">5000</span>+
-                        </div>
-                        <div class="boder mx-auto my-3" style="width:50px; height:3px; background:#ddd;"></div>
-                        <span class="fs-5 fw-semibold text-secondary">Happy Students</span>
-                    </div>
-                </div>
-
-                <!-- Counter 3 -->
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div data-aos="zoom-in-up" data-aos-delay="140" class="card counter-card border-0 shadow-sm rounded-4 text-center py-5 h-100">
-                        <div class="display-5 fw-bold text-gradient mb-2">
-                            <span class="counter" data-target="9">9</span>+
-                        </div>
-                        <div class="boder mx-auto my-3" style="width:50px; height:3px; background:#ddd;"></div>
-                        <span class="fs-5 fw-semibold text-secondary">Years in Business</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <style>
-            /* Counter section base style */
-            .counter-style {
-                overflow: hidden;
-            }
-
-            /* Card styling */
-            .counter-style .counter-card {
-                background: #fff;
-                position: relative;
-                border-radius: 18px;
-                transition: all 0.4s ease;
-            }
-
-            .counter-style .counter-card:hover {
-                transform: translateY(-6px);
-                box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
-            }
-
-            /* Gradient text for numbers */
-            .text-gradient {
-                background: linear-gradient(135deg,
-                        #0038A6,
-                        #0046C4,
-                        #0058E8,
-                        #003070,
-                        #001F50);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-            }
-
-            /* Progress hover bar */
-            .counter-style .counter-card::after {
-                content: "";
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                height: 5px;
-                width: 0%;
-                background: linear-gradient(135deg,
-                        #0038A6,
-                        #0046C4,
-                        #0058E8,
-                        #003070,
-                        #001F50);
-                transition: width 0.5s ease;
-                border-bottom-left-radius: 18px;
-                border-bottom-right-radius: 18px;
-            }
-
-            .counter-style .counter-card:hover::after {
-                width: 100%;
-            }
-
-            /* Counter animation */
-            .counter {
-                transition: all 0.3s ease;
-            }
-
-            @media (max-width: 576px) {
-                .counter-style .counter-card {
-                    padding: 2rem 1rem;
-                }
-            }
-        </style>
-    </div>
-
-    {{-- @include('frontend.layouts.why_choose_global') --}}
-
+@push('custom_js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             if (window.Swiper) {
-                new Swiper('.teamSwiper', {
+                new Swiper('.aboutTeamSwiper', {
                     slidesPerView: 1,
-                    spaceBetween: 30,
+                    spaceBetween: 0,
                     loop: true,
+                    speed: 650,
+                    allowTouchMove: true,
+                    autoplay: false,
                     navigation: {
-                        nextEl: '.teamSwiper .swiper-button-next',
-                        prevEl: '.teamSwiper .swiper-button-prev',
+                        nextEl: '.about-team-nav--next',
+                        prevEl: '.about-team-nav--prev',
                     },
                     pagination: {
-                        el: '.teamSwiper .swiper-pagination',
+                        el: '.about-team-pagination',
                         clickable: true,
                     },
-                    autoplay: {
-                        delay: 3000,
-                        disableOnInteraction: false,
-                    },
-                    breakpoints: {
-                        576: {
-                            slidesPerView: 1
-                        },
-                        768: {
-                            slidesPerView: 2
-                        },
-                        1200: {
-                            slidesPerView: 3
-                        }
-                    }
                 });
             }
         });
     </script>
-@endsection
+@endpush
+
