@@ -205,18 +205,23 @@
 
 /* ---------- root ---------- */
 .gj-hero {
+    --gj-hero-header-offset: 94px;
     position: relative;
     width: 100%;
     /* stretch up behind the fixed header so it truly fills the viewport */
-    height: calc(100vh + 94px);
-    margin-top: -94px;
-    min-height: 660px;
+    height: clamp(620px, calc(100dvh + var(--gj-hero-header-offset)), 900px);
+    margin-top: calc(-1 * var(--gj-hero-header-offset));
+    min-height: 620px;
     overflow: hidden;
     background: var(--gh-ink);
 }
 
 /* ---------- swiper ---------- */
-.gj-hero__swiper { width: 100%; height: 100%; }
+.gj-hero__swiper {
+    width: 100%;
+    height: 100%;
+    touch-action: pan-y;
+}
 .gj-hero__slide  { position: relative; width: 100%; height: 100%; }
 .gj-hero__media  { position: absolute; inset: 0; }
 
@@ -449,14 +454,23 @@
 /* ---------- left pagination ---------- */
 .gj-hero__pag {
     position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 5;
+    left: auto !important;
+    right: 28px !important;
+    top: 50% !important;
+    bottom: auto !important;
+    width: auto !important;
+    transform: translateY(-50%) !important;
+    z-index: 4;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    padding: 14px 10px;
+    border-radius: 999px;
+    background: rgba(3, 7, 26, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 .gj-hero__pag .swiper-pagination-bullet {
     margin: 0 !important;
@@ -476,10 +490,10 @@
 /* ---------- controls ---------- */
 .gj-hero__controls {
     position: absolute;
-    right: 22px;
+    right: 86px;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 5;
+    z-index: 6;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -552,6 +566,12 @@
 
 /* ---------- tablet ---------- */
 @media (max-width: 991px) {
+    .gj-hero {
+        --gj-hero-header-offset: 84px;
+        height: clamp(580px, calc(100dvh + var(--gj-hero-header-offset)), 780px);
+        min-height: 580px;
+    }
+
     .gj-hero__inner {
         max-width: min(560px, 74vw);
         margin-left: clamp(44px, 6vw, 80px);
@@ -561,22 +581,49 @@
 
 /* ---------- mobile ---------- */
 @media (max-width: 767px) {
-    .gj-hero { height: 100svh; min-height: 580px; }
+    .gj-hero {
+        height: clamp(540px, calc(100dvh + var(--gj-hero-header-offset)), 700px);
+        min-height: 540px;
+    }
 
     .gj-hero__body { align-items: flex-end; }
     .gj-hero__body::before { display: none; }
 
     .gj-hero__inner {
-        max-width: none;
+        max-width: min(100%, 340px);
         margin-left: 0;
-        padding: 0 20px 70px 48px;
+        padding: 0 86px 78px 20px;
     }
 
-    .gj-hero__h1 { font-size: clamp(1.8rem, 9.5vw, 2.6rem); }
-    .gj-hero__sub { font-size: .93rem; margin-bottom: 24px; }
+    .gj-hero__tag {
+        max-width: 100%;
+        font-size: .68rem;
+        line-height: 1.35;
+        letter-spacing: .08em;
+        padding: 6px 12px 6px 10px;
+        margin-bottom: 18px;
+    }
+
+    .gj-hero__h1 {
+        font-size: clamp(1.65rem, 10vw, 2.45rem);
+        line-height: 1.04;
+        margin-bottom: 16px;
+    }
+
+    .gj-hero__sub {
+        font-size: clamp(.92rem, 4vw, 1rem);
+        line-height: 1.55;
+        margin-bottom: 20px;
+        max-width: none;
+    }
 
     .gj-hero__ctas { flex-direction: column; gap: 9px; margin-bottom: 28px; }
-    .gj-hero__btn  { width: 100%; justify-content: center; padding: 13px 20px; }
+    .gj-hero__btn  {
+        width: 100%;
+        justify-content: center;
+        padding: 13px 20px;
+        font-size: .98rem;
+    }
 
     .gj-hero__trust {
         padding: 10px 14px;
@@ -589,13 +636,56 @@
     .gj-hero__trust-item strong { font-size: 1.2rem; }
 
     .gj-hero__controls {
-        right: 12px; top: auto; transform: none;
-        bottom: 14px; flex-direction: row;
+        right: 44px;
+        top: 50%;
+        bottom: auto;
+        transform: translateY(-50%);
+        flex-direction: column;
+        gap: 8px;
     }
-    .gj-hero__arrow { width: 40px; height: 40px; border-radius: 10px; }
+    .gj-hero__arrow { width: 36px; height: 36px; border-radius: 10px; }
 
-    .gj-hero__pag { left: 8px; gap: 6px; }
+    .gj-hero__pag {
+        left: auto !important;
+        right: 14px !important;
+        top: 50% !important;
+        bottom: auto !important;
+        width: auto !important;
+        padding: 6px 6px;
+        transform: translateY(-50%) !important;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .gj-hero__pag .swiper-pagination-bullet {
+        width: 2px;
+        height: 18px;
+    }
+    .gj-hero__pag .swiper-pagination-bullet-active {
+        width: 3px;
+        height: 30px;
+    }
     .gj-hero__scroll { display: none; }
+}
+
+@media (max-width: 480px) {
+    .gj-hero__inner {
+        max-width: min(100%, 300px);
+        padding: 0 80px 72px 18px;
+    }
+
+    .gj-hero__tag {
+        font-size: .64rem;
+        letter-spacing: .07em;
+    }
+
+    .gj-hero__h1 {
+        font-size: clamp(1.5rem, 9.8vw, 2.1rem);
+    }
+
+    .gj-hero__sub {
+        font-size: .88rem;
+        line-height: 1.5;
+    }
 }
 </style>
 
@@ -607,18 +697,21 @@
     if (!total) return;
 
     var swiper = new Swiper('.gj-hero__swiper', {
-        direction:      'vertical',
+        effect:         'fade',
         slidesPerView:  1,
         spaceBetween:   0,
         speed:          950,
         loop:           total > 1,
-        allowTouchMove: true,
-        grabCursor:     true,
+        allowTouchMove: false,
+        simulateTouch:  false,
+        touchStartPreventDefault: false,
+        grabCursor:     false,
+        fadeEffect:     { crossFade: true },
         autoplay: total > 1 ? { delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true } : false,
         navigation: { nextEl: '.gj-hero__arrow--down', prevEl: '.gj-hero__arrow--up' },
         pagination:  { el: '.gj-hero__pag', clickable: true },
         mousewheel:  false,
-        keyboard:    { enabled: true, onlyInViewport: true },
+        keyboard:    { enabled: false },
         a11y:        { enabled: true },
     });
 })();

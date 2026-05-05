@@ -7,6 +7,7 @@ body {
     position: fixed;
     inset: 0 0 auto;
     z-index: 1300;
+    padding: 0 !important;
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(15, 36, 96, 0.08);
@@ -21,7 +22,7 @@ body {
 .gj-header__container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 14px 20px;
+    padding: 18px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -439,15 +440,15 @@ body {
 
 @media (max-width: 992px) {
     body {
-        padding-top: 78px;
+        padding-top: 84px;
     }
 
     .gj-header__container {
-        padding: 10px 14px;
+        padding: 16px 16px;
     }
 
     .gj-logo img {
-        width: 160px;
+        width: 145px;
     }
 
     .gj-nav {
