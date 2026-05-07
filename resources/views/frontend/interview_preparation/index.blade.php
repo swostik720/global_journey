@@ -79,7 +79,7 @@
                     <div class="col-md-6 col-lg-4">
                         <div data-aos="zoom-in-up" data-aos-delay="140"
                             class="card visa-condition-card h-100 p-4 text-center position-relative overflow-hidden">
-                            <i class="bi bi-shield-check text-white mb-3 card-icon pulse-icon"></i>
+                            <i class="bi bi-shield-check text-white mb-3 card-icon"></i>
                             <p class="fw-semibold fs-6 text-white mt-2">{{ $condition }}</p>
                             <div class="overlay"></div>
                         </div>
@@ -117,7 +117,7 @@
                     <div class="col">
                         <div data-aos="zoom-in-up" data-aos-delay="140"
                             class="card tip-card h-100 p-4 text-center position-relative overflow-hidden">
-                            <i class="bi bi-lightbulb-fill text-warning mb-3 card-icon pulse-icon"></i>
+                            <i class="bi bi-lightbulb-fill mb-3 card-icon"></i>
                             <p class="fw-semibold mb-0">{{ $tip }}</p>
                             <div class="overlay"></div>
                         </div>
@@ -165,23 +165,53 @@
 
         /* VISA CONDITION CARDS */
         .visa-condition-card {
-            background: linear-gradient(135deg, #6dd5ed, #2193b0);
-            color: white;
-            border: none;
-            border-radius: 15px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: linear-gradient(125deg, #001f50 0%, #0038A6 32%, #004ecf 66%, #2f7cff 100%);
+            background-size: 180% 180%;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 18px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             position: relative;
             overflow: hidden;
             min-height: 200px;
+            font-family: "Poppins", sans-serif;
+            box-shadow: 0 10px 24px rgba(5, 26, 82, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.26);
+        }
+
+        .visa-condition-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 48%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .visa-condition-card::after {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: 17px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .visa-condition-card:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transform: translateY(-8px) scale(1.02);
+            background-position: 100% 35%;
+            border-color: rgba(255, 255, 255, 0.38);
+            box-shadow: 0 16px 36px rgba(4, 24, 72, 0.35);
         }
 
         .visa-condition-card .card-icon {
             font-size: 2.5rem;
+            color: #ffffff;
+            position: relative;
+            z-index: 1;
         }
 
         .visa-condition-card .overlay {
@@ -190,93 +220,115 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.05);
+            background: linear-gradient(150deg, rgba(255, 255, 255, 0.02) 20%, rgba(255, 255, 255, 0.14) 100%);
             transition: all 0.3s ease;
             z-index: 0;
         }
 
         .visa-condition-card:hover .overlay {
-            background: rgba(255, 255, 255, 0.15);
+            background: linear-gradient(150deg, rgba(255, 255, 255, 0.08) 10%, rgba(255, 255, 255, 0.2) 100%);
+        }
+
+        .visa-condition-card p {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 0;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            color: #f8fbff;
         }
 
         /* TIPS CARDS */
         .tip-card {
-            border-radius: 15px;
-            border: none;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 18px;
+            border: 1px solid rgba(0, 70, 196, 0.14);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             position: relative;
+            overflow: hidden;
             min-height: 150px;
-            background: linear-gradient(135deg,
-                    rgba(200, 200, 200, 0.15),
-                    rgba(150, 150, 150, 0.05));
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(239, 246, 255, 0.96) 58%, rgba(227, 238, 255, 0.92) 100%);
+            font-family: "Poppins", sans-serif;
+            box-shadow: 0 8px 22px rgba(17, 50, 112, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+
+        .tip-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 45%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.08) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .tip-card::after {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            border-radius: 17px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .tip-card:hover {
-            transform: translateY(-6px) scale(1.04);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+            transform: translateY(-5px) scale(1.015);
+            border-color: rgba(0, 70, 196, 0.28);
+            box-shadow: 0 14px 28px rgba(8, 33, 91, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.95);
         }
 
         .tip-card .card-icon {
             font-size: 2rem;
-            color: #ffc107;
-            /* yellow color for lightbulb */
-            transition: all 0.3s ease;
-            text-shadow: 0 0 0 rgba(255, 223, 0, 0);
-            /* initially off */
+            color: #0046C4;
+            transition: transform 0.3s ease, text-shadow 0.3s ease, color 0.3s ease;
+            opacity: 0.82;
+            filter: brightness(0.9);
+            text-shadow: 0 0 0 rgba(0, 88, 232, 0);
+            position: relative;
+            z-index: 1;
         }
 
-        /* Glow animation for hover (lightbulb on/off effect) */
         .tip-card:hover .card-icon {
-            animation: lightbulb-glow 1s infinite alternate;
-            text-shadow:
-                0 0 5px #fff3a3,
-                0 0 10px #fff3a3,
-                0 0 15px #ffc107,
-                0 0 20px #ffc107;
+            color: #0058E8;
+            transform: translateY(-1px) scale(1.08);
+            animation: bulb-glow-dim 1.8s ease-in-out infinite;
         }
 
-        @keyframes lightbulb-glow {
+        @keyframes bulb-glow-dim {
             0% {
-                text-shadow: 0 0 0 rgba(255, 223, 0, 0);
-            }
-
-            50% {
+                opacity: 0.55;
+                filter: brightness(0.78);
                 text-shadow:
-                    0 0 5px #fff3a3,
-                    0 0 10px #fff3a3,
-                    0 0 15px #ffc107,
-                    0 0 20px #ffc107;
-            }
-
-            100% {
-                text-shadow: 0 0 0 rgba(255, 223, 0, 0);
-            }
-        }
-
-        /* ICON PULSE ANIMATION */
-        .pulse-icon {
-            display: inline-block;
-            transition: transform 0.3s ease, text-shadow 0.3s ease;
-        }
-
-        .visa-condition-card:hover .pulse-icon,
-        .pulse-icon {
-            animation: pulse 1s infinite alternate;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6), 0 0 15px rgba(255, 255, 255, 0.3);
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
+                    0 0 0 rgba(0, 88, 232, 0),
+                    0 0 0 rgba(102, 167, 255, 0);
             }
 
             50% {
-                transform: scale(1.15);
+                opacity: 1;
+                filter: brightness(1.14);
+                text-shadow:
+                    0 0 8px rgba(0, 88, 232, 0.35),
+                    0 0 16px rgba(74, 144, 226, 0.45),
+                    0 0 24px rgba(160, 208, 255, 0.5);
             }
 
             100% {
-                transform: scale(1.1);
+                opacity: 0.72;
+                filter: brightness(0.88);
+                text-shadow:
+                    0 0 2px rgba(0, 88, 232, 0.18),
+                    0 0 8px rgba(74, 144, 226, 0.2);
             }
+        }
+
+        .tip-card p {
+            color: #1b2b5b;
+            font-weight: 600;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
         }
 
         /* Responsive tweaks */
