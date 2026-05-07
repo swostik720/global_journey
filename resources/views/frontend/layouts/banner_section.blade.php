@@ -691,28 +691,36 @@
 
 <script>
 (function () {
-    var root = document.querySelector('.gj-hero');
-    if (!root || typeof Swiper === 'undefined') return;
-    var total = root.querySelectorAll('.gj-hero__slide').length;
-    if (!total) return;
+    function initHeroSwiper() {
+        var root = document.querySelector('.gj-hero');
+        if (!root || typeof Swiper === 'undefined') return;
+        var total = root.querySelectorAll('.gj-hero__slide').length;
+        if (!total) return;
 
-    var swiper = new Swiper('.gj-hero__swiper', {
-        effect:         'fade',
-        slidesPerView:  1,
-        spaceBetween:   0,
-        speed:          950,
-        loop:           total > 1,
-        allowTouchMove: false,
-        simulateTouch:  false,
-        touchStartPreventDefault: false,
-        grabCursor:     false,
-        fadeEffect:     { crossFade: true },
-        autoplay: total > 1 ? { delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true } : false,
-        navigation: { nextEl: '.gj-hero__arrow--down', prevEl: '.gj-hero__arrow--up' },
-        pagination:  { el: '.gj-hero__pag', clickable: true },
-        mousewheel:  false,
-        keyboard:    { enabled: false },
-        a11y:        { enabled: true },
-    });
+        var swiper = new Swiper('.gj-hero__swiper', {
+            effect:         'fade',
+            slidesPerView:  1,
+            spaceBetween:   0,
+            speed:          950,
+            loop:           total > 1,
+            allowTouchMove: false,
+            simulateTouch:  false,
+            touchStartPreventDefault: false,
+            grabCursor:     false,
+            fadeEffect:     { crossFade: true },
+            autoplay: total > 1 ? { delay: 4500, disableOnInteraction: false, pauseOnMouseEnter: true } : false,
+            navigation: { nextEl: '.gj-hero__arrow--down', prevEl: '.gj-hero__arrow--up' },
+            pagination:  { el: '.gj-hero__pag', clickable: true },
+            mousewheel:  false,
+            keyboard:    { enabled: false },
+            a11y:        { enabled: true },
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initHeroSwiper);
+    } else {
+        initHeroSwiper();
+    }
 })();
 </script>
