@@ -157,8 +157,15 @@
         return $truncateMetaText($description, 154);
     };
 
-    $pageMetaTitle = $cleanMetaText(trim($__env->yieldContent('meta_title')) ?: trim($__env->yieldContent('title')));
-    $pageMetaDescription = $cleanMetaText(trim($__env->yieldContent('meta_description')));
+    $rawMetaTitle = trim($__env->yieldContent('meta_title'));
+    $rawFallbackTitle = trim($__env->yieldContent('title'));
+    $rawMetaDescription = trim($__env->yieldContent('meta_description'));
+
+    $hasExplicitMetaTitle = $rawMetaTitle !== '' || $rawFallbackTitle !== '';
+    $hasExplicitMetaDescription = $rawMetaDescription !== '';
+
+    $pageMetaTitle = $cleanMetaText($rawMetaTitle !== '' ? $rawMetaTitle : $rawFallbackTitle);
+    $pageMetaDescription = $cleanMetaText($rawMetaDescription);
 
     if ($pageMetaTitle === '') {
         if ($routeName === 'study-abroad.details' && isset($study)) {
@@ -237,12 +244,23 @@
     $defaultMetaDescription =
         $cleanMetaText($setting->meta_description ?? '') ?: $cleanMetaText($setting->description ?? '');
 
-    $pageMetaTitle = $normalizeMetaTitle($pageMetaTitle, $defaultSiteTitle, $routeName);
-    $resolvedMetaDescription = $normalizeMetaDescription(
-        $pageMetaDescription,
-        $defaultMetaDescription,
-        $routeName,
-    );
+    if ($routeName === 'home' && $hasExplicitMetaTitle) {
+        // Keep exact home meta title from the page without auto suffixes.
+        $pageMetaTitle = $cleanMetaText($pageMetaTitle);
+    } else {
+        $pageMetaTitle = $normalizeMetaTitle($pageMetaTitle, $defaultSiteTitle, $routeName);
+    }
+
+    if ($routeName === 'home' && $hasExplicitMetaDescription) {
+        // Keep exact home meta description from the page without suffix/trim logic.
+        $resolvedMetaDescription = $cleanMetaText($pageMetaDescription);
+    } else {
+        $resolvedMetaDescription = $normalizeMetaDescription(
+            $pageMetaDescription,
+            $defaultMetaDescription,
+            $routeName,
+        );
+    }
 
     $canonicalUrl = trim($__env->yieldContent('canonical_url')) ?: url()->current();
 @endphp

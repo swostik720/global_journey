@@ -1,6 +1,6 @@
 @extends('frontend.layouts.includes.master')
-@section('meta_title', 'Home | ' . ($setting->name ?? config('app.name')))
-@section('meta_description', 'Global Journey offers study abroad counseling, test preparation, admissions planning, and visa guidance for students in Nepal.')
+@section('meta_title', 'Best Consultancy in Nepal for the UK and Australia | Consult Now')
+@section('meta_description', 'If you are looking for the best consultancy in Nepal for the UK, Australia, Canada, the USA, and New Zealand, then contact us: +977-9843215204, 01-4168345')
 @section('maincontent')
     @if (!empty($homepageFaqSchema))
         <script type="application/ld+json">
