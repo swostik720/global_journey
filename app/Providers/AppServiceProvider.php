@@ -61,10 +61,10 @@ class AppServiceProvider extends ServiceProvider
                     ->get();
             });
 
-            $branches = Cache::remember('global_frontend_branches_v1', 3600, function () {
+            $branches = Cache::remember('global_frontend_branches_v2', 3600, function () {
                 return Branch::active()
-                    ->select(['name', 'email', 'phone', 'contact_address', 'working_hours'])
-                    ->orderBy('name', 'asc')
+                    ->select(['id', 'name', 'email', 'phone', 'contact_address', 'working_hours'])
+                    ->orderBy('id', 'asc')
                     ->get();
             });
 

@@ -1,2 +1,68 @@
+# robots.txt for Global Journey
+# This file tells search engines which pages they can and cannot access
+
+# Allow all search engines
 User-agent: *
-Disallow:
+
+# Allow public frontend pages
+Allow: /
+Allow: /about-us
+Allow: /contact-us
+
+# Study Abroad
+Allow: /study-abroad
+Allow: /study-abroad/
+
+# Test Preparation
+Allow: /test-preparation
+Allow: /test-preparation/
+
+# Interview Preparation
+Allow: /interview-preparation
+Allow: /interview-preparation/
+
+# Blogs
+Allow: /blogs
+Allow: /blogs/
+Allow: /blogs/author/
+
+# Gallery
+Allow: /galleries
+Allow: /gallery/
+
+# Legal pages
+Allow: /terms-and-conditions
+Allow: /privacy-policy
+
+# Disallow admin area
+Disallow: /admin/
+
+# Disallow internal / utility routes
+Disallow: /clear
+Disallow: /home
+Disallow: /up
+Disallow: /test
+Disallow: /test-mail
+
+# Disallow authentication routes (not needed for SEO)
+Disallow: /login
+Disallow: /logout
+Disallow: /password/
+
+# Disallow form submission endpoints (POST routes)
+Disallow: /contact-store
+Disallow: /enquiry-store
+Disallow: /enrollNow-store
+Disallow: /subscribe-store
+
+# Disallow sensitive directories
+Disallow: /storage/
+
+# Allow CSS, JS, and image assets
+Allow: /frontend/
+Allow: /assets/
+Allow: /uploaded-images/
+Allow: /vendor/
+
+# Sitemap location (update with your actual domain)
+# Sitemap: https://www.globaljourney.com/sitemap.xml

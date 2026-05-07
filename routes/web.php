@@ -42,7 +42,6 @@ Route::get('/blogs/{slug}', [AllController::class, 'blogDetails'])->name('blog.d
 
 Route::post('subscribe-store', [AllController::class, 'storeSubscribe'])->name('subscribe.store');
 
-Route::get('enquiry-us', [AllController::class, 'enquiryUsIndex'])->name('enquiry-us');
 Route::post('enquiry-store', [AllController::class, 'storeEnquiry'])->name('enquiry.store');
 
 Route::get('terms-and-conditions', [LegalPageController::class, 'terms'])->name('terms-and-conditions');
