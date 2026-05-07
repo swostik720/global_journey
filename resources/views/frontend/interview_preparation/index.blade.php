@@ -53,7 +53,7 @@
     </section>
 
     <!-- Visa Conditions Section -->
-    <section data-aos="fade-up" class="gj-page-shell gj-page-shell--blue">
+    <section data-aos="fade-up" class="gj-page-shell gj-page-shell--blue ip-wide-cards">
         <div class="container">
             <div data-aos="fade-up" data-aos-delay="100" class="gj-section-header">
                 <span class="gj-section-header__eyebrow">Visa Interview Checklist & Conditions</span>
@@ -79,8 +79,8 @@
                     <div class="col-md-6 col-lg-4">
                         <div data-aos="zoom-in-up" data-aos-delay="140"
                             class="card visa-condition-card h-100 p-4 text-center position-relative overflow-hidden">
-                            <i class="bi bi-shield-check text-white mb-3 card-icon"></i>
-                            <p class="fw-semibold fs-6 text-white mt-2">{{ $condition }}</p>
+                            <i class="bi bi-shield-check mb-3 card-icon"></i>
+                            <p class="fw-semibold fs-6 mt-2">{{ $condition }}</p>
                             <div class="overlay"></div>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
     </section>
 
     <!-- Tips Section -->
-    <section data-aos="fade-up" class="gj-page-shell gj-page-shell--white">
+    <section data-aos="fade-up" class="gj-page-shell gj-page-shell--white ip-wide-cards">
         <div class="container">
             <div data-aos="fade-up" data-aos-delay="100" class="gj-section-header">
                 <span class="gj-section-header__eyebrow">Visa Interview Tips</span>
@@ -165,17 +165,16 @@
 
         /* VISA CONDITION CARDS */
         .visa-condition-card {
-            background: linear-gradient(125deg, #001f50 0%, #0038A6 32%, #004ecf 66%, #2f7cff 100%);
-            background-size: 180% 180%;
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.98) 0%, rgba(239, 246, 255, 0.96) 58%, rgba(227, 238, 255, 0.92) 100%);
+            color: #1b2b5b;
+            border: 1px solid rgba(0, 70, 196, 0.14);
             border-radius: 18px;
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             position: relative;
             overflow: hidden;
             min-height: 200px;
             font-family: "Poppins", sans-serif;
-            box-shadow: 0 10px 24px rgba(5, 26, 82, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.26);
+            box-shadow: 0 8px 22px rgba(17, 50, 112, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
 
         .visa-condition-card::before {
@@ -185,7 +184,7 @@
             left: 0;
             right: 0;
             height: 48%;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 100%);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.08) 100%);
             pointer-events: none;
             z-index: 0;
         }
@@ -195,21 +194,20 @@
             position: absolute;
             inset: 1px;
             border-radius: 17px;
-            border: 1px solid rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.7);
             pointer-events: none;
             z-index: 0;
         }
 
         .visa-condition-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            background-position: 100% 35%;
-            border-color: rgba(255, 255, 255, 0.38);
-            box-shadow: 0 16px 36px rgba(4, 24, 72, 0.35);
+            transform: translateY(-5px) scale(1.015);
+            border-color: rgba(0, 70, 196, 0.28);
+            box-shadow: 0 14px 28px rgba(8, 33, 91, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.95);
         }
 
         .visa-condition-card .card-icon {
             font-size: 2.5rem;
-            color: #ffffff;
+            color: #0046C4;
             position: relative;
             z-index: 1;
         }
@@ -220,13 +218,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(150deg, rgba(255, 255, 255, 0.02) 20%, rgba(255, 255, 255, 0.14) 100%);
+            background: linear-gradient(150deg, rgba(29, 78, 216, 0.03) 18%, rgba(29, 78, 216, 0.08) 100%);
             transition: all 0.3s ease;
             z-index: 0;
         }
 
         .visa-condition-card:hover .overlay {
-            background: linear-gradient(150deg, rgba(255, 255, 255, 0.08) 10%, rgba(255, 255, 255, 0.2) 100%);
+            background: linear-gradient(150deg, rgba(29, 78, 216, 0.05) 10%, rgba(29, 78, 216, 0.12) 100%);
         }
 
         .visa-condition-card p {
@@ -235,7 +233,7 @@
             margin-bottom: 0;
             font-weight: 600;
             letter-spacing: 0.01em;
-            color: #f8fbff;
+            color: #1b2b5b;
         }
 
         /* TIPS CARDS */
@@ -331,8 +329,52 @@
             z-index: 1;
         }
 
+        /* Increase side margins so cards occupy less horizontal space */
+        .ip-wide-cards .container {
+            max-width: min(1180px, 86vw);
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        .ip-wide-cards .row {
+            --bs-gutter-x: 1.25rem;
+        }
+
+        /* FINAL THEME ALIGNMENT FOR BOTH CARD GROUPS */
+        .visa-condition-card,
+        .tip-card {
+            border-radius: 20px;
+            font-family: "Poppins", sans-serif;
+            min-height: 195px;
+            transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+        }
+
+        .visa-condition-card:hover,
+        .tip-card:hover {
+            transform: translateY(-6px) scale(1.02);
+        }
+
+        .visa-condition-card .card-icon,
+        .tip-card .card-icon {
+            position: relative;
+            z-index: 1;
+        }
+
+        .visa-condition-card p,
+        .tip-card p {
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.01em;
+        }
+
         /* Responsive tweaks */
         @media (max-width: 768px) {
+
+            .ip-wide-cards .container {
+                max-width: min(94vw, 720px);
+                padding-left: 16px;
+                padding-right: 16px;
+            }
 
             .visa-condition-card,
             .tip-card,
