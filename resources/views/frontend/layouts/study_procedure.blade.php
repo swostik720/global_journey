@@ -573,12 +573,14 @@
 
     @media (max-width: 991.98px) {
         .visa-video-wrap {
-            justify-content: flex-start;
+            justify-content: center;
         }
 
         .visa-video-frame {
             width: min(100%, 300px);
             max-height: 520px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .visa-copy {

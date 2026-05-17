@@ -473,211 +473,236 @@
 
 <script>
     (function() {
-        const root = document.querySelector('.gj-proof');
-        if (!root || typeof Swiper === 'undefined') {
-            return;
-        }
-
-        const currentEls = Array.from(root.querySelectorAll('.gj-proof-current'));
-        const totalEls = Array.from(root.querySelectorAll('.gj-proof-total'));
-        const fillEls = Array.from(root.querySelectorAll('.gj-proof-progress-fill'));
-        const pauseBtns = Array.from(root.querySelectorAll('.gj-proof-pause'));
-        const nextBtns = Array.from(root.querySelectorAll('.gj-proof-next'));
-        const prevBtns = Array.from(root.querySelectorAll('.gj-proof-prev'));
-        const originalSlides = root.querySelectorAll('.gj-proof-swiper .swiper-wrapper > .swiper-slide').length;
-
-        if (!currentEls.length || !totalEls.length || !fillEls.length || !pauseBtns.length || !nextBtns.length || !prevBtns.length || originalSlides === 0) {
-            return;
-        }
-
-        const cycleDuration = 4500;
-        const totalSlides = originalSlides;
-        let rafId = null;
-        let cycleStartTime = 0;
-        let elapsedWhenPaused = 0;
-        let isPaused = false;
-
-        const slider = new Swiper('.gj-proof-swiper', {
-            init: false,
-            slidesPerView: 1,
-            loop: totalSlides > 1,
-            speed: 760,
-            allowTouchMove: true
-        });
-
-        function formatNumber(value) {
-            return String(value).padStart(2, '0');
-        }
-
-        function setProgress(percent) {
-            const width = Math.max(0, Math.min(100, percent)) + '%';
-            fillEls.forEach(function(fillEl) {
-                fillEl.style.width = width;
-            });
-        }
-
-        function setPauseVisual(paused) {
-            pauseBtns.forEach(function(pauseBtn) {
-                if (paused) {
-                    pauseBtn.innerHTML = '&#9654;';
-                    pauseBtn.setAttribute('aria-label', 'Play autoplay');
-                } else {
-                    pauseBtn.innerHTML = '&#10074;&#10074;';
-                    pauseBtn.setAttribute('aria-label', 'Pause autoplay');
-                }
-            });
-        }
-
-        function setControlsDisabled(disabled) {
-            pauseBtns.forEach(function(btn) {
-                btn.disabled = disabled;
-            });
-            nextBtns.forEach(function(btn) {
-                btn.disabled = disabled;
-            });
-            prevBtns.forEach(function(btn) {
-                btn.disabled = disabled;
-            });
-        }
-
-        function updateCounter() {
-            const current = totalSlides === 1 ? 1 : slider.realIndex + 1;
-            const currentText = formatNumber(current);
-            const totalText = formatNumber(totalSlides);
-
-            currentEls.forEach(function(currentEl) {
-                currentEl.textContent = currentText;
-            });
-
-            totalEls.forEach(function(totalEl) {
-                totalEl.textContent = totalText;
-            });
-        }
-
-        function stopTicker() {
-            if (rafId) {
-                cancelAnimationFrame(rafId);
-                rafId = null;
-            }
-        }
-
-        function runTicker(now) {
-            if (isPaused) {
-                return;
+        function initProofSwiper() {
+            const root = document.querySelector('.gj-proof');
+            if (!root || root.dataset.swiperReady === '1' || typeof Swiper === 'undefined') {
+                return false;
             }
 
-            const elapsed = now - cycleStartTime;
-            const progress = (elapsed / cycleDuration) * 100;
-            setProgress(progress);
+            const currentEls = Array.from(root.querySelectorAll('.gj-proof-current'));
+            const totalEls = Array.from(root.querySelectorAll('.gj-proof-total'));
+            const fillEls = Array.from(root.querySelectorAll('.gj-proof-progress-fill'));
+            const pauseBtns = Array.from(root.querySelectorAll('.gj-proof-pause'));
+            const nextBtns = Array.from(root.querySelectorAll('.gj-proof-next'));
+            const prevBtns = Array.from(root.querySelectorAll('.gj-proof-prev'));
+            const originalSlides = root.querySelectorAll('.gj-proof-swiper .swiper-wrapper > .swiper-slide').length;
 
-            if (progress >= 100) {
-                elapsedWhenPaused = 0;
-                stopTicker();
-
-                if (totalSlides > 1) {
-                    slider.slideNext();
-                }
-                return;
+            if (!currentEls.length || !totalEls.length || !fillEls.length || !pauseBtns.length || !nextBtns.length || !prevBtns.length || originalSlides === 0) {
+                return false;
             }
 
-            rafId = requestAnimationFrame(runTicker);
-        }
+            root.dataset.swiperReady = '1';
 
-        function startCycle(resetElapsed) {
-            if (resetElapsed) {
-                elapsedWhenPaused = 0;
-                setProgress(0);
+            const cycleDuration = 4500;
+            const totalSlides = originalSlides;
+            let rafId = null;
+            let cycleStartTime = 0;
+            let elapsedWhenPaused = 0;
+            let isPaused = false;
+
+            const slider = new Swiper('.gj-proof-swiper', {
+                init: false,
+                slidesPerView: 1,
+                loop: totalSlides > 1,
+                speed: 760,
+                allowTouchMove: true
+            });
+
+            function formatNumber(value) {
+                return String(value).padStart(2, '0');
             }
 
-            stopTicker();
-            cycleStartTime = performance.now() - elapsedWhenPaused;
-            rafId = requestAnimationFrame(runTicker);
-        }
-
-        function pauseCycle() {
-            isPaused = true;
-            elapsedWhenPaused = performance.now() - cycleStartTime;
-            stopTicker();
-            setPauseVisual(true);
-        }
-
-        function resumeCycle() {
-            isPaused = false;
-            setPauseVisual(false);
-            startCycle(false);
-        }
-
-        slider.on('init', function() {
-            updateCounter();
-
-            if (totalSlides <= 1) {
-                setProgress(100);
-                setControlsDisabled(true);
-                pauseBtns.forEach(function(pauseBtn) {
-                    pauseBtn.setAttribute('aria-label', 'Autoplay unavailable');
+            function setProgress(percent) {
+                const width = Math.max(0, Math.min(100, percent)) + '%';
+                fillEls.forEach(function(fillEl) {
+                    fillEl.style.width = width;
                 });
+            }
+
+            function setPauseVisual(paused) {
+                pauseBtns.forEach(function(pauseBtn) {
+                    if (paused) {
+                        pauseBtn.innerHTML = '&#9654;';
+                        pauseBtn.setAttribute('aria-label', 'Play autoplay');
+                    } else {
+                        pauseBtn.innerHTML = '&#10074;&#10074;';
+                        pauseBtn.setAttribute('aria-label', 'Pause autoplay');
+                    }
+                });
+            }
+
+            function setControlsDisabled(disabled) {
+                pauseBtns.forEach(function(btn) {
+                    btn.disabled = disabled;
+                });
+                nextBtns.forEach(function(btn) {
+                    btn.disabled = disabled;
+                });
+                prevBtns.forEach(function(btn) {
+                    btn.disabled = disabled;
+                });
+            }
+
+            function updateCounter() {
+                const current = totalSlides === 1 ? 1 : slider.realIndex + 1;
+                const currentText = formatNumber(current);
+                const totalText = formatNumber(totalSlides);
+
+                currentEls.forEach(function(currentEl) {
+                    currentEl.textContent = currentText;
+                });
+
+                totalEls.forEach(function(totalEl) {
+                    totalEl.textContent = totalText;
+                });
+            }
+
+            function stopTicker() {
+                if (rafId) {
+                    cancelAnimationFrame(rafId);
+                    rafId = null;
+                }
+            }
+
+            function runTicker(now) {
+                if (isPaused) {
+                    return;
+                }
+
+                const elapsed = now - cycleStartTime;
+                const progress = (elapsed / cycleDuration) * 100;
+                setProgress(progress);
+
+                if (progress >= 100) {
+                    elapsedWhenPaused = 0;
+                    stopTicker();
+
+                    if (totalSlides > 1) {
+                        slider.slideNext();
+                    }
+                    return;
+                }
+
+                rafId = requestAnimationFrame(runTicker);
+            }
+
+            function startCycle(resetElapsed) {
+                if (resetElapsed) {
+                    elapsedWhenPaused = 0;
+                    setProgress(0);
+                }
+
+                stopTicker();
+                cycleStartTime = performance.now() - elapsedWhenPaused;
+                rafId = requestAnimationFrame(runTicker);
+            }
+
+            function pauseCycle() {
+                isPaused = true;
+                elapsedWhenPaused = performance.now() - cycleStartTime;
+                stopTicker();
+                setPauseVisual(true);
+            }
+
+            function resumeCycle() {
+                isPaused = false;
+                setPauseVisual(false);
+                startCycle(false);
+            }
+
+            slider.on('init', function() {
+                updateCounter();
+
+                if (totalSlides <= 1) {
+                    setProgress(100);
+                    setControlsDisabled(true);
+                    pauseBtns.forEach(function(pauseBtn) {
+                        pauseBtn.setAttribute('aria-label', 'Autoplay unavailable');
+                    });
+                    return;
+                }
+
+                startCycle(true);
+            });
+
+            slider.on('slideChangeTransitionStart', function() {
+                updateCounter();
+                if (!isPaused && totalSlides > 1) {
+                    startCycle(true);
+                }
+            });
+
+            pauseBtns.forEach(function(pauseBtn) {
+                pauseBtn.addEventListener('click', function() {
+                    if (totalSlides <= 1) {
+                        return;
+                    }
+
+                    if (isPaused) {
+                        resumeCycle();
+                    } else {
+                        pauseCycle();
+                    }
+                });
+            });
+
+            nextBtns.forEach(function(nextBtn) {
+                nextBtn.addEventListener('click', function() {
+                    if (totalSlides <= 1) {
+                        return;
+                    }
+
+                    slider.slideNext();
+
+                    if (isPaused) {
+                        elapsedWhenPaused = 0;
+                        setProgress(0);
+                    } else {
+                        startCycle(true);
+                    }
+                });
+            });
+
+            prevBtns.forEach(function(prevBtn) {
+                prevBtn.addEventListener('click', function() {
+                    if (totalSlides <= 1) {
+                        return;
+                    }
+
+                    slider.slidePrev();
+
+                    if (isPaused) {
+                        elapsedWhenPaused = 0;
+                        setProgress(0);
+                    } else {
+                        startCycle(true);
+                    }
+                });
+            });
+
+            slider.init();
+            return true;
+        }
+
+        function bootstrapProofSwiper(attempt) {
+            if (initProofSwiper()) {
                 return;
             }
 
-            startCycle(true);
-        });
-
-        slider.on('slideChangeTransitionStart', function() {
-            updateCounter();
-            if (!isPaused && totalSlides > 1) {
-                startCycle(true);
+            if (attempt < 25) {
+                setTimeout(function() {
+                    bootstrapProofSwiper(attempt + 1);
+                }, 120);
             }
-        });
+        }
 
-        pauseBtns.forEach(function(pauseBtn) {
-            pauseBtn.addEventListener('click', function() {
-                if (totalSlides <= 1) {
-                    return;
-                }
-
-                if (isPaused) {
-                    resumeCycle();
-                } else {
-                    pauseCycle();
-                }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                bootstrapProofSwiper(0);
             });
-        });
-
-        nextBtns.forEach(function(nextBtn) {
-            nextBtn.addEventListener('click', function() {
-                if (totalSlides <= 1) {
-                    return;
-                }
-
-                slider.slideNext();
-
-                if (isPaused) {
-                    elapsedWhenPaused = 0;
-                    setProgress(0);
-                } else {
-                    startCycle(true);
-                }
-            });
-        });
-
-        prevBtns.forEach(function(prevBtn) {
-            prevBtn.addEventListener('click', function() {
-                if (totalSlides <= 1) {
-                    return;
-                }
-
-                slider.slidePrev();
-
-                if (isPaused) {
-                    elapsedWhenPaused = 0;
-                    setProgress(0);
-                } else {
-                    startCycle(true);
-                }
-            });
-        });
-
-        slider.init();
+        } else {
+            bootstrapProofSwiper(0);
+        }
     })();
 </script>
 

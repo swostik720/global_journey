@@ -841,8 +841,20 @@
         }
 
         .splash-area-section .splash-area {
-            padding-left: 10px;
-            max-width: 100%;
+            padding-left: 0;
+            padding-right: 0;
+            max-width: min(760px, 100%);
+            gap: 14px;
+        }
+
+        .splash-area-section .splash-title {
+            font-size: clamp(2.2rem, 6.6vw, 3.2rem) !important;
+            max-width: 16ch;
+        }
+
+        .splash-area-section .page-hero__subtitle {
+            max-width: 56ch;
+            font-size: clamp(0.98rem, 1.9vw, 1.12rem);
         }
 
         .gj-page-shell {
@@ -865,6 +877,20 @@
             padding: 74px 0 78px;
         }
 
+        .splash-area-section .splash-area {
+            gap: 12px;
+        }
+
+        .splash-area-section .splash-title {
+            font-size: clamp(1.9rem, 8.2vw, 2.55rem) !important;
+            max-width: 16ch;
+        }
+
+        .splash-area-section .page-hero__subtitle {
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
         .splash-area-section .page-hero__meta,
         .splash-area-section .page-hero__actions {
             gap: 10px;
@@ -872,8 +898,13 @@
 
         .splash-area-section .page-hero__meta li,
         .splash-area-section .page-hero__btn {
-            width: 100%;
-            justify-content: center;
+            width: auto;
+            justify-content: flex-start;
+        }
+
+        .splash-area-section .page-hero__btn {
+            min-width: 172px;
+            padding: 12px 18px;
         }
 
         .gj-grid-card,

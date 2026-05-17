@@ -12,6 +12,20 @@
   'options'
 ])
 
+@php
+    $selectedValue = old($name);
+
+    if ($selectedValue === null || $selectedValue === '') {
+        if (isset($model)) {
+            $selectedValue = $model;
+        } elseif ($value !== '') {
+            $selectedValue = $value;
+        }
+    }
+
+    $hasSelectedValue = !($selectedValue === null || $selectedValue === '');
+@endphp
+
 <div class="col-md-{{$col}}">
 
     <label for="{{$id}}" class="col-form-label">{{$label}} @if($req === true)
@@ -19,17 +33,16 @@
         @endif</label>
 {{-- @dd($model->value); --}}
     <select name='{{$name}}' class="form-control" id="{{$id}}">
-        <option value="" disabled selected> Select {{$label}} </option>
+        <option value="" disabled {{ $hasSelectedValue ? '' : 'selected' }}> Select {{$label}} </option>
         @foreach($options as $item)
-            @if (isset($model))
-                <option value='{{ $item->value }}'
-                        {{$model == $item->value ? 'selected' : ''}}
-                >{{ $item->name }}</option>
-            @else
-                <option value='{{ $item->value }}' {{old($name) == $item->value ? 'selected' : ''}}>{{ $item->name }}</option>
-            @endif
+            @php
+                $isSelected = $hasSelectedValue && (string) $selectedValue === (string) $item->value;
+            @endphp
+            <option value='{{ $item->value }}' {{ $isSelected ? 'selected' : '' }}>{{ $item->name }}</option>
         @endforeach
 
     </select>
-    @error($name) <span class="text-danger small">{{$message}}</span> @enderror
+    @error($name)
+        <span class="text-danger small">{{ $message !== '' ? $message : $errors->first($name) }}</span>
+    @enderror
 </div>
