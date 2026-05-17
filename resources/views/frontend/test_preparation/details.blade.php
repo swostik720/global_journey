@@ -13,7 +13,7 @@
         $usedIds = [];
         $generatedHeadingIndex = 0;
         $sanitizeHeadingText = static function ($value) {
-            $text = html_entity_decode((string) $value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            $text = strip_tags((string) $value);
             $text = preg_replace('/\x{00A0}/u', ' ', $text);
             $text = preg_replace('/\s+/u', ' ', $text);
 
