@@ -67,7 +67,8 @@ class AllController extends Controller
             ->latest()
             ->get();
         $studyabroads = StudyAbroad::active()
-            ->select(['id', 'image', 'title', 'slug', 'short_description'])
+            ->with('country:id,name')
+            ->select(['id', 'image', 'title', 'slug', 'short_description', 'country_id'])
             ->latest()
             ->get();
 

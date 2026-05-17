@@ -20,11 +20,23 @@
                                                     ->all();
 
                                                 $match = $studyItems->first(function ($item) use ($normalizeCountryString, $normalizedKeywords) {
+                                                    $countryName = $normalizeCountryString((string) optional($item->country)->name);
                                                     $title = $normalizeCountryString((string) ($item->title ?? ''));
                                                     $slug = $normalizeCountryString((string) ($item->slug ?? ''));
 
                                                     foreach ($normalizedKeywords as $keyword) {
+                                                        $isShortKeyword = strlen(str_replace(' ', '', (string) $keyword)) < 4;
+
+                                                        if ($isShortKeyword) {
+                                                            if ($countryName === $keyword || $title === $keyword || $slug === $keyword) {
+                                                                return true;
+                                                            }
+
+                                                            continue;
+                                                        }
+
                                                         if (
+                                                            ($countryName !== '' && str_contains($countryName, $keyword)) ||
                                                             ($title !== '' && str_contains($title, $keyword)) ||
                                                             ($slug !== '' && str_contains($slug, $keyword))
                                                         ) {

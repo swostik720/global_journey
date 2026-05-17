@@ -38,6 +38,7 @@
 
     $resolveCountryKey = static function ($item) use ($countryMap, $normalizeCountryString) {
         $candidates = [
+            (string) optional($item->country)->name,
             (string) ($item->title ?? ''),
             (string) ($item->slug ?? ''),
         ];
@@ -54,7 +55,17 @@
             }
 
             foreach ($countryMap as $needle => $mappedKey) {
-                if ($needle !== '' && str_contains($normalized, $needle)) {
+                if ($needle === '') {
+                    continue;
+                }
+
+                // Prevent false positives: short aliases (us/uk/nz) must match exactly.
+                $needleCompactLength = strlen(str_replace(' ', '', $needle));
+                if ($needleCompactLength < 4) {
+                    continue;
+                }
+
+                if (str_contains($normalized, $needle)) {
                     return $mappedKey;
                 }
             }
