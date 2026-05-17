@@ -1,8 +1,8 @@
 @php
     $faqSchemaItems = collect($faqs ?? [])
         ->map(function ($faq) {
-            $question = trim(strip_tags((string) ($faq['question'] ?? '')));
-            $answer = trim(preg_replace('/\s+/', ' ', strip_tags((string) ($faq['answer'] ?? ''))));
+            $question = trim(html_entity_decode(strip_tags((string) ($faq['question'] ?? '')), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+            $answer = trim(preg_replace('/\s+/', ' ', html_entity_decode(strip_tags((string) ($faq['answer'] ?? '')), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
 
             if ($question === '' || $answer === '') {
                 return null;

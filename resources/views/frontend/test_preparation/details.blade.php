@@ -1,6 +1,6 @@
 @extends('frontend.layouts.includes.master')
 @section('meta_title', ($testpreparation->title ?? 'Test Preparation Details') . ' | ' . ($setting->name ?? config('app.name')))
-@section('meta_description', strip_tags($testpreparation->short_description ?? ''))
+@section('meta_description', html_entity_decode(strip_tags($testpreparation->short_description ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8'))
 @section('maincontent')
 
     @php
@@ -241,7 +241,7 @@
         'title' => trim($firstPart) . ' ',
         'accent' => $secondPart ?: null,
         'subtitle' => \Illuminate\Support\Str::words(
-            strip_tags($testpreparation->short_description ?? ''),
+            html_entity_decode(strip_tags($testpreparation->short_description ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8'),
             24,
             '...'),
         'meta' => ['Score Strategy', 'Structured Preparation', 'Guided Support'],

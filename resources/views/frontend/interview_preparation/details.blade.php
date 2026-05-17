@@ -1,7 +1,7 @@
 @extends('frontend.layouts.includes.master')
 
 @section('meta_title', 'Interview Preparation for ' . ($interviewPreparation->title ?? 'Details') . ' | ' . ($setting->name ?? config('app.name')))
-@section('meta_description', strip_tags($interviewPreparation->description ?? ''))
+@section('meta_description', html_entity_decode(strip_tags($interviewPreparation->description ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8'))
 
 @section('maincontent')
     @php

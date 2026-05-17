@@ -166,7 +166,7 @@
                                                     </div>
                                                     <h5 class="card-title fw-bold">{{ $blog->title }}</h5>
                                                     <p class="card-text text-muted">
-                                                        {{ \Illuminate\Support\Str::words(strip_tags($blog->short_description), 22, '...') }}
+                                                        {{ \Illuminate\Support\Str::words(html_entity_decode(strip_tags($blog->short_description), ENT_QUOTES | ENT_HTML5, 'UTF-8'), 22, '...') }}
                                                     </p>
                                                     <span class="themebtu mt-auto">Read More</span>
                                                 </div>

@@ -1,6 +1,6 @@
 @extends('frontend.layouts.includes.master')
 @section('meta_title', ($study->title ?? 'Study Abroad Details') . ' | ' . ($setting->name ?? config('app.name')))
-@section('meta_description', strip_tags($study->short_description ?? ''))
+@section('meta_description', html_entity_decode(strip_tags($study->short_description ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8'))
 @section('maincontent')
     @php
         $parts = explode(' ', $study->title ?? '', 3);
@@ -201,7 +201,7 @@
         'eyebrow' => 'Study Abroad Details',
         'title' => trim($firstPart) . ' ',
         'accent' => $secondPart ?: null,
-        'subtitle' => \Illuminate\Support\Str::words(strip_tags($study->short_description ?? ''), 24, '...'),
+        'subtitle' => \Illuminate\Support\Str::words(html_entity_decode(strip_tags($study->short_description ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8'), 24, '...'),
         'meta' => ['Global Admissions Guidance', 'Destination Planning', 'Visa & Documentation Support'],
     ])
 

@@ -56,6 +56,7 @@
 
     $cleanMetaText = static function ($value) {
         $text = strip_tags((string) $value);
+        $text = html_entity_decode((string) $text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         $text = preg_replace('/\s+/u', ' ', $text);
 
         return trim((string) $text);

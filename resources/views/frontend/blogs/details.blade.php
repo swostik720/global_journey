@@ -5,7 +5,7 @@
  "headline": "{{ $blog->title }}",
  "image": "{{ $blog->image_path }}",
  "url": "{{ route('blog.details', $blog->slug) }}",
- "description": "{{ strip_tags($blog->short_description) }}",
+ "description": "{{ html_entity_decode(strip_tags($blog->short_description), ENT_QUOTES | ENT_HTML5, 'UTF-8') }}",
  "author": {
    "@type": "Person",
    "name": "{{ $blog->author->name ?? 'Admin' }}"
@@ -25,7 +25,7 @@
 
 @extends('frontend.layouts.includes.master')
 @section('meta_title', ($blog->title ?? 'Blog Details') . ' | ' . ($setting->name ?? config('app.name')))
-@section('meta_description', strip_tags($blog->short_description ?? ''))
+@section('meta_description', html_entity_decode(strip_tags($blog->short_description ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8'))
 @section('maincontent')
 
     {{-- ════════════════════════════════════════════════════════════
@@ -224,7 +224,7 @@
         'eyebrow' => 'Global Journey Blog',
         'title' => trim($firstPart) . ' ',
         'accent' => $secondPart ?: null,
-        'subtitle' => \Illuminate\Support\Str::words(strip_tags($blog->short_description ?? ''), 24, '...'),
+        'subtitle' => \Illuminate\Support\Str::words(html_entity_decode(strip_tags($blog->short_description ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8'), 24, '...'),
         'meta' => [
             optional($blog->author)->name ?: 'Global Journey Team',
             optional($blog->category)->name ?: 'General',
@@ -542,7 +542,7 @@
                                     <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body d-flex flex-column">
                                         <h5 class="card-title fw-bold">{{ $relatedPost->title ?? '' }}</h5>
                                         <p class="card-text text-muted">
-                                            {{ \Illuminate\Support\Str::words(strip_tags($relatedPost->short_description), 25, '...') }}
+                                            {{ \Illuminate\Support\Str::words(html_entity_decode(strip_tags($relatedPost->short_description), ENT_QUOTES | ENT_HTML5, 'UTF-8'), 25, '...') }}
                                         </p>
                                         <div class="mb-2">
                                             <span class="badge rounded-pill bg-light text-dark border">
