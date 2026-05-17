@@ -48,11 +48,13 @@ class InterviewPreparation extends Model
         static::saved(function () {
             Cache::forget('global_header_footer_data');
             Cache::forget('global_header_footer_data_v3');
+            Cache::forget('sitemap_xml');
         });
 
         static::deleted(function () {
             Cache::forget('global_header_footer_data');
             Cache::forget('global_header_footer_data_v3');
+            Cache::forget('sitemap_xml');
         });
     }
 }

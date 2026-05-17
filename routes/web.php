@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Front\AllController;
 use App\Http\Controllers\Front\LegalPageController;
+use App\Http\Controllers\SitemapController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,9 @@ Route::get('clear', function () {
     Artisan::call('optimize:clear');
     echo "Success !!";
 });
+
+// Dynamic Sitemap
+Route::get('sitemap.xml', [SitemapController::class, 'index']);
 
 Route::get('/', [AllController::class, 'index'])->name('home');
 Route::get('about-us', [AllController::class, 'aboutIndex'])->name('about-us');

@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Gallery extends Model
 {
-    protected $fillable = ['gallery_category_id', 'title', 'images'];
+    protected $fillable = ['gallery_category_id', 'title', 'images', 'status'];
 
     /**
      * Cast images column to array automatically.
@@ -38,6 +39,14 @@ class Gallery extends Model
     }
 
     /**
+     * Scope to get active galleries.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+    /**
      * Add new images to the gallery.
      */
     public function addImages(array $newImages)
@@ -55,5 +64,18 @@ class Gallery extends Model
         $images = $this->images ?? [];
         $this->images = array_values(array_filter($images, fn($img) => $img !== $image));
         $this->save();
+    }
+
+    protected static function booted()
+    {
+        static::saved(function () {
+            // Clear cache whenever a gallery is saved (created or updated)
+            Cache::forget('sitemap_xml');
+        });
+
+        static::deleted(function () {
+            // Clear cache whenever a gallery is deleted
+            Cache::forget('sitemap_xml');
+        });
     }
 }

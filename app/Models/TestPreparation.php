@@ -36,6 +36,7 @@ class TestPreparation extends Model
             Cache::forget('global_testpreparations');
             Cache::forget('global_header_footer_data');
             Cache::forget('global_header_footer_data_v3');
+            Cache::forget('sitemap_xml');
         });
 
         static::deleted(function () {
@@ -43,6 +44,7 @@ class TestPreparation extends Model
             Cache::forget('global_testpreparations');
             Cache::forget('global_header_footer_data');
             Cache::forget('global_header_footer_data_v3');
+            Cache::forget('sitemap_xml');
         });
     }
 }

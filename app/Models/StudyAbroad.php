@@ -45,6 +45,7 @@ class StudyAbroad extends Model
             Cache::forget('global_studyabroads');
             Cache::forget('global_header_footer_data');
             Cache::forget('global_header_footer_data_v3');
+            Cache::forget('sitemap_xml');
         });
 
         static::deleted(function () {
@@ -52,6 +53,7 @@ class StudyAbroad extends Model
             Cache::forget('global_studyabroads');
             Cache::forget('global_header_footer_data');
             Cache::forget('global_header_footer_data_v3');
+            Cache::forget('sitemap_xml');
         });
     }
 }

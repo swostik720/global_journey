@@ -6,6 +6,7 @@ use App\Traits\UploadFileTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Cache;
 
 class Blog extends Model
 {
@@ -44,5 +45,18 @@ class Blog extends Model
     public function scopeActive($query)
     {
         return $query->where('status', 1);
+    }
+
+    protected static function booted()
+    {
+        static::saved(function () {
+            // Clear cache whenever a blog is saved (created or updated)
+            Cache::forget('sitemap_xml');
+        });
+
+        static::deleted(function () {
+            // Clear cache whenever a blog is deleted
+            Cache::forget('sitemap_xml');
+        });
     }
 }

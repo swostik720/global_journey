@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class BlogAuthor extends Model
 {
@@ -48,5 +49,18 @@ class BlogAuthor extends Model
     public function scopeActive($query)
     {
         return $query->where('status', 1);
+    }
+
+    protected static function booted()
+    {
+        static::saved(function () {
+            // Clear sitemap cache whenever a blog author is updated
+            Cache::forget('sitemap_xml');
+        });
+
+        static::deleted(function () {
+            // Clear sitemap cache whenever a blog author is deleted
+            Cache::forget('sitemap_xml');
+        });
     }
 }
