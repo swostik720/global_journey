@@ -1,12 +1,19 @@
 @php
     $countryMap = [
         'united states' => 'usa',
+        'united states of america' => 'usa',
         'usa' => 'usa',
+        'us' => 'usa',
+        'u s a' => 'usa',
         'australia' => 'australia',
         'canada' => 'canada',
         'uk' => 'united kingdom',
+        'u k' => 'united kingdom',
+        'great britain' => 'united kingdom',
+        'england' => 'united kingdom',
         'united kingdom' => 'united kingdom',
         'new zealand' => 'new zealand',
+        'nz' => 'new zealand',
     ];
 
     $countryLabel = [
@@ -19,33 +26,91 @@
 
     $countryOrder = ['usa', 'united kingdom', 'australia', 'new zealand', 'canada'];
 
-    $normalized = collect($studyabroads ?? [])
-        ->map(function ($item) use ($countryMap, $countryLabel) {
-            $rawTitle = str_replace('study in ', '', strtolower($item->title ?? ''));
-            $key = $countryMap[$rawTitle] ?? null;
+    $normalizeCountryString = static function (?string $value): string {
+        $value = strtolower(trim((string) $value));
+        $value = str_replace(['-', '_'], ' ', $value);
+        $value = preg_replace('/[^a-z\s]/u', ' ', $value);
+        $value = preg_replace('/\s+/u', ' ', (string) $value);
+        $value = trim((string) preg_replace('/^study\s+in\s+/u', '', (string) $value));
 
-            if (!$key) {
-                return null;
+        return trim((string) preg_replace('/\s+/u', ' ', (string) $value));
+    };
+
+    $resolveCountryKey = static function ($item) use ($countryMap, $normalizeCountryString) {
+        $candidates = [
+            (string) ($item->title ?? ''),
+            (string) ($item->slug ?? ''),
+        ];
+
+        foreach ($candidates as $candidate) {
+            $normalized = $normalizeCountryString($candidate);
+
+            if ($normalized === '') {
+                continue;
             }
 
+            if (isset($countryMap[$normalized])) {
+                return $countryMap[$normalized];
+            }
+
+            foreach ($countryMap as $needle => $mappedKey) {
+                if ($needle !== '' && str_contains($normalized, $needle)) {
+                    return $mappedKey;
+                }
+            }
+        }
+
+        return null;
+    };
+
+    $resolveFallbackLabel = static function ($item) use ($normalizeCountryString): string {
+        $normalized = $normalizeCountryString((string) ($item->title ?? ''));
+
+        if ($normalized === '') {
+            $normalized = $normalizeCountryString((string) ($item->slug ?? ''));
+        }
+
+        return $normalized !== '' ? ucwords($normalized) : 'Destination';
+    };
+
+    $normalized = collect($studyabroads ?? [])
+        ->map(function ($item) use ($resolveCountryKey, $resolveFallbackLabel, $countryLabel) {
+            $key = $resolveCountryKey($item);
+            $isKnownCountry = (bool) $key;
+            $effectiveKey = $key ?: ('extra-' . md5((string) ($item->slug ?? '') . '|' . (string) ($item->title ?? '')));
+
             return [
-                'key' => $key,
-                'label' => $countryLabel[$key] ?? ucfirst($rawTitle),
+                'key' => $effectiveKey,
+                'country_key' => $key,
+                'is_known_country' => $isKnownCountry,
+                'label' => $isKnownCountry
+                    ? ($countryLabel[$key] ?? ucfirst((string) $key))
+                    : $resolveFallbackLabel($item),
                 'title' => $item->title ?? '',
                 'short' => $item->short_description ?? '',
                 'slug' => $item->slug ?? '',
                 'image' => asset($item->image_path ?? ''),
             ];
         })
-        ->filter()
-        ->unique('key')
-        ->keyBy('key');
+        ->filter(fn($item) => !empty($item['slug']))
+        ->unique('key');
 
-    $cards = collect($countryOrder)
-        ->map(function ($key) use ($normalized) {
-            return $normalized->get($key);
-        })
+    $knownCards = $normalized
+        ->filter(fn($item) => $item['is_known_country'])
+        ->unique('country_key')
+        ->keyBy('country_key');
+
+    $orderedKnownCards = collect($countryOrder)
+        ->map(fn($key) => $knownCards->get($key))
         ->filter()
+        ->values();
+
+    $extraCards = $normalized
+        ->filter(fn($item) => !$item['is_known_country'])
+        ->values();
+
+    $cards = $orderedKnownCards
+        ->concat($extraCards)
         ->values();
 @endphp
 

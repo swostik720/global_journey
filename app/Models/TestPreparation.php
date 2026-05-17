@@ -35,12 +35,14 @@ class TestPreparation extends Model
             // Clear cache whenever a testpreparations is saved (created or updated)
             Cache::forget('global_testpreparations');
             Cache::forget('global_header_footer_data');
+            Cache::forget('global_header_footer_data_v3');
         });
 
         static::deleted(function () {
             // Clear cache whenever a testpreparations is deleted
             Cache::forget('global_testpreparations');
             Cache::forget('global_header_footer_data');
+            Cache::forget('global_header_footer_data_v3');
         });
     }
 }

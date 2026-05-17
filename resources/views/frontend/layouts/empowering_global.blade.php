@@ -2,12 +2,32 @@
                                     <div class="container">
                                         @php
                                             $studyItems = collect($studyabroads ?? []);
-                                            $findCountryUrl = function (array $keywords) use ($studyItems) {
-                                                $match = $studyItems->first(function ($item) use ($keywords) {
-                                                    $title = strtolower((string) ($item->title ?? ''));
+                                            $normalizeCountryString = static function (?string $value): string {
+                                                $value = strtolower(trim((string) $value));
+                                                $value = str_replace(['-', '_'], ' ', $value);
+                                                $value = preg_replace('/[^a-z\s]/u', ' ', $value);
+                                                $value = preg_replace('/\s+/u', ' ', (string) $value);
+                                                $value = trim((string) preg_replace('/^study\s+in\s+/u', '', (string) $value));
 
-                                                    foreach ($keywords as $keyword) {
-                                                        if (str_contains($title, strtolower($keyword))) {
+                                                return trim((string) preg_replace('/\s+/u', ' ', (string) $value));
+                                            };
+
+                                            $findCountryUrl = function (array $keywords) use ($studyItems, $normalizeCountryString) {
+                                                $normalizedKeywords = collect($keywords)
+                                                    ->map(fn($keyword) => $normalizeCountryString((string) $keyword))
+                                                    ->filter()
+                                                    ->values()
+                                                    ->all();
+
+                                                $match = $studyItems->first(function ($item) use ($normalizeCountryString, $normalizedKeywords) {
+                                                    $title = $normalizeCountryString((string) ($item->title ?? ''));
+                                                    $slug = $normalizeCountryString((string) ($item->slug ?? ''));
+
+                                                    foreach ($normalizedKeywords as $keyword) {
+                                                        if (
+                                                            ($title !== '' && str_contains($title, $keyword)) ||
+                                                            ($slug !== '' && str_contains($slug, $keyword))
+                                                        ) {
                                                             return true;
                                                         }
                                                     }

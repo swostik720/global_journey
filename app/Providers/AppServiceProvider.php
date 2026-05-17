@@ -72,7 +72,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('branches', $branches ?: collect());
         });
         View::composer(['frontend.layouts.includes.header', 'frontend.layouts.includes.footer'], function ($view) {
-            $data = Cache::remember('global_header_footer_data_v3', 3600, function () {
+            $data = Cache::remember('global_header_footer_data', 3600, function () {
                 $footerCountryIds = StudyAbroad::active()
                     ->whereNotNull('country_id')
                     ->distinct()

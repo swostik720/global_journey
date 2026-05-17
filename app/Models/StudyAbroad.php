@@ -44,12 +44,14 @@ class StudyAbroad extends Model
             // Clear cache whenever a studyabroads is saved (created or updated)
             Cache::forget('global_studyabroads');
             Cache::forget('global_header_footer_data');
+            Cache::forget('global_header_footer_data_v3');
         });
 
         static::deleted(function () {
             // Clear cache whenever a studyabroads is deleted
             Cache::forget('global_studyabroads');
             Cache::forget('global_header_footer_data');
+            Cache::forget('global_header_footer_data_v3');
         });
     }
 }

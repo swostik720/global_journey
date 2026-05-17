@@ -1,19 +1,62 @@
 @php
-    $countrySlides = collect($studyabroads ?? [])->take(5)->map(function ($item) {
-        $slug = $item->slug ?? '';
-        // Strip "Study in " prefix from title, then normalize
-        $rawTitle = str_replace('study in ', '', strtolower($item->title ?? ''));
+    $normalizeCountryString = static function (?string $value): string {
+        $value = strtolower(trim((string) $value));
+        $value = str_replace(['-', '_'], ' ', $value);
+        $value = preg_replace('/[^a-z\s]/u', ' ', $value);
+        $value = preg_replace('/\s+/u', ' ', (string) $value);
+        $value = trim((string) preg_replace('/^study\s+in\s+/u', '', (string) $value));
 
-        // Map database country names to copyMap keys
-        $countryMap = [
-            'united states' => 'usa',
-            'usa' => 'usa',
-            'australia' => 'australia',
-            'canada' => 'canada',
-            'uk' => 'united kingdom',
-            'united kingdom' => 'united kingdom',
-            'new zealand' => 'new zealand',
+        return trim((string) preg_replace('/\s+/u', ' ', (string) $value));
+    };
+
+    $countryMap = [
+        'united states' => 'usa',
+        'united states of america' => 'usa',
+        'usa' => 'usa',
+        'us' => 'usa',
+        'u s a' => 'usa',
+        'australia' => 'australia',
+        'canada' => 'canada',
+        'uk' => 'united kingdom',
+        'u k' => 'united kingdom',
+        'great britain' => 'united kingdom',
+        'england' => 'united kingdom',
+        'britain' => 'united kingdom',
+        'united kingdom' => 'united kingdom',
+        'new zealand' => 'new zealand',
+        'nz' => 'new zealand',
+    ];
+
+    $resolveCountryKey = static function ($item) use ($countryMap, $normalizeCountryString) {
+        $candidates = [
+            (string) ($item->title ?? ''),
+            (string) ($item->slug ?? ''),
         ];
+
+        foreach ($candidates as $candidate) {
+            $normalized = $normalizeCountryString($candidate);
+
+            if ($normalized === '') {
+                continue;
+            }
+
+            if (isset($countryMap[$normalized])) {
+                return $countryMap[$normalized];
+            }
+
+            foreach ($countryMap as $needle => $mappedKey) {
+                if ($needle !== '' && str_contains($normalized, $needle)) {
+                    return $mappedKey;
+                }
+            }
+        }
+
+        return null;
+    };
+
+    $countrySlides = collect($studyabroads ?? [])->take(5)->map(function ($item) use ($resolveCountryKey, $normalizeCountryString) {
+        $slug = $item->slug ?? '';
+        $title = (string) ($item->title ?? '');
 
         $countryLabels = [
             'usa' => 'USA',
@@ -23,7 +66,7 @@
             'new zealand' => 'New Zealand',
         ];
 
-        $country = $countryMap[$rawTitle] ?? $rawTitle;
+        $country = $resolveCountryKey($item);
 
         $copyMap = [
             'australia' => [
@@ -58,12 +101,20 @@
             ],
         ];
 
-        // Only show if country exists in copyMap
-        if (!isset($copyMap[$country])) {
-            return null;
-        }
+        $copy = $country && isset($copyMap[$country]) ? $copyMap[$country] : [
+            'headline'   => "Shape Your Future With<br><span class='gj-hl'>Global Study Options</span>",
+            'sub'        => 'Get expert support for admissions, visas, and destination planning tailored to your academic goals.',
+            'cta1'       => 'Explore Programs',
+            'cta2'       => 'Book Free Counselling',
+        ];
 
-        $copy = $copyMap[$country];
+        $countryLabel = $country
+            ? ($countryLabels[$country] ?? ucwords(str_replace('-', ' ', $country)))
+            : ucwords($normalizeCountryString($title));
+
+        if ($countryLabel === '') {
+            $countryLabel = 'Your Destination';
+        }
 
         return [
             'type'     => 'image',
@@ -74,7 +125,7 @@
             'cta2'     => $copy['cta2'],
             'cta1_url' => !empty($slug) ? route('study-abroad.details', $slug) : route('study-abroad'),
             'cta2_url' => route('contact-us'),
-            'country'  => $countryLabels[$country] ?? ucfirst($rawTitle),
+            'country'  => $countryLabel,
         ];
     })->filter();
 
