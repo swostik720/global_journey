@@ -1,6 +1,9 @@
 # robots.txt for Global Journey
 # This file tells search engines which pages they can and cannot access
 
+# Dynamic sitemap location
+Sitemap: https://www.globaljourneyedu.com.np/sitemap.xml
+
 # Allow all search engines
 User-agent: *
 
@@ -64,5 +67,3 @@ Allow: /assets/
 Allow: /uploaded-images/
 Allow: /vendor/
 
-# Sitemap location
-# Sitemap: https://www.globaljourneyedu.com.np/sitemap.xml
