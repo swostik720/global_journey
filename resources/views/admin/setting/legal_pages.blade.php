@@ -24,7 +24,7 @@
                                 placeholder="16 November 2025 (Asia/Kathmandu)">
                         </div>
                         <div class="col-12">
-                            <label for="terms_description" class="form-label">Description (HTML allowed)</label>
+                            <label for="terms_description" class="form-label">Content</label>
                             <textarea id="terms_description" name="terms_description" class="form-control" rows="16" required>{{ old('terms_description', $terms->description['en'] ?? '') }}</textarea>
                         </div>
                     </div>
@@ -45,7 +45,8 @@
                                 placeholder="16 November 2025 (Asia/Kathmandu)">
                         </div>
                         <div class="col-12">
-                            <label for="privacy_description" class="form-label">Description (HTML allowed)</label>
+                            <label for="privacy_description" class="form-label">Content</label>
+                            <small class="text-muted d-block mb-2">Use the editor toolbar to format headings, lists, links, and paragraphs. No HTML knowledge is needed.</small>
                             <textarea id="privacy_description" name="privacy_description" class="form-control" rows="16" required>{{ old('privacy_description', $privacy->description['en'] ?? '') }}</textarea>
                         </div>
                     </div>
@@ -61,4 +62,36 @@
 
 @push('custom_js')
     {!! JsValidator::formRequest('App\\Http\\Requests\\Admin\\Settings\\LegalPageUpdateRequest') !!}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const editors = ['terms_description', 'privacy_description'];
+
+            editors.forEach((editorId) => {
+                const element = document.getElementById(editorId);
+
+                if (!element) {
+                    return;
+                }
+
+                ClassicEditor.create(element, {
+                    toolbar: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'bulletedList',
+                        'numberedList',
+                        '|',
+                        'blockQuote',
+                        'insertTable',
+                        'undo',
+                        'redo'
+                    ]
+                }).catch((error) => {
+                    console.error(error);
+                });
+            });
+        });
+    </script>
 @endpush
