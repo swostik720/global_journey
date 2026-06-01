@@ -115,6 +115,28 @@
     .legal-paper ul {
         margin: 8px 0 18px;
         padding-left: 20px;
+        list-style: disc !important;
+    }
+
+    .legal-paper ol {
+        margin: 8px 0 18px;
+        padding-left: 22px;
+        list-style: decimal !important;
+    }
+
+    .legal-paper ul li {
+        list-style: disc !important;
+        display: list-item !important;
+    }
+
+    .legal-paper ol li {
+        list-style: decimal !important;
+        display: list-item !important;
+    }
+
+    .legal-paper ul li::marker,
+    .legal-paper ol li::marker {
+        color: #1a63cb;
     }
 
     .legal-paper strong {
