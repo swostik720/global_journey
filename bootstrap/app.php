@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsureUserIsOrgMember;
+use App\Http\Middleware\NormalizeApostropheEntities;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -32,6 +33,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->prependToGroup('is_member', [
             EnsureUserIsOrgMember::class,
+        ]);
+
+        $middleware->appendToGroup('web', [
+            NormalizeApostropheEntities::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
