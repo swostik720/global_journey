@@ -1,6 +1,6 @@
 @php
     $takeNextStepSubtitle = $takeNextStepSubtitle ?? 'Take the Next Step';
-    $takeNextStepTitle = $takeNextStepTitle ?? 'You';
+    $takeNextStepTitle = $takeNextStepTitle ?? 'Help You?';
     $takeNextStepItems = $takeNextStepItems ?? [
         [
             'icon' => 'bi bi-person-lines-fill',
