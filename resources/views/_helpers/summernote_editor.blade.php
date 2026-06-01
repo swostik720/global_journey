@@ -14,7 +14,7 @@
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['font', ['strikethrough', 'superscript', 'subscript', 'fontsize', 'color']],
                 ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']]
+                ['height', ['height']],
                 ['table', ['table']],
                 ['insert', ['link', 'picture', 'video', 'hr']],
                 ['view', ['codeview', 'help']],

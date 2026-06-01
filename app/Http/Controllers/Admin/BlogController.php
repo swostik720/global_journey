@@ -48,6 +48,7 @@ class BlogController extends Controller
     public function store(BlogStoreRequest $request): RedirectResponse
     {
         $validatedData = $request->safe()->except('image');
+        $validatedData = $this->decodeHtmlEntities($validatedData);
 
         $validatedData['faqs'] = $this->normalizeFaqs($request->input('faqs', []));
         $validatedData['quick_info_items'] = $this->normalizeQuickInfoItems($request->input('quick_info_items', []));
@@ -79,6 +80,7 @@ class BlogController extends Controller
     public function update(BlogUpdateRequest $request, Blog $blog): RedirectResponse
     {
         $data = $request->safe()->except('image');
+        $data = $this->decodeHtmlEntities($data);
         $data['faqs'] = $this->normalizeFaqs($request->input('faqs', []));
         $data['quick_info_items'] = $this->normalizeQuickInfoItems($request->input('quick_info_items', []));
         $data['key_highlights'] = $this->normalizeSimpleList($request->input('key_highlights', []));
@@ -125,7 +127,7 @@ class BlogController extends Controller
 
     private function normalizeFaqs(array $faqs): array
     {
-        return collect($faqs)
+        return collect($this->decodeHtmlEntities($faqs))
             ->map(function ($faq) {
                 return [
                     'question' => trim((string) ($faq['question'] ?? '')),
@@ -141,7 +143,7 @@ class BlogController extends Controller
 
     private function normalizeQuickInfoItems(array $items): array
     {
-        return collect($items)
+        return collect($this->decodeHtmlEntities($items))
             ->map(function ($item) {
                 return [
                     'icon' => trim((string) ($item['icon'] ?? 'bi bi-info-circle')),
@@ -158,7 +160,7 @@ class BlogController extends Controller
 
     private function normalizeSimpleList(array $items): array
     {
-        return collect($items)
+        return collect($this->decodeHtmlEntities($items))
             ->map(function ($item) {
                 return [
                     'text' => trim((string) ($item['text'] ?? '')),
@@ -169,5 +171,27 @@ class BlogController extends Controller
             })
             ->values()
             ->all();
+    }
+
+    private function decodeHtmlEntities(mixed $value): mixed
+    {
+        if (is_array($value)) {
+            foreach ($value as $key => $item) {
+                $value[$key] = $this->decodeHtmlEntities($item);
+            }
+
+            return $value;
+        }
+
+        if (!is_string($value) || $value === '') {
+            return $value;
+        }
+
+        $normalized = preg_replace('/&#(x?[0-9A-Fa-f]+)(?!;)/', '&#$1;', $value);
+        if (!is_string($normalized)) {
+            $normalized = $value;
+        }
+
+        return html_entity_decode($normalized, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
 }

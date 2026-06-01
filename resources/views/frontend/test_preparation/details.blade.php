@@ -8,7 +8,15 @@
         $firstPart = isset($parts[0], $parts[1]) ? $parts[0] . ' ' . $parts[1] : $parts[0] ?? '';
         $secondPart = $parts[2] ?? '';
 
-        $descriptionHtml = $testpreparation->description ?? '';
+        $descriptionHtml = html_entity_decode((string) ($testpreparation->description ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        if (!preg_match('/<(ul|ol)\b/i', $descriptionHtml)) {
+            $descriptionHtml = preg_replace('/<p\b[^>]*>\s*[•\-*]\s*(.*?)\s*<\/p>/isu', '<li>$1</li>', $descriptionHtml);
+            $descriptionHtml = preg_replace_callback(
+                '/(?:\s*<li>.*?<\/li>\s*)+/is',
+                static fn($matches) => '<ul>' . trim((string) $matches[0]) . '</ul>',
+                $descriptionHtml,
+            );
+        }
         $headingTocItems = [];
         $usedIds = [];
         $generatedHeadingIndex = 0;
@@ -85,15 +93,9 @@
         );
 
         $contentBlocks = [];
-        if (
-            preg_match_all(
-                '/(<h[1-6][^>]*>.*?<\/h[1-6]>.*?)(?=<h[1-6][^>]*>|$)/is',
-                $descriptionWithAnchors,
-                $headingBlocks,
-            ) &&
-            !empty($headingBlocks[1])
-        ) {
-            $contentBlocks = array_values(array_filter(array_map('trim', $headingBlocks[1])));
+        if (preg_match('/<h[1-6][^>]*>/i', $descriptionWithAnchors)) {
+            $headingSplitBlocks = preg_split('/(?=<h[1-6][^>]*>)/i', $descriptionWithAnchors) ?: [];
+            $contentBlocks = array_values(array_filter(array_map('trim', $headingSplitBlocks)));
         } elseif (
             preg_match_all(
                 '/(<p\b[^>]*>.*?<\/p>|<ul\b[^>]*>.*?<\/ul>|<ol\b[^>]*>.*?<\/ol>|<table\b[^>]*>.*?<\/table>|<blockquote\b[^>]*>.*?<\/blockquote>)/is',
@@ -1149,6 +1151,22 @@
 
         .sa-prose li {
             margin-bottom: 0.5rem;
+        }
+
+        .sa-prose ul li {
+            display: list-item !important;
+            list-style-type: disc !important;
+        }
+
+        .sa-prose ol li {
+            display: list-item !important;
+            list-style-type: decimal !important;
+        }
+
+        .sa-prose ul li::marker,
+        .sa-prose ol li::marker {
+            color: #374151;
+            opacity: 1;
         }
 
         .sa-prose blockquote {
