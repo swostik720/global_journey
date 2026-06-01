@@ -179,6 +179,15 @@ class StudyAbroadController extends Controller
             $normalized = $value;
         }
 
-        return html_entity_decode($normalized, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $decoded = $normalized;
+        for ($i = 0; $i < 3; $i++) {
+            $next = html_entity_decode($decoded, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            if (!is_string($next) || $next === $decoded) {
+                break;
+            }
+            $decoded = $next;
+        }
+
+        return $decoded;
     }
 }

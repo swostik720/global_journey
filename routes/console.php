@@ -39,12 +39,22 @@ Artisan::command('content:decode-entities {--dry-run : Preview changes only with
             $normalized = $value;
         }
 
-        return html_entity_decode($normalized, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        // Decode repeatedly to handle doubly-encoded values such as &amp;#039;.
+        $decoded = $normalized;
+        for ($i = 0; $i < 3; $i++) {
+            $next = html_entity_decode($decoded, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            if (!is_string($next) || $next === $decoded) {
+                break;
+            }
+            $decoded = $next;
+        }
+
+        return $decoded;
     };
 
     $shouldSkipColumn = static function (string $column): bool {
         return (bool) preg_match(
-            '/(^id$|_id$|_at$|_on$|^status$|^sort$|^order$|^position$|^rank$|^count$|^year$|^month$|^day$|^is_|^has_|password|token|remember|email_verified|slug|url|link|image|icon|file|path|phone|mobile|fax|lat|lng|longitude|latitude|ip|uuid|json|payload|settings|meta|metadata|quick_info_items|key_highlights|faqs|permissions|roles)/i',
+            '/(^id$|_id$|_at$|_on$|^sort$|^order$|^position$|^rank$|^count$|^year$|^month$|^day$|^is_|^has_|password|token|remember|email_verified|ip|uuid|latitude|longitude|lat|lng)/i',
             $column,
         );
     };
