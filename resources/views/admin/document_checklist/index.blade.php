@@ -19,7 +19,7 @@
 
                 <div class="table-responsive no-wrap">
                     <table class="table" id="datatable" style="font-size: 14px;">
-                        <x-table.header :headers="['SN', 'Country', 'Documents', 'Actions']" />
+                        <x-table.header :headers="['SN', 'Country', 'Documents', 'PDF', 'Actions']" />
                         <tbody id="tablecontents">
                             @forelse($items as $item)
                                 <tr>
@@ -27,16 +27,22 @@
                                     <td style="font-size: 13px;">{{ $loop->iteration }}</td>
                                     <x-table.td><span style="font-size: 14px;">{{ $item->country->name }}</span></x-table.td>
                                     <td>
-                                        <ul class="mb-0 ps-3">
+                                        <ul class="mb-0 ps-3 admin-doc-list">
                                             @foreach ($item->documents as $doc)
                                                 <li class="mb-2">
                                                     @if (is_array($doc))
                                                         <p class="fw-semibold text-dark mb-1" style="font-size: 15px;">
                                                             {{ $doc['name'] }}
                                                         </p>
-                                                        <p class="text-muted mb-0" style="font-size: 13px;">
-                                                            {{ $doc['description'] ?? '' }}
-                                                        </p>
+                                                        @if (!empty($doc['description']))
+                                                            <ul class="text-muted mb-0 ps-3 admin-doc-sublist" style="font-size: 13px;">
+                                                                @foreach (preg_split('/\r\n|\r|\n/', trim($doc['description'])) as $line)
+                                                                    @if (!empty(trim($line)))
+                                                                        <li>{{ preg_replace('/^[-*•\s]+/u', '', trim($line)) }}</li>
+                                                                    @endif
+                                                                @endforeach
+                                                            </ul>
+                                                        @endif
                                                     @else
                                                         <p class="fw-semibold text-dark mb-0" style="font-size: 14px;">
                                                             {{ $doc }}
@@ -45,6 +51,15 @@
                                                 </li>
                                             @endforeach
                                         </ul>
+                                    </td>
+                                    <td>
+                                        @if (!empty($item->pdf_path))
+                                            <a href="{{ asset($item->pdf_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                View PDF
+                                            </a>
+                                        @else
+                                            <span class="text-muted">N/A</span>
+                                        @endif
                                     </td>
                                     <td style="width:150px">
                                         <div class="actions d-flex" style="gap: 4px;">
@@ -61,7 +76,7 @@
                                 <x-table.show_modal id="{{ $item->id }}" model="DocumentChecklist" />
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted" style="font-size: 14px;">
+                                    <td colspan="6" class="text-center text-muted" style="font-size: 14px;">
                                         No document checklists found.
                                     </td>
                                 </tr>
@@ -85,4 +100,18 @@
         @include('_helpers.datatable')
         @include('_helpers.swal_delete')
     @endpush
+
+    <style>
+        .admin-doc-list,
+        .admin-doc-sublist {
+            list-style: disc !important;
+            padding-left: 20px !important;
+        }
+
+        .admin-doc-list li,
+        .admin-doc-sublist li {
+            display: list-item !important;
+            list-style: disc !important;
+        }
+    </style>
 @endsection

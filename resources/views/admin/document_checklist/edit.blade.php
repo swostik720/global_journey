@@ -5,27 +5,62 @@
         <x-breadcrumb listRoute="{{ route('admin.document_checklist.index') }}" model="Document Checklist" item="Edit" />
         <div class="card">
             <div class="card-body">
-                <x-form.wrapper action="{{ route('admin.document_checklist.update', $item->id) }}" method="POST">
+                @php
+                    $oldDocuments = old('documents', $item->documents ?? []);
+                    if (!is_array($oldDocuments) || empty($oldDocuments)) {
+                        $oldDocuments = [['name' => '', 'description' => '']];
+                    }
+                @endphp
+
+                <x-form.wrapper action="{{ route('admin.document_checklist.update', $item->id) }}" method="POST"
+                    enctype="multipart/form-data">
                     @method('PUT')
                     <x-form.row>
                         <div class="mb-3 col-6">
                             <label for="country_id" class="form-label">Country</label>
                             <select name="country_id" id="country_id" class="form-control" required>
                                 @foreach ($countries as $country)
-                                    <option value="{{ $country->id }}" @if ($item->country_id == $country->id) selected @endif>
+                                    <option value="{{ $country->id }}" @selected(old('country_id', $item->country_id) == $country->id)>
                                         {{ $country->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3 col-6">
-                            {{-- <x-form.textarea label="Documents (one per line)" id="documents" name="documents"
-                                :value="old(
-                                    'documents',
-                                    is_array($item->documents) ? implode(chr(10), $item->documents) : '',
-                                )" rows="8" /> --}}
-                            <x-form.textarea label="Documents JSON (one JSON object per line)" id="documents"
-                                name="documents" :value="old('documents', json_encode($item->documents, JSON_PRETTY_PRINT) ?? '')" rows="10" />
+                            <label for="pdf_file" class="form-label">Document Checklist PDF</label>
+                            <input type="file" name="pdf_file" id="pdf_file" class="form-control" accept="application/pdf">
+                            <small class="text-muted d-block">Upload new PDF only if you want to replace the current one.</small>
 
+                            @if (!empty($item->pdf_path))
+                                <a href="{{ asset($item->pdf_path) }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                                    View Current PDF
+                                </a>
+                            @endif
+                        </div>
+
+                        <div class="mb-3 col-12">
+                            <label class="form-label">Documents</label>
+                            <div id="documents-wrapper" class="d-flex flex-column gap-3">
+                                @foreach ($oldDocuments as $idx => $doc)
+                                    <div class="row g-2 align-items-start document-row" data-index="{{ $idx }}">
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control"
+                                                name="documents[{{ $idx }}][name]" placeholder="Document Name"
+                                                value="{{ is_array($doc) ? $doc['name'] ?? '' : '' }}" required>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <textarea class="form-control" name="documents[{{ $idx }}][description]" rows="3"
+                                                placeholder="Description (use one point per line)">{{ is_array($doc) ? $doc['description'] ?? '' : '' }}</textarea>
+                                        </div>
+                                        <div class="col-md-1 d-grid">
+                                            <button type="button" class="btn btn-outline-danger remove-document">X</button>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <button type="button" id="add-document" class="btn btn-sm btn-outline-dark mt-3">
+                                + Add Document
+                            </button>
                         </div>
                     </x-form.row>
                     <x-form.button class="btn btn-sm btn-dark mt-3" type="submit">
@@ -39,4 +74,41 @@
 
 @push('custom_js')
     {!! JsValidator::formRequest('App\Http\Requests\DocumentChecklistRequest') !!}
+    <script>
+        (function() {
+            const wrapper = document.getElementById('documents-wrapper');
+            const addButton = document.getElementById('add-document');
+
+            const rowTemplate = (index) => `
+                <div class="row g-2 align-items-start document-row" data-index="${index}">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" name="documents[${index}][name]" placeholder="Document Name" required>
+                    </div>
+                    <div class="col-md-7">
+                        <textarea class="form-control" name="documents[${index}][description]" rows="3" placeholder="Description (use one point per line)"></textarea>
+                    </div>
+                    <div class="col-md-1 d-grid">
+                        <button type="button" class="btn btn-outline-danger remove-document">X</button>
+                    </div>
+                </div>`;
+
+            const bindRemoveHandlers = () => {
+                wrapper.querySelectorAll('.remove-document').forEach((button) => {
+                    button.onclick = () => {
+                        if (wrapper.querySelectorAll('.document-row').length > 1) {
+                            button.closest('.document-row').remove();
+                        }
+                    };
+                });
+            };
+
+            addButton?.addEventListener('click', () => {
+                const nextIndex = wrapper.querySelectorAll('.document-row').length;
+                wrapper.insertAdjacentHTML('beforeend', rowTemplate(nextIndex));
+                bindRemoveHandlers();
+            });
+
+            bindRemoveHandlers();
+        })();
+    </script>
 @endpush

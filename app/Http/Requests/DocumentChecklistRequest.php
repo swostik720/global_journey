@@ -3,9 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use App\Enums\DocumentChecklistType;
-
 class DocumentChecklistRequest extends FormRequest
 {
     public function authorize(): bool
@@ -17,8 +14,10 @@ class DocumentChecklistRequest extends FormRequest
     {
         return [
             'country_id' => ['required', 'exists:countries,id'],
-            // 'documents' => ['required', 'string'],
-            'documents' => ['required', 'json'], // ✅ VALID JSON
+            'documents' => ['required', 'array', 'min:1'],
+            'documents.*.name' => ['required', 'string', 'max:255'],
+            'documents.*.description' => ['nullable', 'string'],
+            'pdf_file' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
         ];
     }
 }

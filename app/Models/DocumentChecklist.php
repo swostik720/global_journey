@@ -12,6 +12,7 @@ class DocumentChecklist extends Model
     protected $fillable = [
         'country_id',
         'documents',
+        'pdf_path',
     ];
 
     protected $casts = [

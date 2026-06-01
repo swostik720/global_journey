@@ -8,6 +8,7 @@ use App\Models\Country;
 use App\Http\Requests\DocumentChecklistRequest;
 use Illuminate\Http\Request;
 use App\Enums\DocumentChecklistType;
+use Illuminate\Support\Str;
 
 class DocumentChecklistController extends Controller
 {
@@ -38,7 +39,14 @@ class DocumentChecklistController extends Controller
     public function store(DocumentChecklistRequest $request)
     {
         $data = $request->validated();
-        $data['documents'] = json_decode($data['documents'], true); // ✅ convert JSON string into array
+        $data['documents'] = $this->normalizeDocumentsInput($request->input('documents', []));
+
+        if ($request->hasFile('pdf_file')) {
+            $data['pdf_path'] = $this->storePdfFile(
+                $request->file('pdf_file'),
+                (int) $data['country_id']
+            );
+        }
 
         DocumentChecklist::create($data);
 
@@ -79,7 +87,14 @@ class DocumentChecklistController extends Controller
     {
         $item = DocumentChecklist::findOrFail($id);
         $data = $request->validated();
-        $data['documents'] = json_decode($data['documents'], true);
+        $data['documents'] = $this->normalizeDocumentsInput($request->input('documents', []));
+
+        if ($request->hasFile('pdf_file')) {
+            $data['pdf_path'] = $this->storePdfFile(
+                $request->file('pdf_file'),
+                (int) $data['country_id']
+            );
+        }
 
         $item->update($data);
 
@@ -107,5 +122,66 @@ class DocumentChecklistController extends Controller
             return response()->json(['success' => true, 'message' => 'Selected document checklists deleted.']);
         }
         return response()->json(['success' => false, 'message' => 'No items selected.']);
+    }
+
+    private function storePdfFile($file, int $countryId): string
+    {
+        $country = Country::find($countryId);
+        $countryName = $country?->name ?? 'country';
+        $baseName = Str::slug($countryName, '_') . '_document_checklist.pdf';
+
+        $targetDirectory = public_path('frontend/assets/pdf');
+        if (!is_dir($targetDirectory)) {
+            mkdir($targetDirectory, 0755, true);
+        }
+
+        $file->move($targetDirectory, $baseName);
+
+        return 'frontend/assets/pdf/' . $baseName;
+    }
+
+    private function normalizeDocumentsInput(mixed $input): array
+    {
+        if (is_string($input)) {
+            $decoded = json_decode($input, true);
+            $input = is_array($decoded) ? $decoded : [];
+        }
+
+        if (!is_array($input)) {
+            return [];
+        }
+
+        $normalized = [];
+
+        foreach ($input as $row) {
+            if (is_string($row)) {
+                $name = trim($row);
+                if ($name !== '') {
+                    $normalized[] = [
+                        'name' => $name,
+                        'description' => '',
+                    ];
+                }
+                continue;
+            }
+
+            if (!is_array($row)) {
+                continue;
+            }
+
+            $name = trim((string) ($row['name'] ?? ''));
+            $description = trim((string) ($row['description'] ?? ''));
+
+            if ($name === '' && $description === '') {
+                continue;
+            }
+
+            $normalized[] = [
+                'name' => $name,
+                'description' => $description,
+            ];
+        }
+
+        return array_values($normalized);
     }
 }

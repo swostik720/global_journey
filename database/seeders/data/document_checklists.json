@@ -1,0 +1,95 @@
+{
+  "common_notes": [
+    "All documents should be clear, legible, and consistent in names, dates, and signatures.",
+    "Use certified translations for any non-English or non-country-language records as required.",
+    "Prepare both scanned copies (PDF) and original hard copies for interviews/biometrics.",
+    "Keep at least one backup folder with chronologically sorted financial and academic records."
+  ],
+  "countries": [
+    {
+      "name": "Australia",
+      "aliases": ["australia"],
+      "pdf_path": "frontend/assets/pdf/australia_document_checklist.pdf",
+      "pdf_aliases": [],
+      "pdf_subtitle": "Student Visa (Subclass 500) Readiness Dossier",
+      "pdf_summary": "This checklist is designed for students applying to Australian institutions under Subclass 500, with emphasis on Genuine Student profile quality, financial traceability, and complete enrollment evidence.",
+      "documents": [
+        {"name": "Identity and Civil Documents", "description": "- Valid passport (recommended study-period validity with buffer)\n- National ID/citizenship records\n- Birth certificate (if required by institution or visa stage)\n- Name-change or legal-status documents where records differ\n- Relationship documents for dependents"},
+        {"name": "Academic Qualification Package", "description": "- Grade 10/12 transcripts and certificates\n- Bachelor or Master transcripts and degree/provisional records\n- English test score report (IELTS/PTE/TOEFL as accepted)\n- Gap explanation letter with evidence\n- Updated CV with academic/professional timeline"},
+        {"name": "Admission and Enrollment Evidence", "description": "- Offer letter and acceptance record\n- CoE (Confirmation of Enrolment)\n- Tuition deposit/payment receipts\n- Course details and intake timeline\n- Institution communications and condition-fulfillment records"},
+        {"name": "GS and SOP Readiness", "description": "- Genuine Student statement mapped to profile\n- Course and provider selection justification\n- Career pathway narrative linked to home country opportunities\n- Explanation for gaps/stream changes\n- Prior refusal/travel declaration where applicable"},
+        {"name": "Financial Capacity and Sponsor File", "description": "- 6-12 month bank statements with source clarity\n- Sponsor income proof: salary/business/tax records\n- Loan sanction/disbursement letter (if loan-backed)\n- Affidavit of support and sponsor relationship proof\n- Asset/liquidity support papers where necessary"},
+        {"name": "Health and Compliance", "description": "- OSHC policy for required duration\n- Medical examination receipts where requested\n- Police/character documents if applicable\n- Declaration forms accuracy check\n- Dependents health/compliance records"},
+        {"name": "Final Submission Governance", "description": "- Indexed e-file with logical naming\n- Cross-check consistency across SOP, finances, forms\n- Response-ready folder for additional document requests\n- Interview preparation notes and key answers\n- Backup archive of all uploaded documents"}
+      ]
+    },
+    {
+      "name": "Canada",
+      "aliases": ["canada"],
+      "pdf_path": "frontend/assets/pdf/canada_document_checklist.pdf",
+      "pdf_aliases": [],
+      "pdf_subtitle": "Study Permit Preparation File (SDS and Non-SDS Aware)",
+      "pdf_summary": "This checklist supports strong Canadian study permit preparation with emphasis on LOA compliance, PAL/TAL scenario readiness, financial transparency (including GIC where applicable), and study rationale clarity.",
+      "documents": [
+        {"name": "Identity and Family Information", "description": "- Valid passport and previous travel documents\n- National identity and civil records\n- Photograph set as per current IRCC specification\n- Marital/family documents where relevant\n- Name consistency supporting affidavits where needed"},
+        {"name": "Academic and Language Credentials", "description": "- Complete transcripts and certificates\n- IELTS/CELPIP/TOEFL score evidence\n- Gap explanation with supporting references\n- Resume with clear timeline\n- Program-fit evidence for course selection"},
+        {"name": "Admission and Institutional Compliance", "description": "- Letter of Acceptance (LOA)\n- PAL/TAL support where applicable\n- Tuition fee receipt and payment schedule\n- Enrollment condition fulfillment records\n- Deferral/transfer correspondence if intake changed"},
+        {"name": "Financial Strength and GIC Readiness", "description": "- 6-12 month bank statements\n- Source-of-funds trail for major deposits\n- GIC certificate and confirmation (if applicable)\n- Sponsor income/tax/business records\n- Loan sanction details and relationship proof"},
+        {"name": "SOP/Letter of Explanation Quality", "description": "- Progression-based study rationale\n- Home-country career linkage\n- Funding explanation aligned to profile\n- Refusal history explanation and corrective strategy\n- Ties to home country evidence"},
+        {"name": "Medical, Biometrics, and Integrity", "description": "- Medical exam records as instructed\n- Biometrics appointment/completion records\n- Police clearance where required\n- Truthful refusal/travel/legal disclosure\n- Dependents documentation if accompanying"},
+        {"name": "Final Study Permit File Governance", "description": "- Complete forms with consistency checks\n- Logical upload sequence and file naming\n- Fee payment confirmation records\n- Additional-document response plan\n- Pre-departure compliance checklist"}
+      ]
+    },
+    {
+      "name": "UK",
+      "aliases": ["uk", "united kingdom", "great britain"],
+      "pdf_path": "frontend/assets/pdf/uk_document_checklist.pdf",
+      "pdf_aliases": [],
+      "pdf_subtitle": "Student Route Visa Documentation Framework",
+      "pdf_summary": "This checklist is designed around UK Student Route readiness, emphasizing CAS alignment, maintenance funds compliance, and credibility-focused personal documentation.",
+      "documents": [
+        {"name": "Identity and Travel Records", "description": "- Valid passport and previous passports\n- Photo documents as per visa center standard\n- National ID/civil status records\n- Legal name-change evidence where applicable\n- Dependent relationship records if needed"},
+        {"name": "Academic and English Evidence", "description": "- Academic transcripts and certificates\n- UKVI-accepted English language proof\n- Academic references and personal statement\n- Gap explanation with supporting evidence\n- CV for postgraduate/research profile"},
+        {"name": "CAS and University Compliance", "description": "- CAS statement cross-checked with profile\n- Offer and acceptance records\n- Tuition deposit/payment evidence\n- Condition-fulfillment records for CAS issuance\n- ATAS certificate where required"},
+        {"name": "Financial Maintenance Pack", "description": "- 28-day maintenance funds evidence\n- Tuition paid and unpaid balance clarity\n- Sponsor income and relationship proof\n- Loan sanction/disbursement records if used\n- Statement date and currency consistency checks"},
+        {"name": "Health and Character Compliance", "description": "- TB test certificate where applicable\n- Police clearance if profile requires\n- Immigration history/refusal disclosure\n- IHS and fee payment records\n- Dependent health documents where needed"},
+        {"name": "Credibility Interview Readiness", "description": "- Course and institution rationale summary\n- Career outcome plan with home-country link\n- Funding narrative consistency\n- Typical interview question preparation\n- Final document order for quick review"},
+        {"name": "Final Student Route Submission", "description": "- Application form review and declaration check\n- Biometric appointment and upload confirmations\n- Accommodation and arrival planning docs\n- Emergency/support contact records\n- Backup archive of all files"}
+      ]
+    },
+    {
+      "name": "United States",
+      "aliases": ["united states", "united state", "usa", "us", "u.s.a"],
+      "pdf_path": "frontend/assets/pdf/united_states_document_checklist.pdf",
+      "pdf_aliases": ["united_state_document_checklist.pdf"],
+      "pdf_subtitle": "F-1 Visa and I-20 Readiness Portfolio",
+      "pdf_summary": "This checklist supports US student applicants through complete I-20, SEVIS, DS-160, and interview preparedness with strong funding and post-study intent clarity.",
+      "documents": [
+        {"name": "Identity and Passport Records", "description": "- Valid passport with adequate validity\n- Previous passport/travel history records\n- National ID/civil records\n- Name correction/legal variation documents\n- Visa photo as per US specification"},
+        {"name": "Academic and Test Portfolio", "description": "- Official transcripts and degree certificates\n- TOEFL/IELTS or accepted English tests\n- SAT/GRE/GMAT where required\n- SOP/personal statement and CV\n- Recommendation letters and supporting portfolio"},
+        {"name": "Admission, I-20, and SEVIS Essentials", "description": "- Admission letter and final I-20\n- SEVIS I-901 fee receipt\n- Program duration and expense details\n- Scholarship/assistantship letters if any\n- Enrollment communications"},
+        {"name": "Financial Dossier for F-1", "description": "- Liquid funds proof for first-year costs\n- Sponsor income/tax/employment/business records\n- Bank statements and source-of-funds evidence\n- Loan sanction terms where applicable\n- Affidavit of support and relationship proof"},
+        {"name": "DS-160 and Visa Interview Readiness", "description": "- DS-160 confirmation page\n- Visa fee and appointment confirmation\n- Interview answer framework (study, funds, return intent)\n- Home-country ties evidence\n- Profile risk handling for gaps/refusals"},
+        {"name": "Compliance and Integrity", "description": "- Travel and refusal history transparency\n- Legal/police records where applicable\n- Consistency across I-20, DS-160, and interview narrative\n- Dependent documents for F-2 if relevant\n- Emergency contact and insurance preparedness"},
+        {"name": "Final File and Departure Readiness", "description": "- Structured folder order for interview\n- Digital backup with searchable file names\n- Tuition and housing preparation records\n- Arrival and onboarding readiness docs\n- Post-approval verification checklist"}
+      ]
+    },
+    {
+      "name": "New Zealand",
+      "aliases": ["new zealand", "newzea land", "newzerland", "nz"],
+      "pdf_path": "frontend/assets/pdf/new_zealand_document_checklist.pdf",
+      "pdf_aliases": ["newzerland_document_checklist.pdf"],
+      "pdf_subtitle": "Fee-Paying Student Visa Preparation Kit",
+      "pdf_summary": "This checklist is tailored for New Zealand fee-paying student visa preparation with strong emphasis on genuine intent, financial sufficiency, and complete health/character readiness.",
+      "documents": [
+        {"name": "Identity and Civil Status Records", "description": "- Valid passport and civil identity records\n- Photograph set per visa specification\n- Name/legal correction documents where required\n- Relationship records for dependent applications\n- Prior travel documentation"},
+        {"name": "Academic and Language Eligibility", "description": "- Academic transcripts and certificates\n- IELTS/PTE/TOEFL results as accepted\n- Gap explanation with work/training evidence\n- Resume and educational timeline\n- Program prerequisite compliance records"},
+        {"name": "Offer and Tuition Evidence", "description": "- Offer of Place from approved provider\n- Tuition payment receipts and schedule\n- Condition-fulfillment communication from provider\n- Program details and intake timeline\n- Accommodation planning records"},
+        {"name": "Financial Sufficiency Dossier", "description": "- Bank statements with source clarity\n- Sponsor income/tax/business documentation\n- Loan sanction/disbursement where applicable\n- Living-cost planning summary\n- Return/onward travel financial evidence if requested"},
+        {"name": "Health and Character Requirements", "description": "- Medical and chest x-ray reports where required\n- Police clearance certificates\n- Immigration history transparency\n- Health insurance records\n- Dependent health/compliance support"},
+        {"name": "SOP and Genuine Intent Structure", "description": "- Study objective and New Zealand rationale\n- Course-to-career linkage for home country\n- Settlement and study-support planning\n- Return intent evidence\n- Prior refusal or profile-risk explanation"},
+        {"name": "Final Submission and Follow-Up Controls", "description": "- Indexed application bundle with clear sections\n- Form/declaration consistency checks\n- Payment and submission confirmations\n- Response protocol for additional-document requests\n- Backup archive of all records"}
+      ]
+    }
+  ]
+}

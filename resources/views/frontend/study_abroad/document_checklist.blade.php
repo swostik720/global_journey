@@ -18,86 +18,57 @@
             <p>Start with the core documents first so your financial profile and supporting case stay organized from the beginning.</p>
         </div>
 
-        <!-- Download Section -->
-        <div class="text-center mb-5">
-            <p>Download the full document checklist for <strong>{{ $country->name ?? 'Country' }}</strong></p>
-            @php
-                // Generate country-specific PDF file name
-                $countryFile = strtolower(str_replace(' ', '_', $country->name ?? '')) . '_document_checklist.pdf';
-                $pdfPath = 'frontend/assets/pdf/' . $countryFile;
-            @endphp
+        @php
+            $fallbackCountryFile = strtolower(str_replace(' ', '_', $country->name ?? '')) . '_document_checklist.pdf';
+            $pdfPath = $checklist->pdf_path ?? ('frontend/assets/pdf/' . $fallbackCountryFile);
+            $hasPdf = file_exists(public_path($pdfPath));
+        @endphp
 
-            @if (file_exists(public_path($pdfPath)))
-                <a href="{{ asset($pdfPath) }}" class="themebtu" download>
-                    <i class="bi bi-download me-2"></i> Download PDF
-                </a>
+        <div class="checklist-action-panel" data-aos="fade-up" data-aos-delay="120">
+            <div>
+                <p class="checklist-action-panel__label">Country File</p>
+                <h3 class="checklist-action-panel__title">{{ $country->name ?? 'Country' }} Document Checklist</h3>
+                <p class="checklist-action-panel__text">Get the full PDF and keep your application file preparation on track.</p>
+            </div>
+            @if ($hasPdf)
+                <div class="checklist-action-panel__buttons">
+                    <a href="{{ asset($pdfPath) }}" class="themebtu" download>
+                        <i class="bi bi-download me-2"></i> Download PDF
+                    </a>
+                    <a href="{{ asset($pdfPath) }}" target="_blank" class="themebtu themebtu--outline">
+                        <i class="bi bi-eye me-2"></i> View PDF
+                    </a>
+                </div>
             @else
-                <p class="text-danger mt-3">No PDF available for this country yet.</p>
+                <p class="text-danger mb-0">No PDF available for this country yet.</p>
             @endif
         </div>
 
         @if ($checklist && $checklist->documents)
-            <!-- Checklist Cards -->
-            <div class="row g-4">
+            <div class="checklist-stack">
                 @foreach ($checklist->documents as $doc)
-                    <div class="col-md-6 col-lg-4">
-                        <div data-aos="zoom-in-up" data-aos-delay="140" class="card checklist-card gj-grid-card shadow-sm h-100 text-center">
-                            <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body p-4">
-                                <div class="checklist-icon mb-3 text-primary">
-                                    <i class="bi bi-file-earmark-text-fill fs-1"></i>
-                                </div>
+                    <article data-aos="fade-up" data-aos-delay="140" class="checklist-item">
+                        <button type="button" class="checklist-trigger" onclick="toggleDescription(this)">
+                            <span class="checklist-trigger__left">
+                                <span class="checklist-count">{{ str_pad((string) ($loop->iteration), 2, '0', STR_PAD_LEFT) }}</span>
+                                <span class="checklist-name">{{ $doc['name'] ?? 'Document' }}</span>
+                            </span>
+                            <i class="bi bi-chevron-down"></i>
+                        </button>
 
-                                <!-- Title (Clickable) -->
-                                <div class="checklist-header d-flex justify-content-between align-items-center"
-                                    style="cursor: pointer;" onclick="toggleDescription(this)">
-                                    <p class="fw-semibold text-dark mb-0" style="font-size: 1.1rem;">{{ $doc['name'] }}</p>
-                                    <i class="bi bi-chevron-down text-primary transition"></i>
-                                </div>
-
-                                <!-- Hidden Description -->
-                                @if (!empty($doc['description']))
-                                    <div class="checklist-description mt-3 text-muted"
-                                        style="
-                                            display: none;
-                                            font-size: 0.95rem;
-                                            text-align: left;
-                                            margin-top: 10px;
-                                            line-height: 1.6;
-                                        ">
-                                        <ul
-                                            style="
-                                                padding-left: 18px;
-                                                margin-bottom: 0;
-                                                list-style-type: disc;
-                                            ">
-                                            @foreach (explode("\n", trim($doc['description'])) as $line)
-                                                @if (!empty(trim($line)))
-                                                    <li>{{ trim($line, '- ') }}</li>
-                                                @endif
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
+                        @if (!empty($doc['description']))
+                            <div class="checklist-description">
+                                <ul class="checklist-bullets">
+                                    @foreach (preg_split('/\r\n|\r|\n/', trim($doc['description'])) as $line)
+                                        @if (!empty(trim($line)))
+                                            <li>{{ preg_replace('/^[-*•\s]+/u', '', trim($line)) }}</li>
+                                        @endif
+                                    @endforeach
+                                </ul>
                             </div>
-                        </div>
-                    </div>
+                        @endif
+                    </article>
                 @endforeach
-            </div>
-
-            <!-- Other Documents Section -->
-            <div class="text-center mt-5 pt-5">
-                <h2>Other GTE Documents</h2>
-                <img src="{{ asset('frontend/assets/img/headingline.png') }}" alt="line" class="mx-auto mt-3 mb-3" style="max-width:200px;">
-                <p>For more GTE Documents, download the document checklist for
-                    <strong>{{ $country->name ?? 'Country' }}</strong>
-                </p>
-                @if (file_exists(public_path($pdfPath)))
-                    <a href="{{ asset($pdfPath) }}" class="themebtu" download>
-                        <i class="bi bi-download me-2"></i> Download PDF
-                    </a>
-                @else
-                    <p class="text-danger mt-3">No PDF available for this country yet.</p>
-                @endif
             </div>
         @else
             <div class="alert alert-warning text-center mt-4">
@@ -108,75 +79,187 @@
     </section>
 
     <style>
-        /* Card Styles */
-        .checklist-card {
-            border-radius: 20px;
-            transition: all 0.35s ease;
-            cursor: pointer;
+        .checklist-action-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            background: linear-gradient(135deg, #f6fafc 0%, #eaf4ff 100%);
+            border: 1px solid #d8e8f8;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 32px;
+        }
+
+        .checklist-action-panel__label {
+            margin: 0 0 4px;
+            color: #2f6fa8;
+            font-weight: 700;
+            font-size: 0.76rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .checklist-action-panel__title {
+            margin: 0 0 6px;
+            font-size: 1.35rem;
+            color: #12324d;
+        }
+
+        .checklist-action-panel__text {
+            margin: 0;
+            color: #4d6277;
+        }
+
+        .checklist-action-panel__buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .themebtu.themebtu--outline {
             background: #fff;
+            color: #0d5d99;
+            border: 1px solid #bfd9ef;
         }
 
-        .checklist-card:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
-            background: linear-gradient(145deg, #f2f8ff, #ffffff);
+        .checklist-stack {
+            display: grid;
+            gap: 14px;
         }
 
-        .checklist-icon {
-            transition: all 0.4s ease;
+        .checklist-item {
+            border: 1px solid #e3edf7;
+            border-radius: 14px;
+            background: #fff;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(18, 50, 77, 0.05);
+            transition: box-shadow 0.25s ease, transform 0.25s ease;
         }
 
-        .checklist-card:hover .checklist-icon {
-            transform: rotate(-10deg) scale(1.2);
+        .checklist-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(18, 50, 77, 0.12);
         }
 
-        .checklist-header i {
-            transition: transform 0.3s ease;
+        .checklist-trigger {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            text-align: left;
+            cursor: pointer;
         }
 
-        .checklist-header.active i {
+        .checklist-trigger__left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .checklist-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #eef5ff;
+            color: #205f96;
+            font-size: 0.84rem;
+            font-weight: 700;
+        }
+
+        .checklist-name {
+            font-size: 1.02rem;
+            font-weight: 600;
+            color: #122f48;
+            line-height: 1.35;
+        }
+
+        .checklist-trigger i {
+            color: #205f96;
+            font-size: 1.1rem;
+            transition: transform 0.25s ease;
+        }
+
+        .checklist-trigger.active i {
             transform: rotate(180deg);
         }
 
         .checklist-description {
-            animation: slideDown 0.35s ease forwards;
+            display: none;
+            border-top: 1px solid #ecf2f8;
+            padding: 14px 20px 16px 56px;
+            color: #455d75;
         }
 
-        /* Slide Down Animation */
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
+        .checklist-description ul,
+        .checklist-bullets {
+            margin: 0;
+            padding-left: 22px !important;
+            list-style: disc !important;
+            line-height: 1.75;
+        }
+
+        .checklist-description li,
+        .checklist-bullets li {
+            margin-bottom: 2px;
+            display: list-item !important;
+            list-style: disc !important;
+        }
+
+        .checklist-description li::marker,
+        .checklist-bullets li::marker {
+            color: #1e5c91;
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 991px) {
+            .checklist-action-panel {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            .checklist-action-panel__buttons {
+                justify-content: flex-start;
             }
         }
 
-        @media (hover: none) {
-            .checklist-card:hover {
-                transform: none;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-                background: #fff;
+        @media (max-width: 576px) {
+            .checklist-trigger {
+                padding: 14px;
             }
 
-            .checklist-card:hover .checklist-icon {
-                transform: none;
+            .checklist-name {
+                font-size: 0.95rem;
+            }
+
+            .checklist-description {
+                padding: 12px 14px 14px 14px;
+            }
+
+            .checklist-action-panel {
+                margin-bottom: 24px;
+                padding: 16px;
             }
         }
     </style>
 
     <script>
         function toggleDescription(element) {
-            const description = element.parentElement.querySelector('.checklist-description');
+            const description = element.closest('.checklist-item').querySelector('.checklist-description');
 
             if (description) {
                 const isVisible = description.style.display === 'block';
                 // Close all other open descriptions
                 document.querySelectorAll('.checklist-description').forEach(desc => desc.style.display = 'none');
-                document.querySelectorAll('.checklist-header').forEach(header => header.classList.remove('active'));
+                document.querySelectorAll('.checklist-trigger').forEach(header => header.classList.remove('active'));
 
                 if (!isVisible) {
                     description.style.display = 'block';
