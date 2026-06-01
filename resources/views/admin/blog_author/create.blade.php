@@ -7,7 +7,7 @@
             <div class="card-body">
                 <x-form.wrapper action="{{ route('admin.blog-authors.store') }}" method="POST" enctype="multipart/form-data">
                     <x-form.row>
-                        <x-form.input type="file" label="Profile Picture" col="6" name="profile_picture" alt="profile_picture" accept="image/*" onchange="previewThumb('profile_picture','profile-picture-thumb')" />
+                        <x-form.input type="file" label="Profile Picture" col="6" name="profile_picture" alt="profile_picture" helperText="Accepted: PNG, JPG, JPEG, SVG, WEBP, GIF. Max size: 5MB. No fixed dimensions are enforced; a clear square or portrait image works best." accept="image/*" onchange="previewThumb('profile_picture','profile-picture-thumb')" />
                         <x-form.preview for="profile_picture" id="profile-picture-thumb" col="6" />
                     </x-form.row>
 

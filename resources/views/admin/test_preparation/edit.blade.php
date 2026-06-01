@@ -15,6 +15,7 @@
                     @method('PATCH')
                     <x-form.row>
                         <x-form.input type="file" label="Image" col="6" id="image" name="image"
+                            helperText="Accepted: PNG, JPG, JPEG, SVG, WEBP, GIF. Max size: 5MB. No fixed dimensions are enforced; use a clear high-resolution image."
                             alt="image" accept="image/*" onchange="previewThumb('image','image-thumb')" />
                         <x-form.preview for="image" col="6" id="image-thumb"
                             url="{{ $test_preparation->image_path }}" />

@@ -22,6 +22,7 @@
                         <div class="col-md-4">
                             <div class="card p-3">
                                 <x-form.input type="file" col="12" label="Logo" id="logo" name="logo"
+                                    helperText="Accepted: JPEG, PNG, JPG, GIF, SVG, WEBP. Max size: 2MB. No fixed dimensions are enforced; a wide transparent logo works best."
                                     accept="image/*" onchange="previewLogo(this,'featured-logo')" />
                                 <x-form.settinglogopreview col="12" id="featured-logo"
                                     url="{{ $siteSettings->logo_path ?? '' }}" />
@@ -30,6 +31,7 @@
                         <div class="col-md-4">
                             <div class="card p-3">
                                 <x-form.input type="file" col="12" label="Favicon" id="favicon" name="favicon"
+                                    helperText="Accepted: JPEG, PNG, JPG, GIF, SVG, WEBP. Max size: 2MB. No fixed dimensions are enforced; a square icon is recommended."
                                     accept="image/*" onchange="previewFavicon(this,'featured-favicon')" />
                                 <x-form.settingfaviconpreview col="12" id="featured-favicon"
                                     url="{{ $siteSettings->favicon_path ?? '' }}" />

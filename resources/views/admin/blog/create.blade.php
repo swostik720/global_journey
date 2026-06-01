@@ -9,6 +9,7 @@
                 <x-form.wrapper action="{{ route('admin.blogs.store') }}" method="POST" enctype="multipart/form-data">
                     <x-form.row>
                         <x-form.input type="file" label="Main Image" col="6" name="image" alt="image"
+                            helperText="Accepted: PNG, JPG, JPEG, SVG, WEBP, GIF. Max size: 5MB. No fixed dimensions are enforced; use a clear high-resolution cover image."
                             accept="image/*" onchange="previewThumb('image','image-thumb')" />
                         <x-form.preview for="image" id="image-thumb" col="6" />
                     </x-form.row>

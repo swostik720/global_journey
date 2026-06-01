@@ -12,6 +12,7 @@
 
                     <x-form.row>
                         <x-form.input type="file" label="Main Image" col="6" id="image" name="image"
+                            helperText="Accepted: PNG, JPG, JPEG, SVG, WEBP, GIF. Max size: 5MB. No fixed dimensions are enforced; use a clear high-resolution cover image."
                             alt="image" accept="image/*" onchange="previewThumb('image','image-thumb')" />
                         <x-form.preview for="image" col="6" id="image-thumb" url="{{ $blog->image_path }}" />
                     </x-form.row>
@@ -149,7 +150,7 @@
     @include('_helpers.new_image_preview')
     @include('_helpers.slugify', ['name' => 'title'])
     @include('_helpers.summernote_editor')
-    
+
     <script>
         let faqIndex = document.querySelectorAll('#faq-wrapper .faq-item').length;
         let quickInfoIndex = document.querySelectorAll('#quick-info-wrapper .quick-info-item').length;

@@ -27,7 +27,7 @@
                         <div class="mb-3 col-6">
                             <label for="pdf_file" class="form-label">Document Checklist PDF</label>
                             <input type="file" name="pdf_file" id="pdf_file" class="form-control" accept="application/pdf">
-                            <small class="text-muted">Upload country checklist PDF. File is saved in public/frontend/assets/pdf.</small>
+                            <small class="text-muted">Accepted: PDF only. Max size: 10MB. The file is stored in public/frontend/assets/pdf and linked to the selected country.</small>
                         </div>
 
                         <div class="mb-3 col-12">

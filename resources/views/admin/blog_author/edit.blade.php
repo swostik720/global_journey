@@ -9,7 +9,7 @@
                     @method('PATCH')
 
                     <x-form.row>
-                        <x-form.input type="file" label="Profile Picture" col="6" id="profile_picture" name="profile_picture" alt="profile_picture" accept="image/*" onchange="previewThumb('profile_picture','profile-picture-thumb')" />
+                        <x-form.input type="file" label="Profile Picture" col="6" id="profile_picture" name="profile_picture" alt="profile_picture" helperText="Accepted: PNG, JPG, JPEG, SVG, WEBP, GIF. Max size: 5MB. No fixed dimensions are enforced; a clear square or portrait image works best." accept="image/*" onchange="previewThumb('profile_picture','profile-picture-thumb')" />
                         <x-form.preview for="profile_picture" id="profile-picture-thumb" col="6" url="{{ $author->profile_picture_path }}" />
                     </x-form.row>
 

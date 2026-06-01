@@ -13,8 +13,9 @@
                     enctype="multipart/form-data">
                     @method('PATCH')
 
-                    <x-form.input type="file" label="Image" id="image" name="image" alt="image" accept="image/*"
-                        onchange="previewThumb(this,'image-thumb')" />
+                    <x-form.input type="file" label="Image" id="image" name="image" alt="image"
+                        helperText="Accepted: PNG, JPG, JPEG, SVG. Max size: 2MB. No fixed dimensions are enforced; a clear square or portrait photo works best."
+                        accept="image/*" onchange="previewThumb(this,'image-thumb')" />
                     <x-form.preview id="image-thumb" . url="{{ $user->image_path }}" />
 
                     <x-form.row>

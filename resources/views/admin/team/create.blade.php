@@ -11,6 +11,7 @@
                     <div class="card-body">
                         <x-form.row>
                             <x-form.input type="file" label="Image" col="6" name="image" alt="image"
+                                helperText="Accepted: PNG, JPG, JPEG, SVG, WEBP, GIF. Max size: 5MB. No fixed dimensions are enforced; use a clear portrait or square image."
                                 accept="image/*" onchange="previewThumb('image','image-thumb')" />
                             <x-form.preview for="image" id="image-thumb" col="6" />
                         </x-form.row>

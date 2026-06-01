@@ -5,6 +5,7 @@
   'value' => '',
   'type' => 'text',
   'message' => '',
+  'helperText' => '',
   'col' => '12',
   'req' => false,
   'labelDisplay' => true,
@@ -18,6 +19,10 @@
             @endif</label>
     @endif
     <input type="{{$type}}" {{ $attributes->merge(['class' => $class . ' form-control text-14']) }} name="{{$name}}" id="{{$id}}" value="{{$value}}" {{$attributes}}>
+
+    @if(!empty($helperText))
+      <small class="text-muted d-block mt-1">{{ $helperText }}</small>
+    @endif
 
     @error($name) <span class="text-danger small">{{ $message }}</span> @enderror
 </div>

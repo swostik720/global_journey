@@ -28,7 +28,7 @@
                         <div class="mb-3 col-6">
                             <label for="pdf_file" class="form-label">Document Checklist PDF</label>
                             <input type="file" name="pdf_file" id="pdf_file" class="form-control" accept="application/pdf">
-                            <small class="text-muted d-block">Upload new PDF only if you want to replace the current one.</small>
+                            <small class="text-muted d-block">Accepted: PDF only. Max size: 10MB. Upload a new file only when you want to replace the current checklist PDF.</small>
 
                             @if (!empty($item->pdf_path))
                                 <a href="{{ asset($item->pdf_path) }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">

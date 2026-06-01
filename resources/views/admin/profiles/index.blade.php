@@ -13,7 +13,8 @@
                     </div>
                     <x-form.row>
                         <x-form.input type="file" col="6" label="Image" :tooltip="true"
-                            tooltip_text="Upload less than 2MB" id="image" name="image" alt="image"
+                            tooltip_text="Accepted: PNG, JPG, JPEG, SVG. Max size: 5MB." id="image" name="image" alt="image"
+                            helperText="Accepted: PNG, JPG, JPEG, SVG. Max size: 5MB. No fixed dimensions are enforced; a clear square or portrait photo works best."
                             accept="image/*" onchange="previewThumb('image','image-thumb')" />
                         <x-form.input type="text" col="6" label="Name" id="name" name="name"
                             value="{{ $user->name }}" />

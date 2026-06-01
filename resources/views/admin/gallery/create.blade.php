@@ -17,7 +17,8 @@
                         :options="$categories" :selected="old('gallery_category_id')" :req="true" />
 
                     {{-- Gallery Images --}}
-                    <x-form.input type="file" label="Gallery Images" id="images" name="images[]" multiple />
+                    <x-form.input type="file" label="Gallery Images" id="images" name="images[]" multiple accept="image/*"
+                        helperText="Accepted: JPG, JPEG, PNG. Max 100 images per upload, max 5MB each. No fixed dimensions are enforced; use clear, consistent gallery images." />
 
                     {{-- Preview Selected Images --}}
                     <div id="images-preview" class="d-flex flex-wrap gap-2 mt-2"></div>

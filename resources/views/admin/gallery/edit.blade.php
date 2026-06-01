@@ -52,7 +52,8 @@
 
                 {{-- Add New Images --}}
                 <div class="mb-3">
-                    <x-form.input type="file" label="Add New Images" id="images" name="images[]" multiple />
+                    <x-form.input type="file" label="Add New Images" id="images" name="images[]" multiple accept="image/*"
+                        helperText="Accepted: JPG, JPEG, PNG. Max 100 images per upload, max 5MB each. No fixed dimensions are enforced; use clear, consistent gallery images." />
                     <div class="mt-2" id="new-images-preview" style="display:flex; flex-wrap: wrap; gap: 10px;"></div>
                 </div>
 

@@ -34,7 +34,8 @@
                 <x-form.row>
                     <div class="mb-3 col-6">
                         <label for="image" class="form-label">Image</label>
-                        <input type="file" name="image" id="image" class="form-control">
+                        <input type="file" name="image" id="image" class="form-control" accept="image/*">
+                        <small class="text-muted d-block mt-1">Accepted: JPEG, PNG, JPG, GIF, SVG. Max size: 5MB. No fixed dimensions are enforced; use a clear campus or institution image.</small>
                     </div>
                 </x-form.row>
 
