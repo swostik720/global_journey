@@ -37,7 +37,7 @@
                             @foreach ($gallery->images as $img)
                                 <div class="position-relative" id="img-{{ md5($img) }}">
                                     <img src="{{ asset('uploaded-images/gallery/' . $img) }}" width="100"
-                                        class="rounded border">
+                                        alt="{{ $gallery->title }} gallery image" class="rounded border">
                                     <button type="button"
                                         class="btn btn-sm btn-danger position-absolute top-0 end-0 remove-img-btn"
                                         data-image="{{ $img }}" data-gallery="{{ $gallery->id }}">
@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
             reader.onload = function(event) {
                 const img = document.createElement('img');
                 img.src = event.target.result;
+                img.alt = 'Selected gallery preview image';
                 img.width = 100;
                 img.classList.add('rounded', 'border');
                 newImagesPreview.appendChild(img);

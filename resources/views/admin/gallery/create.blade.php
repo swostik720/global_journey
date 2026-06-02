@@ -49,6 +49,7 @@
                     reader.onload = function(e) {
                         const img = document.createElement('img');
                         img.src = e.target.result;
+                        img.alt = 'Selected gallery preview image';
                         img.width = 80; // adjust size as needed
                         img.className = 'me-1 mb-1 rounded border';
                         preview.appendChild(img);

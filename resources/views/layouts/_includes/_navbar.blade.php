@@ -41,10 +41,10 @@
                    data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
                         @if (auth()->user()->image == null)
-                            <img src="{{asset('assets')}}/img/avatars/user.png" alt
+                            <img src="{{asset('assets')}}/img/avatars/user.png" alt="Default user avatar"
                                 class="w-px-40 h-auto rounded-circle"/>
                         @else
-                            <img src="{{asset('uploaded-images/profile-images/'.auth()->user()->image)}}" alt
+                            <img src="{{asset('uploaded-images/profile-images/'.auth()->user()->image)}}" alt="{{ auth()->user()->name ?? 'User' }} profile image"
                                 class="w-px-30 h-auto rounded-circle"/>
                         @endif
                     </div>

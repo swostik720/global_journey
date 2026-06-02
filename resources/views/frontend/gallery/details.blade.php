@@ -43,7 +43,7 @@
         <span class="close">&times;</span>
         <span class="prev">&#10094;</span>
         <span class="next">&#10095;</span>
-        <img id="lightbox-img" class="lightbox-content">
+        <img id="lightbox-img" class="lightbox-content" alt="Expanded gallery image preview">
     </div>
 
     <style>

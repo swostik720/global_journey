@@ -17,7 +17,7 @@
         <div class="d-flex flex-wrap">
             @if($gallery->images)
                 @foreach($gallery->images as $img)
-                    <img src="{{ asset('uploaded-images/gallery/' . $img) }}" width="80" class="me-1 mb-1">
+                    <img src="{{ asset('uploaded-images/gallery/' . $img) }}" alt="{{ $gallery->title }} gallery image" width="80" class="me-1 mb-1">
                 @endforeach
             @else
                 <span>No images uploaded.</span>

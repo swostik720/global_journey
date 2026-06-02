@@ -9,7 +9,7 @@
     <div class="card-content mt-2 d-flex gap-3">
         <article class="post-details">
             <div class="post-thumb">
-                <img src="{{ $blog->image_path }}" alt="" />
+                <img src="{{ $blog->image_path }}" alt="{{ $blog->title }}" />
             </div>
             <ul class="d-flex gap-3 mt-2">
                 <span>
