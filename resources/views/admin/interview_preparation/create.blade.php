@@ -18,6 +18,11 @@
                         <x-form.preview for="image" id="image-thumb" col="6" />
                     </x-form.row>
                     <x-form.row>
+                        <x-form.input type="text" label="Image Alt Text" id="image_alt" name="image_alt"
+                            value="{{ old('image_alt') }}" col="12"
+                            helperText="Short accessible description for this image (recommended for SEO and screen readers)." />
+                    </x-form.row>
+                    <x-form.row>
                         <x-form.input type="text" label="Title" id="title" name="title"
                             value="{{ old('title') }}" :req="true" col="6" />
                         <x-form.input type="text" label="Slug" id="slug" name="slug"

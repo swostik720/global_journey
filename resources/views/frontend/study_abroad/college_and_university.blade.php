@@ -31,7 +31,7 @@
                             </div>
                             <div class="overflow-hidden rounded mb-3">
                                 <img src="{{ $college->image_path ?? asset('frontend/assets/img/default.jpg') }}"
-                                    alt="{{ $college->name }}" class="img-fluid hover-zoom"
+                                    alt="{{ $college->image_alt ?: $college->name }}" class="img-fluid hover-zoom"
                                     style="height:160px; object-fit:cover;">
                             </div>
                             <h5 class="fw-bold mb-2">{{ $college->name }}</h5>

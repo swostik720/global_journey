@@ -33,7 +33,7 @@
 
                                 <!-- Image -->
                                 <div class="ratio ratio-4x3 position-relative">
-                                    <img class="card-img-top object-fit-cover" alt="{{ $studyabroad->title }}"
+                                    <img class="card-img-top object-fit-cover" alt="{{ $studyabroad->image_alt ?: $studyabroad->title }}"
                                         src="{{ $studyabroad->image_path }}"
                                         style="object-fit:cover; width:100%; height:100%; transition: transform 0.5s ease;">
                                     <div class="overlay position-absolute top-0 start-0 w-100 h-100"

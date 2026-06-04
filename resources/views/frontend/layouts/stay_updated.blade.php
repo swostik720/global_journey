@@ -21,7 +21,7 @@
 
         <div class="bds-newsletter-modal" data-aos="zoom-in-up" data-aos-delay="100">
             {{-- <div class="bds-newsletter-modal__top">
-                <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}" alt="logo"
+                <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}" alt="{{ $setting->logo_alt ?? 'Logo' }}"
                     class="bds-newsletter-modal__logo">
 
                 <span class="bds-newsletter-modal__close" aria-hidden="true">

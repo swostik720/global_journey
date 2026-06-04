@@ -63,18 +63,18 @@ class AllController extends Controller
     public function index()
     {
         $testimonials = Testimonial::active()
-            ->select(['image', 'name', 'address', 'description', 'rating'])
+            ->select(['image', 'image_alt', 'name', 'address', 'description', 'rating'])
             ->latest()
             ->get();
         $studyabroads = StudyAbroad::active()
             ->with('country:id,name')
-            ->select(['id', 'image', 'title', 'slug', 'short_description', 'country_id'])
+            ->select(['id', 'image', 'image_alt', 'title', 'slug', 'short_description', 'country_id'])
             ->latest()
             ->get();
 
         $blogs = Blog::active()
             ->with(['author:id,name', 'category:id,name'])
-            ->select(['id', 'image', 'title', 'slug', 'blog_author_id', 'user_id', 'blog_date', 'short_description', 'category_id', 'faqs'])
+            ->select(['id', 'image', 'image_alt', 'title', 'slug', 'blog_author_id', 'user_id', 'blog_date', 'short_description', 'category_id', 'faqs'])
             ->latest()
             ->limit(3)
             ->get();
@@ -120,7 +120,7 @@ class AllController extends Controller
     public function aboutIndex()
     {
         $teams = Team::active()
-            ->select(['image', 'name', 'slug', 'email', 'phone', 'responsibility', 'fb_link', 'twitter_link', 'linkedin_link', 'instagram_link'])
+            ->select(['image', 'image_alt', 'name', 'slug', 'email', 'phone', 'responsibility', 'fb_link', 'twitter_link', 'linkedin_link', 'instagram_link'])
             ->orderBy('rank', 'asc')
             ->get();
         return view('frontend.about.index', compact('teams'));
@@ -297,7 +297,7 @@ class AllController extends Controller
     public function testPreparationIndex()
     {
         $testpreparations = TestPreparation::active()
-            ->select(['image', 'title', 'slug', 'short_description'])
+            ->select(['image', 'image_alt', 'title', 'slug', 'short_description'])
             ->latest()
             ->get();
         return view('frontend.test_preparation.index', compact('testpreparations'));
@@ -318,7 +318,7 @@ class AllController extends Controller
     {
         $blogs = Blog::active()
             ->with(['author:id,name', 'category:id,name'])
-            ->select(['id', 'image', 'title', 'slug', 'blog_author_id', 'user_id', 'blog_date', 'short_description', 'category_id', 'faqs'])
+            ->select(['id', 'image', 'image_alt', 'title', 'slug', 'blog_author_id', 'user_id', 'blog_date', 'short_description', 'category_id', 'faqs'])
             ->latest()
             ->paginate(3);
         return view('frontend.blogs.index', compact('blogs'));
@@ -494,7 +494,7 @@ class AllController extends Controller
     public function interviewPreparationIndex()
     {
         $interviewPreparations = InterviewPreparation::where('status', true)
-            ->select(['id', 'title', 'slug', 'description', 'image'])
+            ->select(['id', 'title', 'slug', 'description', 'image', 'image_alt'])
             ->latest()
             ->get();
         return view('frontend.interview_preparation.index', compact('interviewPreparations'));

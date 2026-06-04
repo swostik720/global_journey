@@ -312,7 +312,7 @@
                 @if (is_object($setting) && isset($setting->logo))
                     <a href="{{ url('/') }}">
                         <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}"
-                            alt="Global Journey Logo">
+                            alt="{{ $setting->logo_alt ?? 'Global Journey Logo' }}">
                     </a>
                 @else
                     <a href="{{ url('/') }}">

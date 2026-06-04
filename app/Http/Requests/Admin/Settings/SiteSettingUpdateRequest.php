@@ -16,7 +16,9 @@ class SiteSettingUpdateRequest extends FormRequest
         return [
             'name' => 'required',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'logo_alt' => 'nullable|string|max:255',
             'favicon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'favicon_alt' => 'nullable|string|max:255',
             'email' => 'nullable',
             'phone' => 'nullable',
             'mobile' => 'nullable',

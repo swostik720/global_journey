@@ -63,6 +63,10 @@
                         <x-form.preview for="image" id="image-thumb" col="6" />
                     </x-form.row>
 
+                    <x-form.input type="text" label="Image Alt Text" id="image_alt" name="image_alt"
+                        value="{{ old('image_alt') }}"
+                        helperText="Describe the testimonial image for accessibility and SEO." />
+
                     <x-form.input type="text" label="Name" id="name" name="name" value="{{ old('name') }}" />
                     <x-form.input type="text" label="Address" id="address" name="address"
                         value="{{ old('address') }}" />

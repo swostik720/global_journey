@@ -20,6 +20,11 @@
                         <x-form.preview for="image" col="6" id="image-thumb"
                             url="{{ $study_abroad->image_path }}" />
                     </x-form.row>
+                    <x-form.row>
+                        <x-form.input type="text" label="Image Alt Text" id="image_alt" name="image_alt"
+                            value="{{ old('image_alt', $study_abroad->image_alt) }}" col="12"
+                            helperText="Short accessible description for this image (recommended for SEO and screen readers)." />
+                    </x-form.row>
 
                     <x-form.row>
                         <x-form.select label="countries" :col="12" :req="true" :model="$study_abroad->country_id"

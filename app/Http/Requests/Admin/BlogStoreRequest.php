@@ -15,6 +15,7 @@ class BlogStoreRequest extends FormRequest
     {
         return [
             'image' => 'nullable|mimes:png,jpg,jpeg,svg,webp,gif|max:5120',
+            'image_alt' => 'nullable|string|max:255',
             'user_id' => 'nullable',
             'blog_author_id' => 'required|numeric|exists:blog_authors,id',
             'category_id' => 'required|numeric|exists:categories,id',

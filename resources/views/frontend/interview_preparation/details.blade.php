@@ -27,7 +27,7 @@
                     <div data-aos="zoom-in-up" data-aos-delay="140" class="card shadow-lg border-0 rounded-4 mb-5 hover-card">
                         @if ($interviewPreparation->image)
                             <img src="{{ asset('uploaded-images/interwiew-preperations-images/' . $interviewPreparation->image) }}"
-                                alt="{{ $interviewPreparation->title }}" class="card-img-top rounded-top">
+                                alt="{{ $interviewPreparation->image_alt ?: $interviewPreparation->title }}" class="card-img-top rounded-top">
                         @endif
                         <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body p-5">
                             <h3 class="mb-4 text-primary fw-bold">{{ $interviewPreparation->title }}</h3>

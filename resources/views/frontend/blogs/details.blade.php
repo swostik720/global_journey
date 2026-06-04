@@ -334,7 +334,7 @@
                     {{-- Featured image --}}
                     @if ($blog->image_path)
                         <div class="sa-heroimg">
-                            <img src="{{ $blog->image_path }}" alt="{{ $blog->title }}" loading="eager">
+                            <img src="{{ $blog->image_path }}" alt="{{ $blog->image_alt ?: $blog->title }}" loading="eager">
                         </div>
                     @endif
 
@@ -539,7 +539,7 @@
                                     class="card blog-card h-100 border-0 shadow-sm rounded-4 overflow-hidden d-flex flex-column">
                                     @if ($relatedPost->image_path)
                                         <img src="{{ $relatedPost->image_path }}" class="card-img-top"
-                                            alt="{{ $relatedPost->title }}" loading="lazy">
+                                            alt="{{ $relatedPost->image_alt ?: $relatedPost->title }}" loading="lazy">
                                     @endif
                                     <div data-aos="zoom-in-up" data-aos-delay="140" class="card-body d-flex flex-column">
                                         <h5 class="card-title fw-bold">{{ $relatedPost->title ?? '' }}</h5>

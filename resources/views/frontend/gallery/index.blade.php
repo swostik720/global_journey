@@ -23,7 +23,7 @@
                             <div class="image-wrapper position-relative overflow-hidden">
                                 @if (!empty($gallery->images_path))
                                     <img src="{{ $gallery->images_path[0] }}" class="card-img-top"
-                                        alt="{{ $gallery->title }}">
+                                        alt="{{ $gallery->image_alt ?: $gallery->title }}">
                                 @endif
                                 <div class="overlay d-flex align-items-center justify-content-center">
                                     <i class="bi bi-eye-fill text-white fs-2"></i>

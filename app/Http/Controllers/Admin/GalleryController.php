@@ -50,6 +50,7 @@ class GalleryController extends Controller
         Gallery::create([
             'title' => $request->title,
             'gallery_category_id' => $request->gallery_category_id,
+            'image_alt' => $request->image_alt,
             'images' => $images,
         ]);
 
@@ -104,6 +105,7 @@ class GalleryController extends Controller
         $gallery->update([
             'title' => $request->title,
             'gallery_category_id' => $request->gallery_category_id,
+            'image_alt' => $request->image_alt,
         ]);
 
         return redirect()->route('admin.gallery.index')

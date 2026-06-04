@@ -17,6 +17,10 @@
                             <x-form.preview for="image" col="6" id="image-thumb" url="{{ $team->image_path }}" />
                         </x-form.row>
 
+                        <x-form.input type="text" label="Image Alt Text" id="image_alt" name="image_alt"
+                            value="{{ old('image_alt', $team->image_alt) }}"
+                            helperText="Describe the team image for accessibility and SEO." />
+
                         <x-form.input type="text" label="Name" id="name" name="name"
                             value="{{ $team->name }}" :req="true" />
                         <x-form.input type="email" label="Email" id="email" name="email"

@@ -268,7 +268,7 @@
                     </div>
 
                     <div class="sa-heroimg">
-                        <img src="{{ $study->image_path ?? '' }}" alt="{{ $study->title }}" loading="eager">
+                        <img src="{{ $study->image_path ?? '' }}" alt="{{ $study->image_alt ?: $study->title }}" loading="eager">
                     </div>
 
                     @if ($quickInfoItems->isNotEmpty())

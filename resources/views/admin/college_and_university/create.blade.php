@@ -37,6 +37,9 @@
                         <input type="file" name="image" id="image" class="form-control" accept="image/*">
                         <small class="text-muted d-block mt-1">Accepted: JPEG, PNG, JPG, GIF, SVG. Max size: 5MB. No fixed dimensions are enforced; use a clear campus or institution image.</small>
                     </div>
+                    <div class="mb-3 col-6">
+                        <x-form.input label="Image Alt Text" id="image_alt" name="image_alt" value="{{ old('image_alt') }}" />
+                    </div>
                 </x-form.row>
 
                 <x-form.button class="btn btn-sm btn-dark mt-3" type="submit">

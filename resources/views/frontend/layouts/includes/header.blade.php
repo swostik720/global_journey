@@ -480,7 +480,7 @@ body {
         <div class="gj-logo">
             @if (is_object($setting) && isset($setting->logo))
                 <a href="{{ url('/') }}">
-                    <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}" alt="logo">
+                    <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}" alt="{{ $setting->logo_alt ?? 'Logo' }}">
                 </a>
             @else
                 <a href="{{ url('/') }}">
@@ -537,7 +537,7 @@ body {
         <div class="gj-logo">
             @if (is_object($setting) && isset($setting->logo))
                 <a href="{{ url('/') }}">
-                    <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}" alt="logo">
+                    <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}" alt="{{ $setting->logo_alt ?? 'Logo' }}">
                 </a>
             @else
                 <a href="{{ url('/') }}">
@@ -607,6 +607,7 @@ body {
             <li><a href="{{ route('blogs') }}">Blogs</a></li>
             <li><a href="{{ route('galleries.index') }}">Gallery</a></li>
             <li><a href="{{ route('contact-us') }}">Contact Us</a></li>
+            <li><a href="https://agents.flywire.com/#/agent-payments-v2/payment-requests" target="_blank" rel="noopener noreferrer" aria-label="Flywire Payment (opens in a new tab)">Flywire Payment</a></li>
         </ul>
     </div>
 
@@ -638,6 +639,7 @@ body {
             </li>
             <li><a href="{{ route('galleries.index') }}">Gallery</a></li>
             <li><a href="{{ route('contact-us') }}">Contact Us</a></li>
+            <li><a href="https://agents.flywire.com/#/agent-payments-v2/payment-requests" target="_blank" rel="noopener noreferrer" aria-label="Flywire Payment (opens in a new tab)">Flywire Payment</a></li>
         </ul>
     </div>
 

@@ -12,6 +12,7 @@ class CollegeAndUniversity extends Model
     protected $fillable = [
         'country_id',
         'image',
+        'image_alt',
         'name',
         'description',
         'link',

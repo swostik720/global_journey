@@ -23,7 +23,7 @@
                 @foreach ($gallery->images_path as $index => $image)
                     <div class="col-lg-3 col-md-4 col-6">
                         <div data-aos="zoom-in-up" data-aos-delay="140" class="gallery-item mb-3">
-                            <img src="{{ $image }}" alt="{{ $gallery->title }}"
+                            <img src="{{ $image }}" alt="{{ $gallery->image_alt ?: $gallery->title }}"
                                 class="img-fluid rounded shadow-sm gallery-thumb" data-index="{{ $index }}">
                         </div>
                     </div>
@@ -184,6 +184,7 @@
 
             function showImage(index) {
                 lightboxImg.src = images[index].src;
+                lightboxImg.alt = images[index].alt;
             }
         });
     </script>

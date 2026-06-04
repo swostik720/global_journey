@@ -15,6 +15,10 @@
                 <x-form.input type="text" label="Gallery Title" id="title" name="title"
                     value="{{ $gallery->title }}" :req="true" />
 
+                <x-form.input type="text" label="Default Image Alt Text" id="image_alt" name="image_alt"
+                    value="{{ old('image_alt', $gallery->image_alt) }}"
+                    helperText="This alt text will be used for gallery images on frontend (recommended for SEO and accessibility)." />
+
                 {{-- Gallery Category --}}
                 <div class="mb-3 col-6 pt-3">
                     <label for="gallery_category_id" class="form-label">Gallery Category</label>
@@ -53,7 +57,7 @@
                 {{-- Add New Images --}}
                 <div class="mb-3">
                     <x-form.input type="file" label="Add New Images" id="images" name="images[]" multiple accept="image/*"
-                        helperText="Accepted: JPG, JPEG, PNG. Max 100 images per upload, max 5MB each. No fixed dimensions are enforced; use clear, consistent gallery images." />
+                        helperText="Accepted: JPG, JPEG, PNG. Max 20 images per upload, max 5MB each. No fixed dimensions are enforced; use clear, consistent gallery images." />
                     <div class="mt-2" id="new-images-preview" style="display:flex; flex-wrap: wrap; gap: 10px;"></div>
                 </div>
 

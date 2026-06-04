@@ -77,7 +77,7 @@
                             <div class="swiper-slide">
                                 <article class="about-team-slide-card">
                                     <div class="about-team-slide-card__left">
-                                        <img src="{{ $team->image_path }}" alt="{{ $team->name }}">
+                                        <img src="{{ $team->image_path }}" alt="{{ $team->image_alt ?: $team->name }}">
                                         <span class="about-team-slide-card__name">{{ $team->name }}</span>
                                     </div>
                                     <div class="about-team-slide-card__right">

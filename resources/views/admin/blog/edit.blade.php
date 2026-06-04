@@ -16,6 +16,11 @@
                             alt="image" accept="image/*" onchange="previewThumb('image','image-thumb')" />
                         <x-form.preview for="image" col="6" id="image-thumb" url="{{ $blog->image_path }}" />
                     </x-form.row>
+                    <x-form.row>
+                        <x-form.input type="text" label="Image Alt Text" id="image_alt" name="image_alt"
+                            value="{{ old('image_alt', $blog->image_alt) }}" col="12"
+                            helperText="Short accessible description for this image (recommended for SEO and screen readers)." />
+                    </x-form.row>
                     <hr>
 
                     <x-form.row>

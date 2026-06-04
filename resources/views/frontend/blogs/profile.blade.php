@@ -35,7 +35,7 @@
                 <aside class="bap-sidebar">
                     <div data-aos="zoom-in-up" data-aos-delay="120" class="bap-card bap-card--hero">
                         <div class="bap-card__glow"></div>
-                        <img src="{{ $author->profile_picture_path }}" alt="{{ $author->name }}" class="bap-avatar">
+                        <img src="{{ $author->profile_picture_path }}" alt="{{ $author->profile_picture_alt ?: $author->name }}" class="bap-avatar">
                         <h2 class="bap-name">{{ $author->name }}</h2>
                         <p class="bap-title">{{ $author->title ?: 'Author' }}</p>
 
@@ -157,7 +157,7 @@
                                         <a href="{{ route('blog.details', $blog->slug) }}" class="bap-blog-link d-block h-100" aria-label="Read blog: {{ $blog->title }}">
                                             <div class="card bap-blog-card h-100 border-0 rounded-4 overflow-hidden d-flex flex-column">
                                                 @if ($blog->image_path)
-                                                    <img src="{{ $blog->image_path }}" class="card-img-top" alt="{{ $blog->title }}" loading="lazy">
+                                                    <img src="{{ $blog->image_path }}" class="card-img-top" alt="{{ $blog->image_alt ?: $blog->title }}" loading="lazy">
                                                 @endif
                                                 <div class="card-body d-flex flex-column">
                                                     <div class="bap-blog-card__meta">

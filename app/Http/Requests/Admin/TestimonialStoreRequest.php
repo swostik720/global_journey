@@ -15,6 +15,7 @@ class TestimonialStoreRequest extends FormRequest
     {
         return [
             'image' => 'nullable|mimes:png,jpg,jpeg,svg,webp,gif|max:5120',
+            'image_alt' => 'nullable|string|max:255',
             'name' => 'required',
             'address' => 'nullable|string',
             'rating' => 'nullable|integer',

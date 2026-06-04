@@ -321,7 +321,7 @@
 
                     @if ($testpreparation->image_path)
                         <div class="sa-heroimg">
-                            <img src="{{ $testpreparation->image_path }}" alt="{{ $testpreparation->title }}"
+                            <img src="{{ $testpreparation->image_path }}" alt="{{ $testpreparation->image_alt ?: $testpreparation->title }}"
                                 loading="eager">
                         </div>
                     @endif

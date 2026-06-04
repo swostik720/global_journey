@@ -25,7 +25,7 @@
                             <article class="gj-proof-card" data-aos="fade-up"
                                 data-aos-delay="{{ 140 + ($loop->index % 3) * 80 }}">
                                 <div class="gj-proof-media">
-                                    <img alt="{{ $testimonial->name ?? 'Student' }}"
+                                    <img alt="{{ $testimonial->image_alt ?: ($testimonial->name ?? 'Student') }}"
                                         src="{{ $testimonial->image_path ?? '' }}">
                                     <div class="gj-proof-meta">
                                         <h3>{{ $testimonial->name ?? '' }}</h3>

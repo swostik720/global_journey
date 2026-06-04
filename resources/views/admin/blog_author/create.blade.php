@@ -12,6 +12,10 @@
                     </x-form.row>
 
                     <x-form.row>
+                        <x-form.input type="text" label="Profile Picture Alt Text" id="profile_picture_alt" name="profile_picture_alt" value="{{ old('profile_picture_alt') }}" col="12" helperText="Describe the author profile picture for accessibility and SEO." />
+                    </x-form.row>
+
+                    <x-form.row>
                         <x-form.input type="text" label="Name" id="name" name="name" value="{{ old('name') }}" :req="true" col="6" />
                         <x-form.input type="text" label="Title" id="title" name="title" value="{{ old('title') }}" col="6" />
                     </x-form.row>

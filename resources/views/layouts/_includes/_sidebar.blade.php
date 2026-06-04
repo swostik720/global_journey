@@ -35,7 +35,7 @@
         @if (is_object($setting) && isset($setting['logo']))
             <a href="{{ url('home') }}" class="app-brand-link">
                 <img src="{{ asset('uploaded-images/site-setting-images/' . $setting->logo) }}"
-                    style="max-width: 200px;max-height:60px; object-fit: contain;margin:10px;" alt="Logo">
+                    style="max-width: 200px;max-height:60px; object-fit: contain;margin:10px;" alt="{{ $setting->logo_alt ?? 'Logo' }}">
             </a>
         @else
             <a href="{{ url('home') }}" class="app-brand-link">

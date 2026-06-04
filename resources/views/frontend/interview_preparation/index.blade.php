@@ -29,7 +29,7 @@
                             <a href="{{ route('interview-preparation.details', $item->slug) }}"
                                 class="text-decoration-none text-dark h-100 d-block">
                                 <div class="ratio ratio-4x3">
-                                    <img class="card-img-top object-fit-cover" alt="{{ $item->title }}"
+                                    <img class="card-img-top object-fit-cover" alt="{{ $item->image_alt ?: $item->title }}"
                                         src="{{ $item->image ? asset('uploaded-images/interwiew-preperations-images/' . $item->image) : asset('frontend/assets/img/default.jpg') }}"
                                         style="object-fit:cover; width:100%; height:100%;">
                                 </div>

@@ -16,6 +16,7 @@ class BlogAuthorUpdateRequest extends FormRequest
     {
         return [
             'profile_picture' => 'nullable|mimes:png,jpg,jpeg,svg,webp,gif|max:5120',
+            'profile_picture_alt' => 'nullable|string|max:255',
             'name' => 'required|string|max:190',
             'title' => 'nullable|string|max:190',
             'email' => 'nullable|email|max:190',

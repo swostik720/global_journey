@@ -15,6 +15,7 @@ class InterviewPreparation extends Model
         'slug',
         'description',
         'image',
+        'image_alt',
         'status',
         'visa_conditions',
         'interview_questions',

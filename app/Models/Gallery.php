@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 
 class Gallery extends Model
 {
-    protected $fillable = ['gallery_category_id', 'title', 'images', 'status'];
+    protected $fillable = ['gallery_category_id', 'title', 'images', 'image_alt', 'status'];
 
     /**
      * Cast images column to array automatically.

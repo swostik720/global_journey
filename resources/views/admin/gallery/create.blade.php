@@ -16,9 +16,13 @@
                     <x-form.select label="Gallery Category" name="gallery_category_id" id="gallery_category_id"
                         :options="$categories" :selected="old('gallery_category_id')" :req="true" />
 
+                    <x-form.input type="text" label="Default Image Alt Text" id="image_alt" name="image_alt"
+                        value="{{ old('image_alt') }}"
+                        helperText="This alt text will be used for gallery images on frontend (recommended for SEO and accessibility)." />
+
                     {{-- Gallery Images --}}
                     <x-form.input type="file" label="Gallery Images" id="images" name="images[]" multiple accept="image/*"
-                        helperText="Accepted: JPG, JPEG, PNG. Max 100 images per upload, max 5MB each. No fixed dimensions are enforced; use clear, consistent gallery images." />
+                        helperText="Accepted: JPG, JPEG, PNG. Max 20 images per upload, max 5MB each. No fixed dimensions are enforced; use clear, consistent gallery images." />
 
                     {{-- Preview Selected Images --}}
                     <div id="images-preview" class="d-flex flex-wrap gap-2 mt-2"></div>

@@ -45,5 +45,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(GalleryCategorySeeder::class);
         $this->call(HomeFaqSeeder::class);
+        $this->call(ImageAltSeoSeeder::class);
     }
 }

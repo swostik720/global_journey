@@ -45,6 +45,9 @@
                             </div>
                         @endif
                     </div>
+                    <div class="mb-3 col-6">
+                        <x-form.input label="Image Alt Text" id="image_alt" name="image_alt" value="{{ old('image_alt', $item->image_alt) }}" />
+                    </div>
                 </x-form.row>
 
                 <x-form.button class="btn btn-sm btn-dark mt-3" type="submit">

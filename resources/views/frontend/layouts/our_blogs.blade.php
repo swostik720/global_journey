@@ -30,7 +30,7 @@
                         <div data-aos="zoom-in-up" data-aos-delay="{{ 140 + ($loop->index * 70) }}" class="card blog-card h-100 border-0 shadow-sm rounded-4 overflow-hidden d-flex flex-column">
                             @if ($blog->image_path)
                                 <div class="ratio ratio-4x3 position-relative">
-                                    <img src="{{ $blog->image_path }}" class="card-img-top" alt="{{ $blog->title }}">
+                                    <img src="{{ $blog->image_path }}" class="card-img-top" alt="{{ $blog->image_alt ?: $blog->title }}">
                                     <div class="blog-card-overlay position-absolute top-0 start-0 w-100 h-100"></div>
                                 </div>
                             @endif

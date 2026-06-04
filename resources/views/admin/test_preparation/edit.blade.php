@@ -20,6 +20,11 @@
                         <x-form.preview for="image" col="6" id="image-thumb"
                             url="{{ $test_preparation->image_path }}" />
                     </x-form.row>
+                    <x-form.row>
+                        <x-form.input type="text" label="Image Alt Text" id="image_alt" name="image_alt"
+                            value="{{ old('image_alt', $test_preparation->image_alt) }}" col="12"
+                            helperText="Short accessible description for this image (recommended for SEO and screen readers)." />
+                    </x-form.row>
 
                     <x-form.row>
                         <x-form.input type="text" label="Title" id="title" name="title"

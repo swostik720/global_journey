@@ -66,6 +66,10 @@
                             url="{{ $testimonial->image_path }}" />
                     </x-form.row>
 
+                    <x-form.input type="text" label="Image Alt Text" id="image_alt" name="image_alt"
+                        value="{{ old('image_alt', $testimonial->image_alt) }}"
+                        helperText="Describe the testimonial image for accessibility and SEO." />
+
                     <x-form.input type="text" label="Name" id="name" name="name"
                         value="{{ $testimonial->name }}" />
                     <x-form.input type="text" label="Address" id="address" name="address"
