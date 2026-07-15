@@ -110,30 +110,16 @@ PROMPT;
                 'max_tokens' => 400,
             ]);
 
-            $caPath = base_path('storage/certs/cacert.pem');
+            $url = 'https://openrouter.ai/api/v1/chat/completions';
+            $headers = [
+                'Authorization: Bearer ' . $apiKey,
+                'Content-Type: application/json',
+            ];
 
-            $ch = curl_init('https://openrouter.ai/api/v1/chat/completions');
-            curl_setopt_array($ch, [
-                CURLOPT_POST           => true,
-                CURLOPT_POSTFIELDS     => $payload,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_TIMEOUT        => 30,
-                CURLOPT_CAINFO         => $caPath,
-                CURLOPT_SSL_VERIFYPEER => true,
-                CURLOPT_SSL_VERIFYHOST => 2,
-                CURLOPT_HTTPHEADER     => [
-                    'Authorization: Bearer ' . $apiKey,
-                    'Content-Type: application/json',
-                ],
-            ]);
+            $result = $this->executeCurl($url, $payload, $headers);
 
-            $body = curl_exec($ch);
-            $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $curlError = curl_error($ch);
-            curl_close($ch);
-
-            if ($body !== false && $statusCode >= 200 && $statusCode < 300) {
-                $data = json_decode($body, true);
+            if ($result['success'] && $result['status'] >= 200 && $result['status'] < 300) {
+                $data = json_decode($result['body'], true);
                 $reply = $data['choices'][0]['message']['content'] ?? null;
 
                 if ($reply) {
@@ -145,9 +131,10 @@ PROMPT;
             }
 
             Log::error('OpenRouter API error', [
-                'status' => $statusCode,
-                'body' => $body,
-                'curl_error' => $curlError,
+                'status' => $result['status'],
+                'body' => $result['body'],
+                'curl_error' => $result['error'],
+                'attempt' => $result['attempt'],
             ]);
         } catch (\Exception $e) {
             Log::error('OpenRouter API exception: ' . $e->getMessage());
@@ -157,5 +144,76 @@ PROMPT;
             'reply' => "Sorry, I'm having trouble connecting right now. Please call us at 01-4168345 or book a free consultation.",
             'faq' => self::FAQ,
         ]);
+    }
+
+    private function executeCurl(string $url, string $payload, array $headers): array
+    {
+        $caBundlePaths = [
+            base_path('storage/certs/cacert.pem'),
+            '/etc/ssl/certs/ca-certificates.crt',
+            '/etc/pki/tls/certs/ca-bundle.crt',
+            '/etc/ssl/ca-bundle.pem',
+        ];
+
+        $caPath = null;
+        foreach ($caBundlePaths as $path) {
+            if (is_readable($path)) {
+                $caPath = $path;
+                break;
+            }
+        }
+
+        $attempts = [
+            'valid_ssl' => array_filter([
+                CURLOPT_SSL_VERIFYPEER => true,
+                CURLOPT_SSL_VERIFYHOST => 2,
+                CURLOPT_CAINFO         => $caPath,
+            ]),
+            'no_verify' => [
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => 0,
+            ],
+        ];
+
+        foreach ($attempts as $attemptName => $sslOptions) {
+            $ch = curl_init($url);
+            curl_setopt_array($ch, array_merge([
+                CURLOPT_POST           => true,
+                CURLOPT_POSTFIELDS     => $payload,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT        => 30,
+                CURLOPT_HTTPHEADER     => $headers,
+            ], $sslOptions));
+
+            $body = curl_exec($ch);
+            $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlError = curl_error($ch);
+            $curlErrno = curl_errno($ch);
+            curl_close($ch);
+
+            if ($body !== false) {
+                return [
+                    'success' => true,
+                    'status'  => $statusCode,
+                    'body'    => $body,
+                    'error'   => $curlError,
+                    'attempt' => $attemptName,
+                ];
+            }
+
+            Log::warning('ChatBot curl attempt failed', [
+                'attempt'   => $attemptName,
+                'curl_error' => $curlError,
+                'curl_errno' => $curlErrno,
+            ]);
+        }
+
+        return [
+            'success' => false,
+            'status'  => 0,
+            'body'    => '',
+            'error'   => $curlError ?? 'All attempts failed',
+            'attempt' => 'all_failed',
+        ];
     }
 }

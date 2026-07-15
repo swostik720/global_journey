@@ -2721,38 +2721,64 @@ li.menu-item-has-children.active {
 
 /* 54. back to top button  */
 #button {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
     text-align: center;
-    border-radius: 4px;
+    border-radius: 50%;
     position: fixed;
-    bottom: 30px;
-    right: 30px;
-    transition: background-color 0.3s, opacity 0.5s, visibility 0.5s;
+    bottom: 108px;
+    right: 24px;
+    border: 1px solid rgba(26, 60, 110, 0.2);
+    background: linear-gradient(180deg, #ffffff 0%, #f2f7ff 100%) !important;
+    box-shadow: 0 10px 24px rgba(15, 36, 84, 0.18);
+    transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, opacity 0.35s ease, visibility 0.35s ease;
     opacity: 0;
     visibility: hidden;
-    z-index: 1000;
+    z-index: 10050;
 }
 #button::after {
     content: "\f077";
     font-family: FontAwesome;
     font-weight: normal;
     font-style: normal;
-    font-size: 20px;
-    line-height: 44px;
-    color: #fff;
+    font-size: 17px;
+    line-height: 1;
+    color: #1a3c6e;
+    transform: translateY(-1px);
+    transition: color 0.22s ease;
 }
 #button:hover {
     cursor: pointer;
-    background-color: #333;
+    transform: translateY(-3px);
+    background: linear-gradient(180deg, #1a3c6e 0%, #2557a7 100%) !important;
+    box-shadow: 0 14px 30px rgba(15, 36, 84, 0.28);
+}
+#button:hover::after {
+    color: #ffffff;
 }
 #button:active {
-    background-color: #555;
+    transform: translateY(-1px) scale(0.98);
+    box-shadow: 0 8px 16px rgba(15, 36, 84, 0.24);
+}
+#button:focus-visible {
+    outline: 3px solid rgba(37, 87, 167, 0.35);
+    outline-offset: 3px;
 }
 #button.show {
     opacity: 1;
     visibility: visible;
+}
+
+@media (max-width: 767px) {
+    #button {
+        width: 50px;
+        height: 50px;
+        right: 16px;
+        bottom: 94px;
+    }
 }
 /* 55. Preloader Start */
 .preloader {

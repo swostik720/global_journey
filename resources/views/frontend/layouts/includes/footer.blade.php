@@ -407,5 +407,5 @@
     </div>
 </footer>
 
-{{-- <a id="button"></a> --}}
+<a id="button" href="#" aria-label="Scroll to top" title="Back to top"></a>
 
