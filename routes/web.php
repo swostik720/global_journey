@@ -51,6 +51,9 @@ Route::post('enquiry-store', [AllController::class, 'storeEnquiry'])->name('enqu
 Route::get('terms-and-conditions', [LegalPageController::class, 'terms'])->name('terms-and-conditions');
 Route::get('privacy-policy', [LegalPageController::class, 'privacy'])->name('privacy-policy');
 
+// Chatbot API
+Route::post('/api/chatbot', [App\Http\Controllers\ChatController::class, 'reply'])->name('chatbot.reply');
+
 // Interview Preparation Frontend
 Route::get('interview-preparation', [AllController::class, 'interviewPreparationIndex'])->name('interview-preparation');
 Route::get('interview-preparation/{slug}', [AllController::class, 'interviewPreparationDetails'])->name('interview-preparation.details');

@@ -1,0 +1,253 @@
+:root {
+    --gj-speeddial-bg: rgba(255, 255, 255, 0.85);
+    --gj-speeddial-border: rgba(226, 232, 240, 0.6);
+    --gj-speeddial-shadow: 0 20px 54px rgba(26, 60, 110, 0.18);
+    --gj-speeddial-blur: 18px;
+    --gj-speeddial-toggle-shadow: 0 6px 24px rgba(26, 60, 110, 0.35);
+    --gj-speeddial-toggle-hover-shadow: 0 12px 36px rgba(26, 60, 110, 0.50);
+    --gj-speeddial-text: #0f172a;
+    --gj-speeddial-text-muted: #6b7a8d;
+}
+
+[data-bs-theme="dark"]:root,
+[data-theme="dark"]:root {
+    --gj-speeddial-bg: rgba(15, 23, 42, 0.88);
+    --gj-speeddial-border: rgba(51, 65, 85, 0.6);
+    --gj-speeddial-shadow: 0 20px 54px rgba(0, 0, 0, 0.45);
+    --gj-speeddial-toggle-shadow: 0 6px 24px rgba(26, 60, 110, 0.50);
+    --gj-speeddial-toggle-hover-shadow: 0 12px 36px rgba(26, 60, 110, 0.70);
+    --gj-speeddial-text: #f1f5f9;
+    --gj-speeddial-text-muted: #94a3b8;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-bs-theme="light"]):not([data-theme="light"]) {
+        --gj-speeddial-bg: rgba(15, 23, 42, 0.88);
+        --gj-speeddial-border: rgba(51, 65, 85, 0.6);
+        --gj-speeddial-shadow: 0 20px 54px rgba(0, 0, 0, 0.45);
+        --gj-speeddial-toggle-shadow: 0 6px 24px rgba(26, 60, 110, 0.50);
+        --gj-speeddial-toggle-hover-shadow: 0 12px 36px rgba(26, 60, 110, 0.70);
+        --gj-speeddial-text: #f1f5f9;
+        --gj-speeddial-text-muted: #94a3b8;
+    }
+}
+
+.gj-speed-dial {
+    position: fixed;
+    bottom: 28px;
+    left: 28px;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.gj-speed-dial__toggle {
+    position: relative;
+    z-index: 2;
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #1a3c6e, #2557a7);
+    color: #fff;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--gj-speeddial-toggle-shadow);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.3s ease,
+                background 0.3s ease;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.gj-speed-dial__toggle:hover {
+    transform: scale(1.08);
+    box-shadow: var(--gj-speeddial-toggle-hover-shadow);
+}
+
+.gj-speed-dial__toggle:focus-visible {
+    outline: 3px solid rgba(26, 60, 110, 0.5);
+    outline-offset: 3px;
+}
+
+.gj-speed-dial__toggle .gj-icon-chat,
+.gj-speed-dial__toggle .gj-icon-close {
+    transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.gj-speed-dial__toggle .gj-icon-close {
+    position: absolute;
+    opacity: 0;
+    transform: scale(0.4) rotate(-90deg);
+}
+
+.gj-speed-dial.is-open .gj-speed-dial__toggle .gj-icon-chat {
+    opacity: 0;
+    transform: scale(0.4) rotate(90deg);
+}
+
+.gj-speed-dial.is-open .gj-speed-dial__toggle .gj-icon-close {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+.gj-speed-dial__menu {
+    position: absolute;
+    z-index: 2;
+    bottom: 76px;
+    left: 0;
+    min-width: 220px;
+    padding: 14px;
+    border-radius: 20px;
+    background: var(--gj-speeddial-bg);
+    backdrop-filter: blur(var(--gj-speeddial-blur));
+    -webkit-backdrop-filter: blur(var(--gj-speeddial-blur));
+    border: 1px solid var(--gj-speeddial-border);
+    box-shadow: var(--gj-speeddial-shadow);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.85) translateY(12px);
+    transform-origin: bottom left;
+    transition: opacity 0.3s ease,
+                visibility 0.3s ease,
+                transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.gj-speed-dial.is-open .gj-speed-dial__menu {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translateY(0);
+}
+
+.gj-speed-dial__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.gj-speed-dial__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition-delay: 0s;
+}
+
+.gj-speed-dial.is-open .gj-speed-dial__item {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.gj-speed-dial.is-open .gj-speed-dial__item:nth-child(1) { transition-delay: 0.05s; }
+.gj-speed-dial.is-open .gj-speed-dial__item:nth-child(2) { transition-delay: 0.10s; }
+.gj-speed-dial.is-open .gj-speed-dial__item:nth-child(3) { transition-delay: 0.15s; }
+.gj-speed-dial.is-open .gj-speed-dial__item:nth-child(4) { transition-delay: 0.20s; }
+
+.gj-speed-dial__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.gj-speed-dial__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.gj-speed-dial__link:hover .gj-speed-dial__icon {
+    transform: scale(1.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.gj-speed-dial__link:focus-visible .gj-speed-dial__icon {
+    outline: 3px solid rgba(26, 60, 110, 0.5);
+    outline-offset: 3px;
+}
+
+.gj-speed-dial__label {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--gj-speeddial-text);
+    text-align: center;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+}
+
+.gj-speed-dial__item .gj-speed-dial__link:focus-visible .gj-speed-dial__label {
+    color: #1a3c6e;
+}
+
+.gj-speed-dial__backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background: transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.gj-speed-dial.is-open .gj-speed-dial__backdrop {
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (max-width: 480px) {
+    .gj-speed-dial {
+        bottom: 18px;
+        left: 18px;
+    }
+
+    .gj-speed-dial__toggle {
+        width: 56px;
+        height: 56px;
+        font-size: 21px;
+    }
+
+    .gj-speed-dial__menu {
+        bottom: 70px;
+        min-width: 190px;
+        padding: 12px;
+        border-radius: 18px;
+    }
+
+    .gj-speed-dial__grid {
+        gap: 8px;
+    }
+
+    .gj-speed-dial__icon {
+        width: 48px;
+        height: 48px;
+        font-size: 19px;
+    }
+
+    .gj-speed-dial__label {
+        font-size: 10px;
+    }
+}

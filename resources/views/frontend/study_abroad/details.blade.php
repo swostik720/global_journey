@@ -399,6 +399,643 @@
 
     @include('frontend.layouts.includes.faq_schema', ['faqs' => $study->faqs ?? []])
 
+    {{-- Country-specific Schema Markup --}}
+    @php
+        $countryName = strtolower(trim($country->name ?? ''));
+    @endphp
+
+    @if($countryName === 'united kingdom' || $countryName === 'uk')
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "@id": "https://globaljourneyedu.com.np/study-abroad/study-in-united-kingdom-from-nepal/#service",
+            "name": "Study in United Kingdom from Nepal",
+            "alternateName": "UK Education Consultancy for Nepali Students",
+            "description": "Global Journey Education provides professional UK education consultancy services for Nepali students. Our services include career counselling, university selection, course selection, application assistance, scholarship guidance, SOP guidance, CAS documentation support, UK student visa assistance, pre-departure briefing, accommodation guidance, and post-arrival support to help students achieve their academic goals in the United Kingdom.",
+            "url": "https://globaljourneyedu.com.np/study-abroad/study-in-united-kingdom-from-nepal/",
+            "serviceType": "Study Abroad Consultancy",
+            "category": "Educational Consultancy",
+            "provider": {
+                "@type": "Organization",
+                "name": "Global Journey Education",
+                "url": "https://globaljourneyedu.com.np/"
+            },
+            "areaServed": {
+                "@type": "Country",
+                "name": "Nepal"
+            },
+            "audience": {
+                "@type": "EducationalAudience",
+                "educationalRole": "Who want to study bachelors, masters, and PHD in UK"
+            },
+            "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Study in United Kingdom Services",
+                "itemListElement": [
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Career Counselling"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "University Selection"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Course Selection Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "University Application Assistance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Scholarship Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Statement of Purpose (SOP) Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "CAS Documentation Support"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "UK Student Visa Assistance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Pre-Departure Briefing"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Accommodation Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Education Loan Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Post-Arrival Support"
+                        }
+                    }
+                ]
+            },
+            "offers": {
+                "@type": "Offer",
+                "url": "https://globaljourneyedu.com.np/study-abroad/study-in-united-kingdom-from-nepal/",
+                "availability": "https://schema.org/InStock"
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://globaljourneyedu.com.np/study-abroad/study-in-united-kingdom-from-nepal/"
+            }
+        }
+        </script>
+    @elseif($countryName === 'usa' || $countryName === 'united states' || $countryName === 'united states of america')
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "@id": "https://globaljourneyedu.com.np/study-abroad/best-consultancy-in-nepal-for-usa/#service",
+            "name": "Best Consultancy in Nepal for USA",
+            "alternateName": "USA Education Consultancy for Nepali Students",
+            "description": "Global Journey Education provides professional USA education consultancy services for Nepali students. Our services include career counselling, university selection, course selection, application assistance, scholarship guidance, SOP guidance, visa documentation support, USA student visa assistance, pre-departure briefing, accommodation guidance, and post-arrival support to help students achieve their academic goals in the United States.",
+            "url": "https://globaljourneyedu.com.np/study-abroad/best-consultancy-in-nepal-for-usa/",
+            "serviceType": "Study Abroad Consultancy",
+            "category": "Educational Consultancy",
+            "provider": {
+                "@type": "Organization",
+                "name": "Global Journey Education",
+                "url": "https://globaljourneyedu.com.np/"
+            },
+            "areaServed": {
+                "@type": "Country",
+                "name": "Nepal"
+            },
+            "audience": {
+                "@type": "EducationalAudience",
+                "educationalRole": "Prospective International Students"
+            },
+            "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Study in USA Services",
+                "itemListElement": [
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Career Counselling"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "University Selection in USA"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Course Selection Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "US University Application Assistance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Scholarship Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Statement of Purpose (SOP) Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Visa Documentation Support"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "USA Student Visa Assistance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Pre-Departure Briefing"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Accommodation Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Education Loan Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Post-Arrival Support"
+                        }
+                    }
+                ]
+            },
+            "offers": {
+                "@type": "Offer",
+                "url": "https://globaljourneyedu.com.np/study-abroad/best-consultancy-in-nepal-for-usa/",
+                "availability": "https://schema.org/InStock"
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://globaljourneyedu.com.np/study-abroad/best-consultancy-in-nepal-for-usa/"
+            }
+        }
+        </script>
+    @elseif($countryName === 'australia')
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "@id": "https://globaljourneyedu.com.np/study-abroad/study-in-australia-from-nepal/#service",
+            "name": "Study in Australia from Nepal",
+            "alternateName": "Australia Education Consultancy for Nepali Students",
+            "description": "Global Journey Education provides professional Australia education consultancy services for Nepali students. Our services include career counselling, university selection, course selection, application assistance, scholarship guidance, SOP guidance, Genuine Student (GS) requirement guidance, Australia student visa assistance, pre-departure briefing, accommodation guidance, and post-arrival support to help students achieve their academic goals in Australia.",
+            "url": "https://globaljourneyedu.com.np/study-abroad/study-in-australia-from-nepal/",
+            "serviceType": "Study Abroad Consultancy",
+            "category": "Educational Consultancy",
+            "provider": {
+                "@type": "Organization",
+                "name": "Global Journey Education",
+                "url": "https://globaljourneyedu.com.np/"
+            },
+            "areaServed": {
+                "@type": "Country",
+                "name": "Nepal"
+            },
+            "audience": {
+                "@type": "EducationalAudience",
+                "educationalRole": "Prospective International Students"
+            },
+            "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Study in Australia Services",
+                "itemListElement": [
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Career Counselling"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "University Selection"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Course Selection Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "University Application Assistance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Scholarship Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Statement of Purpose (SOP) Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Genuine Student (GS) Requirement Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Australia Student Visa Assistance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Pre-Departure Briefing"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Accommodation Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Education Loan Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Post-Arrival Support"
+                        }
+                    }
+                ]
+            },
+            "offers": {
+                "@type": "Offer",
+                "url": "https://globaljourneyedu.com.np/study-abroad/study-in-australia-from-nepal/",
+                "availability": "https://schema.org/InStock"
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://globaljourneyedu.com.np/study-abroad/study-in-australia-from-nepal/"
+            }
+        }
+        </script>
+    @elseif($countryName === 'canada')
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "@id": "https://globaljourneyedu.com.np/study-abroad/study-in-canada-from-nepal/#service",
+            "name": "Study in Canada from Nepal",
+            "alternateName": "Canada Education Consultancy for Nepali Students",
+            "description": "Global Journey Education provides professional Canada education consultancy services for Nepali students. Our services include career counselling, university and college selection, course selection, application assistance, scholarship guidance, SOP guidance, study permit documentation support, Canada student visa assistance, pre-departure briefing, accommodation guidance, and post-arrival support to help students achieve their academic goals in Canada.",
+            "url": "https://globaljourneyedu.com.np/study-abroad/study-in-canada-from-nepal/",
+            "serviceType": "Study Abroad Consultancy",
+            "category": "Educational Consultancy",
+            "provider": {
+                "@type": "Organization",
+                "name": "Global Journey Education",
+                "url": "https://globaljourneyedu.com.np/"
+            },
+            "areaServed": {
+                "@type": "Country",
+                "name": "Nepal"
+            },
+            "audience": {
+                "@type": "EducationalAudience",
+                "educationalRole": "Prospective International Students"
+            },
+            "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Study in Canada Services",
+                "itemListElement": [
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Career Counselling"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "University and College Selection in Canada"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Course Selection Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "University Application Assistance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Scholarship Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Statement of Purpose (SOP) Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Study Permit Documentation Support"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Canada Student Visa Assistance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Pre-Departure Briefing"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Accommodation Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Education Loan Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Post-Arrival Support"
+                        }
+                    }
+                ]
+            },
+            "offers": {
+                "@type": "Offer",
+                "url": "https://globaljourneyedu.com.np/study-abroad/study-in-canada-from-nepal/",
+                "availability": "https://schema.org/InStock"
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://globaljourneyedu.com.np/study-abroad/study-in-canada-from-nepal/"
+            }
+        }
+        </script>
+    @elseif($countryName === 'new zealand')
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "@id": "https://globaljourneyedu.com.np/study-abroad/study-in-new-zealand-from-nepal/#service",
+            "name": "Study in New Zealand from Nepal",
+            "alternateName": "New Zealand Education Consultancy for Nepali Students",
+            "description": "Global Journey Education provides professional New Zealand education consultancy services for Nepali students. Our services include career counselling, university selection, course selection, application assistance, scholarship guidance, SOP guidance, student visa documentation support, New Zealand student visa assistance, pre-departure briefing, accommodation guidance, and post-arrival support to help students achieve their academic goals in New Zealand.",
+            "url": "https://globaljourneyedu.com.np/study-abroad/study-in-new-zealand-from-nepal/",
+            "serviceType": "Study Abroad Consultancy",
+            "category": "Educational Consultancy",
+            "provider": {
+                "@type": "Organization",
+                "name": "Global Journey Education",
+                "url": "https://globaljourneyedu.com.np/"
+            },
+            "areaServed": {
+                "@type": "Country",
+                "name": "Nepal"
+            },
+            "audience": {
+                "@type": "EducationalAudience",
+                "educationalRole": "Prospective International Students"
+            },
+            "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Study in New Zealand Services",
+                "itemListElement": [
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Career Counselling"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "University Selection in New Zealand"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Course Selection Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "University Application Assistance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Scholarship Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Statement of Purpose (SOP) Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Student Visa Documentation Support"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "New Zealand Student Visa Assistance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Pre-Departure Briefing"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Accommodation Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Education Loan Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Post-Arrival Support"
+                        }
+                    }
+                ]
+            },
+            "offers": {
+                "@type": "Offer",
+                "url": "https://globaljourneyedu.com.np/study-abroad/study-in-new-zealand-from-nepal/",
+                "availability": "https://schema.org/InStock"
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://globaljourneyedu.com.np/study-abroad/study-in-new-zealand-from-nepal/"
+            }
+        }
+        </script>
+    @endif
+
     <section data-aos="fade-up" class="gap review-section" style="background: #f9f9f9; padding: 80px 0;">
         <div class="container">
             <div data-aos="fade-up" data-aos-delay="100" class="heading mb-5 text-center">
