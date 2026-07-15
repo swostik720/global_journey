@@ -371,17 +371,7 @@ jQuery(document).ready(function ($) {
 /* 14. back to top button */
 
 var btn = $("#button");
-
-function toggleBackToTopButton() {
-    if ($(window).scrollTop() > 300) {
-        btn.addClass("show");
-    } else {
-        btn.removeClass("show");
-    }
-}
-
-$(window).scroll(toggleBackToTopButton);
-toggleBackToTopButton();
+btn.addClass("show");
 
 btn.on("click", function (e) {
     e.preventDefault();
