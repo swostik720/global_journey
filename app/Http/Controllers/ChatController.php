@@ -110,14 +110,17 @@ PROMPT;
                 'max_tokens' => 400,
             ]);
 
+            $caPath = base_path('storage/certs/cacert.pem');
+
             $ch = curl_init('https://openrouter.ai/api/v1/chat/completions');
             curl_setopt_array($ch, [
                 CURLOPT_POST           => true,
                 CURLOPT_POSTFIELDS     => $payload,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_TIMEOUT        => 30,
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_CAINFO         => $caPath,
+                CURLOPT_SSL_VERIFYPEER => true,
+                CURLOPT_SSL_VERIFYHOST => 2,
                 CURLOPT_HTTPHEADER     => [
                     'Authorization: Bearer ' . $apiKey,
                     'Content-Type: application/json',
