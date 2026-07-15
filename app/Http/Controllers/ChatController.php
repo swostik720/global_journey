@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
@@ -104,18 +103,34 @@ PROMPT;
         $apiKey = config('services.openrouter.api_key');
 
         try {
-            $response = Http::withoutVerifying()->timeout(30)->withHeaders([
-                'Authorization' => 'Bearer ' . $apiKey,
-                'Content-Type' => 'application/json',
-            ])->post('https://openrouter.ai/api/v1/chat/completions', [
+            $payload = json_encode([
                 'model' => 'openrouter/free',
                 'messages' => $messages,
                 'temperature' => 0.7,
                 'max_tokens' => 400,
             ]);
 
-            if ($response->successful()) {
-                $data = $response->json();
+            $ch = curl_init('https://openrouter.ai/api/v1/chat/completions');
+            curl_setopt_array($ch, [
+                CURLOPT_POST           => true,
+                CURLOPT_POSTFIELDS     => $payload,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT        => 30,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => 0,
+                CURLOPT_HTTPHEADER     => [
+                    'Authorization: Bearer ' . $apiKey,
+                    'Content-Type: application/json',
+                ],
+            ]);
+
+            $body = curl_exec($ch);
+            $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlError = curl_error($ch);
+            curl_close($ch);
+
+            if ($body !== false && $statusCode >= 200 && $statusCode < 300) {
+                $data = json_decode($body, true);
                 $reply = $data['choices'][0]['message']['content'] ?? null;
 
                 if ($reply) {
@@ -127,8 +142,9 @@ PROMPT;
             }
 
             Log::error('OpenRouter API error', [
-                'status' => $response->status(),
-                'body' => $response->body(),
+                'status' => $statusCode,
+                'body' => $body,
+                'curl_error' => $curlError,
             ]);
         } catch (\Exception $e) {
             Log::error('OpenRouter API exception: ' . $e->getMessage());
