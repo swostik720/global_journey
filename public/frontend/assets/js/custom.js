@@ -372,13 +372,16 @@ jQuery(document).ready(function ($) {
 
 var btn = $("#button");
 
-$(window).scroll(function () {
+function toggleBackToTopButton() {
     if ($(window).scrollTop() > 300) {
         btn.addClass("show");
     } else {
         btn.removeClass("show");
     }
-});
+}
+
+$(window).scroll(toggleBackToTopButton);
+toggleBackToTopButton();
 
 btn.on("click", function (e) {
     e.preventDefault();
