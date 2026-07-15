@@ -118,7 +118,7 @@ PROMPT;
 
             $result = $this->executeCurl($url, $payload, $headers);
 
-            if ($result['success'] && $result['status'] >= 200 && $result['status'] < 300) {
+            if ($result['success']) {
                 $data = json_decode($result['body'], true);
                 $reply = $data['choices'][0]['message']['content'] ?? null;
 
@@ -132,7 +132,7 @@ PROMPT;
 
             Log::error('OpenRouter API error', [
                 'status' => $result['status'],
-                'body' => $result['body'],
+                'body' => substr($result['body'] ?? '', 0, 500),
                 'curl_error' => $result['error'],
                 'attempt' => $result['attempt'],
             ]);
@@ -148,72 +148,85 @@ PROMPT;
 
     private function executeCurl(string $url, string $payload, array $headers): array
     {
-        $caBundlePaths = [
-            base_path('storage/certs/cacert.pem'),
-            '/etc/ssl/certs/ca-certificates.crt',
-            '/etc/pki/tls/certs/ca-bundle.crt',
-            '/etc/ssl/ca-bundle.pem',
-        ];
+        $escapedPayload = escapeshellarg($payload);
 
-        $caPath = null;
-        foreach ($caBundlePaths as $path) {
-            if (is_readable($path)) {
-                $caPath = $path;
-                break;
-            }
+        $headerFlags = '';
+        foreach ($headers as $header) {
+            $headerFlags .= ' -H ' . escapeshellarg($header);
         }
 
-        $attempts = [
-            'valid_ssl' => array_filter([
-                CURLOPT_SSL_VERIFYPEER => true,
-                CURLOPT_SSL_VERIFYHOST => 2,
-                CURLOPT_CAINFO         => $caPath,
-            ]),
-            'no_verify' => [
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => 0,
-            ],
-        ];
+        $command = sprintf(
+            'curl -s -X POST --max-time 30 %s -d %s %s 2>&1',
+            $headerFlags,
+            $escapedPayload,
+            escapeshellarg($url)
+        );
 
-        foreach ($attempts as $attemptName => $sslOptions) {
-            $ch = curl_init($url);
-            curl_setopt_array($ch, array_merge([
-                CURLOPT_POST           => true,
-                CURLOPT_POSTFIELDS     => $payload,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_TIMEOUT        => 30,
-                CURLOPT_HTTPHEADER     => $headers,
-            ], $sslOptions));
+        $body = null;
+        $statusCode = 0;
 
-            $body = curl_exec($ch);
-            $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $curlError = curl_error($ch);
-            $curlErrno = curl_errno($ch);
-            curl_close($ch);
+        if (function_exists('exec')) {
+            exec($command, $output, $exitCode);
+            $body = implode("\n", $output);
 
-            if ($body !== false) {
+            if ($exitCode !== 0) {
+                Log::warning('ChatBot system curl failed', [
+                    'exit_code' => $exitCode,
+                    'output'    => $body,
+                ]);
+
                 return [
-                    'success' => true,
-                    'status'  => $statusCode,
-                    'body'    => $body,
-                    'error'   => $curlError,
-                    'attempt' => $attemptName,
+                    'success' => false,
+                    'status'  => 0,
+                    'body'    => '',
+                    'error'   => 'System curl exit code: ' . $exitCode,
+                    'attempt' => 'exec',
                 ];
             }
+        } elseif (function_exists('shell_exec')) {
+            $body = shell_exec($command);
 
-            Log::warning('ChatBot curl attempt failed', [
-                'attempt'   => $attemptName,
-                'curl_error' => $curlError,
-                'curl_errno' => $curlErrno,
-            ]);
+            if ($body === null) {
+                return [
+                    'success' => false,
+                    'status'  => 0,
+                    'body'    => '',
+                    'error'   => 'shell_exec returned null',
+                    'attempt' => 'shell_exec',
+                ];
+            }
+        } else {
+            return [
+                'success' => false,
+                'status'  => 0,
+                'body'    => '',
+                'error'   => 'exec and shell_exec are disabled',
+                'attempt' => 'none',
+            ];
         }
+
+        $data = json_decode($body, true);
+
+        if ($data && isset($data['choices'][0]['message']['content'])) {
+            return [
+                'success' => true,
+                'status'  => 200,
+                'body'    => $body,
+                'error'   => '',
+                'attempt' => 'system_curl',
+            ];
+        }
+
+        Log::warning('ChatBot system curl returned unexpected response', [
+            'body' => substr($body, 0, 500),
+        ]);
 
         return [
             'success' => false,
             'status'  => 0,
-            'body'    => '',
-            'error'   => $curlError ?? 'All attempts failed',
-            'attempt' => 'all_failed',
+            'body'    => $body ?? '',
+            'error'   => 'Unexpected response from system curl',
+            'attempt' => 'system_curl',
         ];
     }
 }
