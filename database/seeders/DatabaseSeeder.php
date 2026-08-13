@@ -20,31 +20,36 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        $this->call(PermissionSeeder::class);
-        $this->call(RoleSeeder::class);
-        $this->call(UserSeeder::class);
+        $this->call(PermissionsTableSeeder::class);
+        $this->call(RolesTableSeeder::class);
+        $this->call(PermissionRoleTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        $this->call(PermissionUserTableSeeder::class);
 
         $this->call(SiteSettingsTableSeeder::class);
         $this->call(SmtpSettingsTableSeeder::class);
-        $this->call(LegalPagesSeeder::class);
+        $this->call(LegalPagesTableSeeder::class);
         $this->call(TestimonialsTableSeeder::class);
         $this->call(TeamsTableSeeder::class);
         $this->call(CountriesTableSeeder::class);
         $this->call(StudyAbroadsTableSeeder::class);
         $this->call(TestPreparationsTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
+        $this->call(BlogAuthorsTableSeeder::class);
         $this->call(BlogsTableSeeder::class);
         $this->call(BranchesTableSeeder::class);
 
-        $this->call(InterviewPreparationTableSeeder::class);
+        $this->call(InterviewPreparationsTableSeeder::class);
         $this->call(DocumentChecklistTableSeeder::class);
 
-        $this->call(WhyCountrySeeder::class);
-        $this->call(CollegeAndUniversitySeeder::class);
-        $this->call(CountryGuideSeeder::class);
+        $this->call(WhyCountriesTableSeeder::class);
+        $this->call(CollegeAndUniversitiesTableSeeder::class);
+        $this->call(CountryGuidesTableSeeder::class);
 
-        $this->call(GalleryCategorySeeder::class);
-        $this->call(HomeFaqSeeder::class);
+        $this->call(GalleryCategoriesTableSeeder::class);
+        $this->call(GalleriesTableSeeder::class);
+
+        $this->call(FaqsTableSeeder::class);
         $this->call(ImageAltSeoSeeder::class);
     }
 }

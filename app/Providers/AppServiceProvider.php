@@ -95,7 +95,6 @@ class AppServiceProvider extends ServiceProvider
                         ->select(['id', 'title', 'slug', 'country_id'])
                         ->with('country:id,name')
                         ->orderBy('title', 'asc') // Alphabetically sorted
-                        ->take(5)
                         ->get(),
                     'testpreparations' => TestPreparation::active()
                         ->select(['title', 'slug'])
@@ -106,7 +105,6 @@ class AppServiceProvider extends ServiceProvider
                         ->select(['title', 'slug', 'country_id'])
                         ->with('country:id,name') // Eager load country relationship
                         ->latest()
-                        ->take(5)
                         ->get(),
                 ];
             });

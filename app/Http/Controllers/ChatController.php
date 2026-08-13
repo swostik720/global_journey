@@ -8,15 +8,15 @@ use Illuminate\Support\Facades\Log;
 class ChatController extends Controller
 {
     private const FAQ = [
-        ['question' => 'What services does Global Journey offer?', 'answer' => 'We offer free counselling, university applications, visa processing, IELTS/PTE/TOEFL test prep, and interview preparation for UK, Australia, Canada, USA, and New Zealand.'],
-        ['question' => 'Which countries can I study in?', 'answer' => 'We support study abroad destinations including the UK, Australia, Canada, USA, and New Zealand.'],
+        ['question' => 'What services does Global Journey offer?', 'answer' => 'We offer free counselling, university applications, visa processing, IELTS/PTE/TOEFL test prep, and interview preparation for UK, Australia, Canada, USA, New Zealand, and Japan.'],
+        ['question' => 'Which countries can I study in?', 'answer' => 'We support study abroad destinations including the UK, Australia, Canada, USA, New Zealand, and Japan.'],
         ['question' => 'What are the visa success rates?', 'answer' => 'We have a 98% visa success rate with 5,000+ students successfully placed across 20+ countries.'],
         ['question' => 'How can I book a consultation?', 'answer' => 'You can book a free consultation by visiting https://www.globaljourneyedu.com.np/contact-us or calling 01-4168345 / +977-9843215204.'],
         ['question' => 'What are the offices locations?', 'answer' => 'We have offices in Putalisadak Kathmandu, Birtamod, Kupendole Lalitpur, and a Sydney support office in Australia.'],
         ['question' => 'Is there test preparation available?', 'answer' => 'Yes, we provide expert IELTS and PTE coaching to help you hit your target score fast.'],
         ['question' => 'Do you help with visa interviews?', 'answer' => 'Absolutely. We provide personalized visa interview preparation, mock sessions, and document review to improve confidence and response quality.'],
         ['question' => 'How long does the admission process take?', 'answer' => 'Timelines vary by country and intake, but most applications take a few weeks to a few months from profile review to final offer and visa documentation.'],
-        ['question' => 'What are the key team members?', 'answer' => 'Our team includes Yagya Raj Poudel (Managing Director), Rajya Limbu (Documentation Officer), Janak Bhul (Application Officer), Kishan Khatri (Counselor), Deepa Tandukar (Senior Counselor), and Aashma Maharjan (Application Officer).'],
+        ['question' => 'What are the key team members?', 'answer' => 'Our team includes Yagya Raj Poudel (Managing Director), Rajya Limbu (Documentation Officer), Janak Bhul (Counselor), Kishan Khatri (Counselor), Deepa Tandukar (Senior Counselor), Susmita Shahi (Application Officer), Aashma Maharjan (Application Officer), and our Japan-based team Ram Chandra Bhandari (Principal) and Ishwor Thapa (Director).'],
         ['question' => 'Is the consultation free?', 'answer' => 'Yes, browsing destinations, programs, and guidance content is free. You can book a one-on-one counseling session to discuss program selection, financial planning, documentation, and application strategy.'],
     ];
 
@@ -47,6 +47,7 @@ DESTINATIONS SUPPORTED:
 3. Canada - Affordable tuition, PR pathway
 4. United States (USA) - Ivy League to state universities
 5. New Zealand - Globally accredited degrees
+6. Japan - MEXT scholarships, affordable tuition, safe and welcoming culture
 
 OFFICE LOCATIONS:
 - Kathmandu: Putalisadak, Kathmandu, Nepal | 01-4168345
@@ -63,10 +64,13 @@ KEY TEAM MEMBERS:
 - Bishal Neupane - Founder & CEO (QEAC Certified, 13+ years)
 - Yagya Raj Poudel - Managing Director
 - Rajya Limbu - Documentation Officer
-- Janak Bhul - Application Officer
+- Janak Bhul - Counselor
 - Kishan Khatri - Counselor
 - Deepa Tandukar - Senior Counselor
+- Susmita Shahi - Application Officer
 - Aashma Maharjan - Application Officer
+- Ram Chandra Bhandari - Principal (Japan)
+- Ishwor Thapa - Director (Japan)
 
 TESTIMONIAL HIGHLIGHTS:
 - Vishma Acharya: Grateful for UK processing, transparency, quick response

@@ -61,7 +61,7 @@
                         <p class="gj-start-form-card__sub">Begin your global education journey today!</p>
                     </div>
                     <p class="gj-start-desc">
-                        Whether you're looking to study in Australia, Canada, the UK, or beyond —
+                        Whether you're looking to study in Australia, Canada, the UK, Japan, or beyond —
                         expert advice, tailored support, no guesswork.
                     </p>
                     @include('frontend.layouts.enquiry_form')

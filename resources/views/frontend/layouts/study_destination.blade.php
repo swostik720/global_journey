@@ -14,6 +14,7 @@
         'united kingdom' => 'united kingdom',
         'new zealand' => 'new zealand',
         'nz' => 'new zealand',
+        'japan' => 'japan',
     ];
 
     $countryLabel = [
@@ -22,9 +23,19 @@
         'australia' => 'Australia',
         'new zealand' => 'New Zealand',
         'canada' => 'Canada',
+        'japan' => 'Japan',
     ];
 
-    $countryOrder = ['usa', 'united kingdom', 'australia', 'new zealand', 'canada'];
+    $countryOrder = ['usa', 'united kingdom', 'australia', 'new zealand', 'canada', 'japan'];
+
+    $countryFlag = [
+        'usa' => '🇺🇸',
+        'united kingdom' => '🇬🇧',
+        'australia' => '🇦🇺',
+        'new zealand' => '🇳🇿',
+        'canada' => '🇨🇦',
+        'japan' => '🇯🇵',
+    ];
 
     $normalizeCountryString = static function (?string $value): string {
         $value = strtolower(trim((string) $value));
@@ -85,7 +96,7 @@
     };
 
     $normalized = collect($studyabroads ?? [])
-        ->map(function ($item) use ($resolveCountryKey, $resolveFallbackLabel, $countryLabel) {
+        ->map(function ($item) use ($resolveCountryKey, $resolveFallbackLabel, $countryLabel, $countryFlag) {
             $key = $resolveCountryKey($item);
             $isKnownCountry = (bool) $key;
             $effectiveKey = $key ?: ('extra-' . md5((string) ($item->slug ?? '') . '|' . (string) ($item->title ?? '')));
@@ -97,10 +108,11 @@
                 'label' => $isKnownCountry
                     ? ($countryLabel[$key] ?? ucfirst((string) $key))
                     : $resolveFallbackLabel($item),
+                'flag' => $key ? ($countryFlag[$key] ?? '🌍') : '🌍',
                 'title' => $item->title ?? '',
                 'short' => $item->short_description ?? '',
                 'slug' => $item->slug ?? '',
-                'image' => asset($item->image_path ?? ''),
+                'image' => $item->image_path ?? null,
             ];
         })
         ->filter(fn($item) => !empty($item['slug']))
@@ -137,7 +149,14 @@
                 <a href="{{ route('study-abroad.details', $card['slug']) }}" class="destination-grid__card destination-grid__card-link"
                     data-aos="zoom-in" data-aos-delay="{{ 120 + ($loop->index % 5) * 70 }}">
                     <div class="destination-grid__media">
-                        <img src="{{ $card['image'] }}" alt="{{ $card['title'] }}">
+                        @if (!empty($card['image']))
+                            <img src="{{ $card['image'] }}" alt="{{ $card['title'] }}">
+                        @else
+                            @include('frontend.layouts.includes.media_placeholder', [
+                                'label' => $card['title'],
+                                'flag' => $card['flag'] ?? '🌍',
+                            ])
+                        @endif
                     </div>
                     <div class="destination-grid__overlay" aria-hidden="true"></div>
 
@@ -210,7 +229,7 @@
 
     .project--manual .destination-grid {
         display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 14px;
     }
 

@@ -29,10 +29,17 @@
                             <div class="icon-circle">
                                 <i class="bi bi-bank2"></i>
                             </div>
-                            <div class="overflow-hidden rounded mb-3">
-                                <img src="{{ $college->image_path ?? asset('frontend/assets/img/default.jpg') }}"
-                                    alt="{{ $college->image_alt ?: $college->name }}" class="img-fluid hover-zoom"
-                                    style="height:160px; object-fit:cover;">
+                            <div class="overflow-hidden rounded mb-3 position-relative" style="height:160px;">
+                                @if (!empty($college->image))
+                                    <img src="{{ $college->image_path }}"
+                                        alt="{{ $college->image_alt ?: $college->name }}" class="img-fluid hover-zoom"
+                                        style="height:160px; width:100%; object-fit:cover;">
+                                @else
+                                    @include('frontend.layouts.includes.media_placeholder', [
+                                        'label' => $college->name,
+                                        'flag' => '🏛️',
+                                    ])
+                                @endif
                             </div>
                             <h5 class="fw-bold mb-2">{{ $college->name }}</h5>
                             <p class="mb-2"><strong>Country:</strong> {{ $college->country->name ?? 'N/A' }}</p>

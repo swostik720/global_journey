@@ -30,7 +30,7 @@
     <div class="input-group gj-premium-form__field">
         <select name="interested_country" id="contact_interested_country" required>
             <option value="" disabled selected></option>
-            @foreach (['United State', 'Canada', 'UK', 'Australia', 'Newzerland'] as $country)
+            @foreach (['USA', 'Canada', 'UK', 'Australia', 'New Zealand', 'Japan'] as $country)
                 <option value="{{ $country }}" {{ isset($default_country) && $default_country == $country ? 'selected' : '' }}>
                     {{ $country }}
                 </option>

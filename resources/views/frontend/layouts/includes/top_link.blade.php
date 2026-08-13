@@ -136,7 +136,12 @@
         }
 
         if (mb_strlen($title) > 60) {
-            $title = trim(mb_substr($title, 0, 60));
+            $title = mb_substr($title, 0, 60);
+            $wordSafeTitle = preg_replace('/\s+\S*$/u', '', $title);
+            if (is_string($wordSafeTitle) && trim($wordSafeTitle) !== '') {
+                $title = $wordSafeTitle;
+            }
+            $title = trim((string) preg_replace('/[\s|\-:]+$/u', '', $title));
         }
 
         return $title;

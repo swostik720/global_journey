@@ -20,6 +20,7 @@ class InterviewPreparation extends Model
         'visa_conditions',
         'interview_questions',
         'faqs',
+        'country_id',
     ];
 
     protected $casts = [

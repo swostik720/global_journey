@@ -1,6 +1,6 @@
 @extends('frontend.layouts.includes.master')
 @section('meta_title', 'Best Consultancy in Nepal for the UK and Australia | Consult Now')
-@section('meta_description', 'If you are looking for the best consultancy in Nepal for the UK, Australia, Canada, the USA, and New Zealand, then contact us: +977-9843215204, 01-4168345')
+@section('meta_description', 'If you are looking for the best consultancy in Nepal for the UK, Australia, Canada, the USA, New Zealand, and Japan, then contact us: +977-9843215204, 01-4168345')
 @section('maincontent')
     @if (!empty($homepageFaqSchema))
         <script type="application/ld+json">

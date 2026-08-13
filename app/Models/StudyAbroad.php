@@ -22,9 +22,9 @@ class StudyAbroad extends Model
         'key_highlights' => 'array',
     ];
 
-    public function getImagePathAttribute(): string
+    public function getImagePathAttribute(): ?string
     {
-        return $this->image ? asset('uploaded-images/study-abroad-images/' . $this->image) : 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg';
+        return $this->image ? asset('uploaded-images/study-abroad-images/' . $this->image) : null;
     }
     public function country()
     {

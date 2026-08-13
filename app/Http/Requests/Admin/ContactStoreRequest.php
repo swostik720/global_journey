@@ -25,7 +25,7 @@ class ContactStoreRequest extends FormRequest
             'contact_message' => 'required',
             'status' => 'boolean',
             'address' => 'nullable|string',
-            'interested_country' => 'nullable|in:United State,Canada,UK,Australia,Newzerland',
+            'interested_country' => 'nullable|in:USA,Canada,UK,Australia,New Zealand,Japan',
             'last_qualification' => 'nullable|string',
             'test_preparation' => 'nullable|in:IELTS,PTE',
             'branch_id' => 'nullable',

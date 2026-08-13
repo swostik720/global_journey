@@ -33,9 +33,15 @@
 
                                 <!-- Image -->
                                 <div class="ratio ratio-4x3 position-relative">
-                                    <img class="card-img-top object-fit-cover" alt="{{ $studyabroad->image_alt ?: $studyabroad->title }}"
-                                        src="{{ $studyabroad->image_path }}"
-                                        style="object-fit:cover; width:100%; height:100%; transition: transform 0.5s ease;">
+                                    @if (!empty($studyabroad->image))
+                                        <img class="card-img-top object-fit-cover" alt="{{ $studyabroad->image_alt ?: $studyabroad->title }}"
+                                            src="{{ $studyabroad->image_path }}"
+                                            style="object-fit:cover; width:100%; height:100%; transition: transform 0.5s ease;">
+                                    @else
+                                        @include('frontend.layouts.includes.media_placeholder', [
+                                            'label' => $studyabroad->title,
+                                        ])
+                                    @endif
                                     <div class="overlay position-absolute top-0 start-0 w-100 h-100"
                                         style="background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.4) 100%);
                                     opacity:0; transition: opacity 0.5s ease;">

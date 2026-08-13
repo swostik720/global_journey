@@ -1034,6 +1034,132 @@
             }
         }
         </script>
+    @elseif($countryName === 'japan')
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "@id": "https://globaljourneyedu.com.np/study-abroad/study-in-japan/#service",
+            "name": "Study in Japan from Nepal",
+            "alternateName": "Japan Education Consultancy for Nepali Students",
+            "description": "Global Journey Education provides professional Japan education consultancy services for Nepali students. Our services include career counselling, language school and university selection, course selection, application assistance, scholarship guidance, SOP guidance, Certificate of Eligibility (CoE) support, Japan student visa assistance, pre-departure briefing, accommodation guidance, and post-arrival support to help students achieve their academic goals in Japan.",
+            "url": "https://globaljourneyedu.com.np/study-abroad/study-in-japan/",
+            "serviceType": "Study Abroad Consultancy",
+            "category": "Educational Consultancy",
+            "provider": {
+                "@type": "Organization",
+                "name": "Global Journey Education",
+                "url": "https://globaljourneyedu.com.np/"
+            },
+            "areaServed": {
+                "@type": "Country",
+                "name": "Nepal"
+            },
+            "audience": {
+                "@type": "EducationalAudience",
+                "educationalRole": "Prospective International Students"
+            },
+            "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Study in Japan Services",
+                "itemListElement": [
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Career Counselling"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Language School and University Selection in Japan"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Course Selection Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "University Application Assistance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Scholarship Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Statement of Purpose (SOP) Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Certificate of Eligibility (CoE) Support"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Japan Student Visa Assistance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Pre-Departure Briefing"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Accommodation Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Education Loan Guidance"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Post-Arrival Support"
+                        }
+                    }
+                ]
+            },
+            "offers": {
+                "@type": "Offer",
+                "url": "https://globaljourneyedu.com.np/study-abroad/study-in-japan/",
+                "availability": "https://schema.org/InStock"
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "https://globaljourneyedu.com.np/study-abroad/study-in-japan/"
+            }
+        }
+        </script>
     @endif
 
     <section data-aos="fade-up" class="gap review-section" style="background: #f9f9f9; padding: 80px 0;">

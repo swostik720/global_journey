@@ -25,6 +25,7 @@
         'united kingdom' => 'united kingdom',
         'new zealand' => 'new zealand',
         'nz' => 'new zealand',
+        'japan' => 'japan',
     ];
 
     $resolveCountryKey = static function ($item) use ($countryMap, $normalizeCountryString) {
@@ -65,7 +66,9 @@
         return null;
     };
 
-    $countrySlides = collect($studyabroads ?? [])->take(5)->map(function ($item) use ($resolveCountryKey, $normalizeCountryString) {
+    $countrySlides = collect($studyabroads ?? [])
+        ->take(6)
+        ->map(function ($item) use ($resolveCountryKey, $normalizeCountryString) {
         $slug = $item->slug ?? '';
         $title = (string) ($item->title ?? '');
 
@@ -75,6 +78,16 @@
             'canada' => 'Canada',
             'united kingdom' => 'UK',
             'new zealand' => 'New Zealand',
+            'japan' => 'Japan',
+        ];
+
+        $countryFlags = [
+            'usa' => '🇺🇸',
+            'australia' => '🇦🇺',
+            'canada' => '🇨🇦',
+            'united kingdom' => '🇬🇧',
+            'new zealand' => '🇳🇿',
+            'japan' => '🇯🇵',
         ];
 
         $country = $resolveCountryKey($item);
@@ -110,6 +123,12 @@
                 'cta1'       => 'Study in New Zealand',
                 'cta2'       => 'Check Visa Options',
             ],
+            'japan' => [
+                'headline'   => "Tradition Meets Innovation.<br>Study in <span class='gj-hl'>Japan</span>",
+                'sub'        => 'Cutting-edge universities, MEXT scholarships, and a safe, welcoming culture — Japan pairs academic excellence with real career opportunities.',
+                'cta1'       => 'Study in Japan',
+                'cta2'       => 'Check Eligibility',
+            ],
         ];
 
         $copy = $country && isset($copyMap[$country]) ? $copyMap[$country] : [
@@ -127,9 +146,12 @@
             $countryLabel = 'Your Destination';
         }
 
+        $hasImage = !empty($item->image);
+
         return [
-            'type'     => 'image',
-            'image'    => asset($item->image_path ?? ''),
+            'type'     => $hasImage ? 'image' : 'gradient',
+            'image'    => $hasImage ? $item->image_path : null,
+            'flag'     => $country ? ($countryFlags[$country] ?? '🌍') : '🌍',
             'headline' => $copy['headline'],
             'sub'      => $copy['sub'],
             'cta1'     => $copy['cta1'],
@@ -168,6 +190,10 @@
                             <video autoplay muted loop playsinline preload="metadata" class="gj-hero__video">
                                 <source src="{{ $slide['video'] ?? '' }}" type="video/mp4">
                             </video>
+                        @elseif (($slide['type'] ?? 'image') === 'gradient')
+                            <div class="gj-hero__gradient">
+                                <span class="gj-hero__gradient-flag">{{ $slide['flag'] ?? '🌍' }}</span>
+                            </div>
                         @else
                             <img src="{{ $slide['image'] ?? '' }}" alt="{{ $slide['country'] ?? 'Banner' }}" class="gj-hero__img" loading="eager">
                         @endif
@@ -303,7 +329,31 @@
 }
 /* hide non-active slides instantly so no overflow bleed */
 .gj-hero__slide:not(.swiper-slide-active) .gj-hero__video,
-.gj-hero__slide:not(.swiper-slide-active) .gj-hero__img { opacity: 0; }
+.gj-hero__slide:not(.swiper-slide-active) .gj-hero__img,
+.gj-hero__slide:not(.swiper-slide-active) .gj-hero__gradient { opacity: 0; }
+
+/* ---------- fallback background for destinations without a photo yet ---------- */
+.gj-hero__gradient {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background:
+        radial-gradient(circle at 22% 28%, rgba(74,144,226,.30) 0%, transparent 52%),
+        radial-gradient(circle at 78% 74%, rgba(74,144,226,.18) 0%, transparent 46%),
+        linear-gradient(135deg, #050B24 0%, #0B1B4A 55%, #03071A 100%);
+    transition: opacity .6s ease;
+}
+.gj-hero__gradient-flag {
+    font-size: clamp(160px, 22vw, 340px);
+    line-height: 1;
+    opacity: .16;
+    filter: saturate(0.6) drop-shadow(0 20px 50px rgba(0,0,0,.4));
+    margin-right: clamp(20px, 6vw, 120px);
+    user-select: none;
+}
 
 /* ---------- cinematic overlay ---------- */
 .gj-hero__overlay {

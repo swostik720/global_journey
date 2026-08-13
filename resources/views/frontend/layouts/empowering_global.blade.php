@@ -56,6 +56,7 @@
                                                 'new_zealand' => $findCountryUrl(['new zealand', 'newzealand']),
                                                 'australia' => $findCountryUrl(['australia']),
                                                 'canada' => $findCountryUrl(['canada']),
+                                                'japan' => $findCountryUrl(['japan']),
                                             ];
                                         @endphp
 
@@ -83,8 +84,9 @@
                                                         <a href="{{ $countryUrls['usa'] }}" class="gj-country-link">USA</a>,
                                                         <a href="{{ $countryUrls['uk'] }}" class="gj-country-link">UK</a>,
                                                         <a href="{{ $countryUrls['new_zealand'] }}" class="gj-country-link">New Zealand</a>,
-                                                        <a href="{{ $countryUrls['australia'] }}" class="gj-country-link">Australia</a>, and
-                                                        <a href="{{ $countryUrls['canada'] }}" class="gj-country-link">Canada</a>.
+                                                        <a href="{{ $countryUrls['australia'] }}" class="gj-country-link">Australia</a>,
+                                                        <a href="{{ $countryUrls['canada'] }}" class="gj-country-link">Canada</a>, and
+                                                        <a href="{{ $countryUrls['japan'] }}" class="gj-country-link">Japan</a>.
                                                     </p>
                                                     <a href="{{ route('contact-us') }}" class="themebtu gj-consultancy-intro__btn">Book A Free Consultation <i class="bi bi-arrow-right"></i></a>
                                                 </div>
@@ -101,6 +103,7 @@
                                                     <a href="{{ $countryUrls['canada'] }}" class="gj-country-tag gj-country-tag--canada"><span class="gj-country-flag" aria-hidden="true">🇨🇦</span><span>Canada</span></a>
                                                     <a href="{{ $countryUrls['australia'] }}" class="gj-country-tag gj-country-tag--australia"><span class="gj-country-flag" aria-hidden="true">🇦🇺</span><span>Australia</span></a>
                                                     <a href="{{ $countryUrls['uk'] }}" class="gj-country-tag gj-country-tag--uk"><span class="gj-country-flag" aria-hidden="true">🇬🇧</span><span>UK</span></a>
+                                                    <a href="{{ $countryUrls['japan'] }}" class="gj-country-tag gj-country-tag--japan"><span class="gj-country-flag" aria-hidden="true">🇯🇵</span><span>Japan</span></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -273,14 +276,9 @@
                                     }
 
                                     .gj-country-tag:hover {
-                                        transform: translateY(-4px) scale(1.02);
+                                        transform: translateY(calc(-50% - 4px)) scale(1.02);
                                         border-color: rgba(21, 79, 166, 0.3);
                                         box-shadow: 0 16px 30px rgba(15, 36, 96, 0.16);
-                                    }
-
-                                    .gj-country-tag--australia:hover,
-                                    .gj-country-tag--uk:hover {
-                                        transform: translateY(calc(-50% - 4px)) scale(1.02);
                                     }
 
                                     .gj-country-tag span {
@@ -289,15 +287,13 @@
                                         font-weight: 600;
                                     }
 
-                                    .gj-country-tag--usa { top: 22px; right: 0; }
-                                    .gj-country-tag--newzealand { top: 84px; right: 0; }
-                                    .gj-country-tag--canada { top: 146px; left: 0; }
+                                    /* Six tags, three evenly spaced per side, all vertically centered on their offset. */
+                                    .gj-country-tag--usa { top: 15%; right: 0; transform: translateY(-50%); }
+                                    .gj-country-tag--newzealand { top: 50%; right: 0; transform: translateY(-50%); }
+                                    .gj-country-tag--uk { top: 85%; right: 0; transform: translateY(-50%); }
+                                    .gj-country-tag--canada { top: 15%; left: 0; transform: translateY(-50%); }
                                     .gj-country-tag--australia { top: 50%; left: 0; transform: translateY(-50%); }
-                                    .gj-country-tag--uk { top: 70%; right: 0; transform: translateY(-50%); }
-
-                                    @media (max-width: 1399px) {
-                                        .gj-country-tag--newzealand { right: -12px; }
-                                    }
+                                    .gj-country-tag--japan { top: 85%; left: 0; transform: translateY(-50%); }
 
                                     @media (max-width: 991px) {
                                         .gj-consultancy-intro {
@@ -334,11 +330,6 @@
                                             font-size: 0.86rem;
                                         }
 
-                                        .gj-country-tag--usa { top: 18px; right: 0; }
-                                        .gj-country-tag--newzealand { top: 58px; right: 0; }
-                                        .gj-country-tag--canada { top: 98px; left: 0; }
-                                        .gj-country-tag--australia { top: 50%; left: 0; transform: translateY(-50%); }
-                                        .gj-country-tag--uk { top: 70%; right: 0; transform: translateY(-50%); }
                                         .gj-consultancy-intro__btn {
                                             justify-content: center;
                                         }
@@ -378,11 +369,6 @@
                                             font-size: 0.78rem;
                                         }
 
-                                        .gj-country-tag--usa { top: 12px; right: 0; }
-                                        .gj-country-tag--newzealand { top: 40px; right: 0; }
-                                        .gj-country-tag--canada { top: 68px; left: 0; }
-                                        .gj-country-tag--australia { top: 50%; left: 0; transform: translateY(-50%); }
-                                        .gj-country-tag--uk { top: 70%; right: 0; transform: translateY(-50%); }
                                     }
 
                                     @media (max-width: 420px) {
@@ -401,11 +387,6 @@
                                             font-size: 0.7rem;
                                         }
 
-                                        .gj-country-tag--usa { top: 8px; right: 0; }
-                                        .gj-country-tag--newzealand { top: 34px; right: 0; }
-                                        .gj-country-tag--canada { top: 58px; left: 0; }
-                                        .gj-country-tag--australia { top: 50%; left: 0; transform: translateY(-50%); }
-                                        .gj-country-tag--uk { top: 70%; right: 0; transform: translateY(-50%); }
                                     }
                                 </style>
 

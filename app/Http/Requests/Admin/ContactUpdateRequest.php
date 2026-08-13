@@ -21,7 +21,7 @@ class ContactUpdateRequest extends FormRequest
             'contact_message' => 'required|string',
             'status' => 'boolean',
             'address' => 'nullable|string',
-            'interested_country' => 'nullable|in:USA,Canada,UK,Australia,New Zealand',
+            'interested_country' => 'nullable|in:USA,Canada,UK,Australia,New Zealand,Japan',
             'last_qualification' => 'nullable|string',
             'test_preparation' => 'nullable|in:IELTS,PTE',
             'branch_id' => 'nullable',

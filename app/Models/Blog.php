@@ -22,9 +22,9 @@ class Blog extends Model
         'open_count' => 'integer',
     ];
 
-    public function getImagePathAttribute(): string
+    public function getImagePathAttribute(): ?string
     {
-        return $this->image ? asset('uploaded-images/blog-images/' . $this->image) : 'https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg';
+        return $this->image ? asset('uploaded-images/blog-images/' . $this->image) : null;
     }
 
     public function user(): BelongsTo

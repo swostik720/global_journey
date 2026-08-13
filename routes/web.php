@@ -26,7 +26,7 @@ Route::get('clear', function () {
 // Dynamic Sitemap
 Route::get('sitemap.xml', [SitemapController::class, 'index']);
 
-Route::get('/', [AllController::class, 'index'])->name('home');
+Route::get('/', [AllController::class, 'index']);
 Route::get('about-us', [AllController::class, 'aboutIndex'])->name('about-us');
 Route::get('study-abroad', [AllController::class, 'studyAbroadIndex'])->name('study-abroad');
 Route::get('/study-abroad/{slug}', [AllController::class, 'studyAbroadDetails'])->name('study-abroad.details');
